@@ -2,32 +2,36 @@
 	<view>
 		<view class="box">
 			<u--form labelPosition="left" :model="model1" labelWidth="80" :rules="rules" ref="form1">
-				<u-form-item label="项目名称" prop="userInfo.projectName" borderBottom ref="item1">
+				<u-form-item label="项目名称" required="true" prop="userInfo.projectName" borderBottom ref="item1">
 					<u--input v-model="model1.userInfo.projectName" border="none"></u--input>
 				</u-form-item>
-				<u-form-item label="项目类型" prop="userInfo.projTypeId" borderBottom ref="item1">
+				<u-form-item label="项目类型" required="true" prop="userInfo.projTypeId" borderBottom ref="item1">
 					<hg-select v-model="model1.userInfo.projTypeId" :localdata="requireSorts" @change="change">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="联系人" prop="userInfo.leader" borderBottom ref="item1">
+				<u-form-item label="联系人" required="true" prop="userInfo.leader" borderBottom ref="item1">
 					<u--input v-model="model1.userInfo.leader" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
-				<u-form-item label="手机号" prop="userInfo.phone" borderBottom ref="item1">
+				<u-form-item label="手机号" required="true" prop="userInfo.phone" borderBottom ref="item1">
 					<u--input v-model="model1.userInfo.phone" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
-				<u-form-item label="所属机构" prop="userInfo.orgName" borderBottom @click="showTree" ref="item1">
+				<!-- <u-form-item label="所属机构" prop="userInfo.orgName" borderBottom @click="showTree" ref="item1">
 					<u--input v-model="model1.userInfo.orgName" disabled disabledColor="#ffffff" placeholder="请选择"
 						border="none"></u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item> -->
+				<u-form-item label="所属机构" required="true" prop="userInfo.orgName" borderBottom ref="item1">
+					<u--input v-model="model1.userInfo.orgName" disabled disabledColor="#ffffff" placeholder="请选择"
+						border="none"></u--input>
 				</u-form-item>
-				<u-form-item label="地理位置" prop="userInfo.remark" borderBottom ref="item1">
+				<u-form-item label="地理位置" required="true" prop="userInfo.remark" borderBottom ref="item1">
 					<view class="potion" @click="mapClick">
 						<u--input disabled disabledColor="#ffffff" placeholder="请选择" v-model="model1.userInfo.remark"
 							border="none"></u--input>
-						<u-icon @click="mapClick" name="map-fill" color="#DCA842" size="28"></u-icon>
+						<u-icon name="map-fill" color="#DCA842" size="28"></u-icon>
 					</view>
 				</u-form-item>
-				<u-form-item label="上传附件" prop="userInfo.fileList" borderBottom ref="item1">
+				<u-form-item label="上传附件" required="true" prop="userInfo.fileList" borderBottom ref="item1">
 					<u-upload :fileList="fileList3" @afterRead="afterRead" @delete="deletePic" name="3" multiple
 						:maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
@@ -50,7 +54,9 @@
 	import {
 		HTTP_ADMIN_URL
 	} from '@/config/app.js';
-	import {BASE_URL} from '@/config/app.js'
+	import {
+		BASE_URL
+	} from '@/config/app.js'
 	import hgSelect from '@/components/uni-data-select/uni-data-select.vue'
 	import pengTree from '@/components/peng-tree/peng-tree.vue'
 	export default {
@@ -157,7 +163,7 @@
 			if (this.model1.userInfo.remark != '') {
 				this.$refs.form1.validateField('userInfo.remark')
 			}
-			this.queryTreeList()
+			// this.queryTreeList()
 			this.projectObjlist()
 		},
 		onReady() {
@@ -234,30 +240,34 @@
 			// 确认方法
 			onsbment() {
 				this.$refs.form1.validate().then(res => {
-					let val = []
-					// 循环组装图片id
-					this.fileList3.forEach((res) => {
-						console.log(res);
-						val.push(res.id)
-					})
-					this.model1.userInfo.attachmentIds = val
-					this.$myRequest({
-						url: "/tsf/tsfBusProject/edit",
-						method: "post",
-						data: this.model1.userInfo
-					}).then(res => {
-						if (res.data.code === 200) {
-							uni.$u.toast(res.data.message)
-							// 新增成功返回上一级
-							setTimeout(() => {
-								uni.navigateBack({
-									delta: 1
-								});
-							}, 1000);
-						} else {
-							uni.$u.toast(res.data.message)
-						}
-					})
+					if (this.fileList3.length === 0) {
+						uni.$u.toast('请上传附件')
+					} else {
+						let val = []
+						// 循环组装图片id
+						this.fileList3.forEach((res) => {
+							console.log(res);
+							val.push(res.id)
+						})
+						this.model1.userInfo.attachmentIds = val
+						this.$myRequest({
+							url: "/tsf/tsfBusProject/edit",
+							method: "post",
+							data: this.model1.userInfo
+						}).then(res => {
+							if (res.data.code === 200) {
+								uni.$u.toast(res.data.message)
+								// 新增成功返回上一级
+								setTimeout(() => {
+									uni.navigateBack({
+										delta: 1
+									});
+								}, 1000);
+							} else {
+								uni.$u.toast(res.data.message)
+							}
+						})
+					}
 				}).catch(errors => {
 					uni.$u.toast(errors[0].message)
 				})

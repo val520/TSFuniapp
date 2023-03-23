@@ -28,7 +28,7 @@
 					<view class="potion" @click="mapClick">
 						<u--input disabled disabledColor="#ffffff" placeholder="请选择" v-model="model1.userInfo.remark"
 							border="none"></u--input>
-						<u-icon @click="mapClick" name="map-fill" color="#DCA842" size="28"></u-icon>
+						<u-icon  name="map-fill" color="#DCA842" size="28"></u-icon>
 					</view>
 				</u-form-item>
 				<u-form-item label="上传附件" required="true" borderBottom ref="item1">

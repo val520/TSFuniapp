@@ -4,30 +4,30 @@
 		<view class="box">
 			<u--form labelPosition="left" :model="projectInfo" labelWidth="80" :rules="rules" ref="form1">
 				<!-- 项目名称 -->
-				<u-form-item label="项目名称" prop="projectId" borderBottom ref="item1">
+				<u-form-item label="项目名称" required="true" prop="projectId" borderBottom ref="item1">
 					<hg-select v-model="projectInfo.projectId" placeholder="请选择" :localdata="requireSorts"
 						@change="prjchange">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="商品品类" prop="categoryTypeId" borderBottom ref="item1">
+				<u-form-item label="商品品类" required="true" prop="categoryTypeId" borderBottom ref="item1">
 					<data-picker placeholder="请选择类型" :map="{text:'name',value:'id'}" popup-title="请选择商品类型"
 						clear-icon='false' :localdata="dataTree" v-model="projectInfo.categoryTypeId"
 						@change="shopechange">
 					</data-picker>
 				</u-form-item>
-				<u-form-item label="商品类型" prop="productTypeId" borderBottom ref="item1">
+				<u-form-item label="商品类型" required="true" prop="productTypeId" borderBottom ref="item1">
 					<hg-select v-model="projectInfo.productTypeId" placeholder="请选择" :localdata="objType"
 						@change="shopeType">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="地理位置" prop="address" borderBottom ref="item1">
+				<u-form-item label="地理位置" required="true" prop="address" borderBottom ref="item1">
 					<view class="potion" @click="mapClick">
 						<u--input disabled disabledColor="#ffffff" v-model="projectInfo.address" border="none"
 							placeholder="请选择"></u--input>
 						<u-icon @click="mapClick" name="map-fill" color="#DCA842" size="28"></u-icon>
 					</view>
 				</u-form-item>
-				<u-form-item label="购买审核" prop="isBuyCheck" borderBottom ref="item1">
+				<u-form-item label="购买审核" required="true" prop="isBuyCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.isBuyCheck" iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
@@ -35,7 +35,7 @@
 						</u-radio>
 					</u-radio-group>
 				</u-form-item>
-				<u-form-item label="支付审核" prop="cashCheck" borderBottom ref="item1">
+				<u-form-item label="支付审核" required="true" prop="cashCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.cashCheck" iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
@@ -44,42 +44,43 @@
 					</u-radio-group>
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="商品名称" prop="productName" borderBottom ref="item1">
+				<u-form-item label="商品名称" required="true" prop="productName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.productName" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
 				<!-- <u-form-item label="商品单位" prop="comm_DW" borderBottom ref="item1">
 					<u--input v-model="projectInfo.comm_DW" border="none" placeholder="请输入"></u--input>
 				</u-form-item> -->
-				<u-form-item label="商品描述" prop="remark" borderBottom ref="item1">
+				<u-form-item label="商品描述" required="true" prop="remark" borderBottom ref="item1">
 					<u--input v-model="projectInfo.remark" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
-				<u-form-item label="商品库存" prop="totalAmount" borderBottom ref="item1">
+				<u-form-item label="商品库存" required="true" prop="totalAmount" borderBottom ref="item1">
 					<u--input v-model="projectInfo.totalAmount" type="number" border="none" placeholder="请输入">
 					</u--input>
 				</u-form-item>
-				<u-form-item label="商品售价" prop="sellPrice" borderBottom ref="item1">
+				<u-form-item label="商品售价" required="true" prop="sellPrice" borderBottom ref="item1">
 					<u--input v-model="projectInfo.sellPrice" type="number" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="上架时间" prop="onShelfTime" borderBottom ref="item1">
+				<u-form-item label="上架时间" required="true" prop="onShelfTime" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.onShelfTime" @change="uptimelist" type="datetime" />
 				</u-form-item>
-				<u-form-item label="交易时间" prop="time"  borderBottom ref="item1">
-					<time-picker v-model="projectInfo.time" @change="timelist" type="datetimerange" rangeSeparator="至" />
+				<u-form-item label="交易时间" required="true" prop="time" borderBottom ref="item1">
+					<time-picker v-model="projectInfo.time" @change="timelist" type="datetimerange"
+						rangeSeparator="至" />
 				</u-form-item>
 				<!-- <u-form-item label="下架时间" prop="downtime" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.downtime" @change="downtimelist" type="datetime" />
 				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="封面图片" prop="coverImg" borderBottom ref="item1">
+				<u-form-item label="封面图片" required="true" prop="coverImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList2" @afterRead="afterRead" @delete="deletePic" name="2" multiple
 						:maxCount="1" :previewFullImage="true"></u-upload>
 				</u-form-item>
-				<u-form-item label="轮播图片" prop="RotationImg" borderBottom ref="item1">
+				<u-form-item label="轮播图片" required="true" prop="RotationImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList3" @afterRead="afterRead" @delete="deletePic" name="3" multiple
 						:maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
-				<u-form-item label="详情图片" prop="detailsImg" borderBottom ref="item1">
+				<u-form-item label="详情图片" required="true" prop="detailsImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList4" @afterRead="afterRead" @delete="deletePic" name="4" multiple
 						:maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
@@ -99,7 +100,9 @@
 	import timePicker from '@/components/uni-datetime-picker/uni-datetime-picker.vue'
 	// 级联选择器
 	import dataPicker from '@/components/uni-data-picker/components/uni-data-picker/uni-data-picker.vue'
-	import {BASE_URL} from '@/config/app.js'
+	import {
+		BASE_URL
+	} from '@/config/app.js'
 	export default {
 		components: {
 			hgSelect,
@@ -173,6 +176,12 @@
 						type: 'string',
 						required: true,
 						message: '请填写商品名称',
+						trigger: ['blur', 'change']
+					},
+					'remark': {
+						type: 'string',
+						required: true,
+						message: '请填写商品描述',
 						trigger: ['blur', 'change']
 					},
 					'totalAmount': {
@@ -268,26 +277,26 @@
 				console.log('编辑信息', item)
 				this.projectInfo = item
 				// this.$nextTick(() => {
-					this.projectInfo.categoryTypeId = item.categoryTypeId
-					this.projectInfo.time = [item.sellTimeStart, item.selllTimeEnd]
-					this.projectInfo.coverAttIds.forEach((res) => {
-						res.url = res.interRqUrl
-					})
-					this.fileList2 = this.projectInfo.coverAttIds
-					this.projectInfo.coverImg = this.fileList2[0].id
-					this.$refs.form1.validateField("coverImg")
-					this.projectInfo.slideAttIds.forEach((res) => {
-						res.url = res.interRqUrl
-					})
-					this.fileList3 = this.projectInfo.slideAttIds
-					this.projectInfo.RotationImg = this.fileList3
-					this.$refs.form1.validateField("RotationImg")
-					this.projectInfo.detailAttIds.forEach((res) => {
-						res.url = res.interRqUrl
-					})
-					this.fileList4 = this.projectInfo.detailAttIds
-					this.projectInfo.detailsImg = this.fileList4
-					this.$refs.form1.validateField("detailsImg")
+				this.projectInfo.categoryTypeId = item.categoryTypeId
+				this.projectInfo.time = [item.sellTimeStart, item.selllTimeEnd]
+				this.projectInfo.coverAttIds.forEach((res) => {
+					res.url = res.interRqUrl
+				})
+				this.fileList2 = this.projectInfo.coverAttIds
+				this.projectInfo.coverImg = this.fileList2[0].id
+				this.$refs.form1.validateField("coverImg")
+				this.projectInfo.slideAttIds.forEach((res) => {
+					res.url = res.interRqUrl
+				})
+				this.fileList3 = this.projectInfo.slideAttIds
+				this.projectInfo.RotationImg = this.fileList3
+				this.$refs.form1.validateField("RotationImg")
+				this.projectInfo.detailAttIds.forEach((res) => {
+					res.url = res.interRqUrl
+				})
+				this.fileList4 = this.projectInfo.detailAttIds
+				this.projectInfo.detailsImg = this.fileList4
+				this.$refs.form1.validateField("detailsImg")
 				// })
 
 			}

@@ -4,30 +4,30 @@
 		<view class="box">
 			<u--form labelPosition="left" :model="projectInfo" labelWidth="80" :rules="rules" ref="form1">
 				<!-- 项目名称 -->
-				<u-form-item label="项目名称" prop="projectId" borderBottom ref="item1">
+				<u-form-item label="项目名称" required="true" prop="projectId" borderBottom ref="item1">
 					<hg-select v-model="projectInfo.projectId" placeholder="请选择项目" :localdata="requireSorts"
 						@change="prjchange">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="商品品类" prop="categoryTypeId" borderBottom ref="item1">
+				<u-form-item label="商品品类" required="true" prop="categoryTypeId" borderBottom ref="item1">
 					<data-picker placeholder="请选择商品品类" :map="{text:'name',value:'id'}" popup-title="请选择商品品类"
 						clear-icon='false' :localdata="dataTree" v-model="projectInfo.categoryTypeId"
 						@change="shopechange">
 					</data-picker>
 				</u-form-item>
-				<u-form-item label="商品类型" prop="productTypeId" borderBottom ref="item1">
+				<u-form-item label="商品类型" required="true" prop="productTypeId" borderBottom ref="item1">
 					<hg-select v-model="projectInfo.productTypeId" placeholder="请选择商品类型" :localdata="objType"
 						@change="shopeType">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="地理位置" prop="address" borderBottom ref="item1">
+				<!-- <u-form-item label="地理位置" required="true" prop="address" borderBottom ref="item1">
 					<view class="potion" @click="mapClick">
 						<u--input disabled disabledColor="#ffffff" v-model="projectInfo.address" border="none"
 							placeholder="请选择地理位置"></u--input>
 						<u-icon @click="mapClick" name="map-fill" color="#DCA842" size="28"></u-icon>
 					</view>
-				</u-form-item>
-				<u-form-item label="购买审核" prop="isBuyCheck" borderBottom ref="item1">
+				</u-form-item> -->
+				<u-form-item label="购买审核" required="true" prop="isBuyCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.isBuyCheck" iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
@@ -35,36 +35,49 @@
 						</u-radio>
 					</u-radio-group>
 				</u-form-item>
-				<u-form-item label="支付审核" prop="cashCheck" borderBottom ref="item1">
+				<!-- <u-form-item label="支付审核" required="true" prop="cashCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.cashCheck" iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
 							@change="payChange">
 						</u-radio>
 					</u-radio-group>
-				</u-form-item>
+				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="商品名称" prop="productName" borderBottom ref="item1">
+				<u-form-item label="商品名称" required="true" prop="productName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.productName" border="none" placeholder="请输入商品名称"></u--input>
 				</u-form-item>
 				<!-- <u-form-item label="商品单位" prop="comm_DW" borderBottom ref="item1">
 					<u--input v-model="projectInfo.comm_DW" border="none" placeholder="请输入"></u--input>
 				</u-form-item> -->
-				<u-form-item label="商品描述" prop="remark" borderBottom ref="item1">
+				<u-form-item label="商品描述" required="true" prop="remark" borderBottom ref="item1">
 					<u--input v-model="projectInfo.remark" border="none" placeholder="请输入商品描述"></u--input>
 				</u-form-item>
-				<u-form-item label="商品库存" prop="totalAmount" borderBottom ref="item1">
-					<u--input v-model="projectInfo.totalAmount" type="number" border="none" placeholder="请输入商品库存">
+				<u-form-item label="商品库存" required="true" prop="totalAmount" borderBottom ref="item1">
+					<u-row justify="space-between" gutter="10">
+						<u-col span="6">
+							<u--input v-model="projectInfo.totalAmount" type="number" border="none"
+								placeholder="请输入商品库存">
+							</u--input>
+						</u-col>
+						<u-col span="3">
+							<view @click="unit"
+								style="color: #666;font-size: 30rpx;display: flex;justify-content: center;align-items: center;">
+								{{unitValue}}
+								<u-icon name="arrow-right" color="#DCA842" size="20"></u-icon>
+							</view>
+						</u-col>
+					</u-row>
+				</u-form-item>
+				<u-form-item label="商品售价" required="true" prop="sellPrice" borderBottom ref="item1">
+					<u--input v-model="projectInfo.sellPrice" type="number" border="none" placeholder="请输入商品售价(元)">
 					</u--input>
 				</u-form-item>
-				<u-form-item label="商品售价" prop="sellPrice" borderBottom ref="item1">
-					<u--input v-model="projectInfo.sellPrice" type="number" border="none" placeholder="请输入商品售价(元)"></u--input>
-				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="上架时间" prop="onShelfTime" borderBottom ref="item1">
+				<!-- <u-form-item label="上架时间" required="true" prop="onShelfTime" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.onShelfTime" @change="uptimelist" type="datetime" />
-				</u-form-item>
-				<u-form-item label="交易时间" prop="time" borderBottom ref="item1">
+				</u-form-item> -->
+				<u-form-item label="交易时间" required="true" prop="time" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.time" @change="timelist" type="datetimerange"
 						rangeSeparator="至" />
 				</u-form-item>
@@ -72,15 +85,15 @@
 					<time-picker v-model="projectInfo.downtime" @change="downtimelist" type="datetime" />
 				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="封面图片" prop="coverImg" borderBottom ref="item1">
+				<u-form-item label="封面图片" required="true" prop="coverImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList2" @afterRead="afterRead" @delete="deletePic" name="2" multiple
 						:maxCount="1" :previewFullImage="true"></u-upload>
 				</u-form-item>
-				<u-form-item label="轮播图片" prop="RotationImg" borderBottom ref="item1">
+				<u-form-item label="轮播图片" required="true" prop="RotationImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList3" @afterRead="afterRead" @delete="deletePic" name="3" multiple
 						:maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
-				<u-form-item label="详情图片" prop="detailsImg" borderBottom ref="item1">
+				<u-form-item label="详情图片" required="true" prop="detailsImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList4" @afterRead="afterRead" @delete="deletePic" name="4" multiple
 						:maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
@@ -91,6 +104,9 @@
 				确 认
 			</view>
 		</view>
+		<!-- 选择商品单位弹窗 -->
+		<u-picker :show="unitshow" :columns="unitcolumns" closeOnClickOverlay='true' @confirm="unitfirm"
+			@cancel="unitclose" @close="unitclose" keyName="name"></u-picker>
 	</view>
 </template>
 <script>
@@ -100,7 +116,9 @@
 	import timePicker from '@/components/uni-datetime-picker/uni-datetime-picker.vue'
 	// 级联选择器
 	import dataPicker from '@/components/uni-data-picker/components/uni-data-picker/uni-data-picker.vue'
-	import {BASE_URL} from '@/config/app.js'
+	import {
+		BASE_URL
+	} from '@/config/app.js'
 	export default {
 		components: {
 			hgSelect,
@@ -109,6 +127,8 @@
 		},
 		data: function() {
 			return {
+				//商品单位弹窗
+				unitshow: false,
 				//发布商品信息数据
 				projectInfo: {
 					// 所属项目名称
@@ -156,6 +176,23 @@
 				fileList4: [],
 				// 项目数据
 				requireSorts: [],
+				//单位数据
+				unitcolumns: [
+					// [{
+					// 		name: '立方(m³)',
+					// 		value: 'm³'
+					// 	},
+					// 	{
+					// 		name: '千克(kg)',
+					// 		value: 'kg'
+					// 	},
+					// 	{
+					// 		name: '克(g)',
+					// 		value: 'g'
+					// 	},
+					// ]
+				],
+				unitValue: 'm³',
 				// 购票审核数据
 				radiolist1: [{
 					label: 0,
@@ -174,6 +211,12 @@
 						type: 'string',
 						required: true,
 						message: '请填写商品名称',
+						trigger: ['blur', 'change']
+					},
+					'remark': {
+						type: 'string',
+						required: true,
+						message: '请填写商品描述',
 						trigger: ['blur', 'change']
 					},
 					'totalAmount': {
@@ -268,6 +311,7 @@
 			this.projectData()
 			this.shoneType()
 			this.shonping()
+			this.unitlist()
 		},
 		onReady() {
 			//如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则。
@@ -277,6 +321,45 @@
 
 		},
 		methods: {
+			//选择单位
+			unit() {
+				this.unitshow = true
+			},
+			//关闭弹窗
+			unitclose() {
+				this.unitshow = false
+			},
+			//选择商品单位确认
+			unitfirm(e) {
+				console.log(e);
+				this.unitValue = e.value[0].value
+				this.unitshow = false
+			},
+			// 获取项目类型数据
+			unitlist() {
+				let val = {
+					dictId: '1638779386059649025',
+					pageNo: 1,
+					pageSize: 10000
+				}
+				this.$myRequest({
+					url: "/sys/dictItem/list",
+					method: "get",
+					data: val
+				}).then(res => {
+					if (res.data.code === 0) {
+						res.data.result.records.forEach((res) => {
+							res.name = res.itemText
+							res.value = res.itemValue
+						})
+						this.unitcolumns[0] = res.data.result.records
+			
+					} else {
+						uni.$u.toast(res.data.message)
+						this.unitcolumns[0] = []
+					}
+				})
+			},
 			// 获取商品具体分类
 			shonping(e) {
 				let val = {
@@ -404,7 +487,7 @@
 			// 点击确认
 			onsbment() {
 				console.log(this.projectInfo);
-			
+
 				this.$refs.form1.validate().then(res => {
 					let val = []
 					// 循环组装封面图片id

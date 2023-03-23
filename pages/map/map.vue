@@ -25,37 +25,42 @@
 						width="160rpx" height="160rpx"></u--image>
 				</view>
 				<!-- // 文字区域 -->
-				<view class="">
-					<view class="center">
-						<view class="cenbox">
-							<view class="">
-								<!-- 商品名称 -->
-								<span style="color: #666;">名称：</span>{{markerValue.productName}}
+				<view style="display: flex;justify-content: space-between;align-items: center;">
+					<view class="">
+						<view class="center">
+							<view class="cenbox">
+								<view class="">
+									<!-- 商品名称 -->
+									<span style="color: #666;">名称：</span>{{markerValue.productName}}
+								</view>
+								<!-- 按钮 -->
+								<!-- <view class="mintxt" @click.stop="buyroute(markerValue)">
+									购买
+								</view> -->
+
+							</view>
+						</view>
+						<view class="center">
+							<!-- 商品类型 -->
+							<span style="color: #666;">类型：</span>{{markerValue.categoryTypeName}}
+						</view>
+						<view class="center">
+							<!-- 商品描述 -->
+							<span style="color: #666;">描述：</span>{{markerValue.remark}}
+						</view>
+						<view class="boxPrice">
+							<view class="Price">
+								<!-- 商品价格 -->
+								<span style="color: #666;">价格：</span>￥{{markerValue.sellPrice}}
 							</view>
 							<!-- 按钮 -->
-							<view class="mintxt" @click.stop="buyroute(markerValue)">
-								购买
-							</view>
-
+							<!-- <view class="mintxtline" @click.stop="route(markerValue)">
+								路线
+							</view> -->
 						</view>
 					</view>
-					<view class="center">
-						<!-- 商品类型 -->
-						<span style="color: #666;">类型：</span>{{markerValue.categoryTypeName}}
-					</view>
-					<view class="center">
-						<!-- 商品描述 -->
-						<span style="color: #666;">描述：</span>{{markerValue.remark}}
-					</view>
-					<view class="boxPrice">
-						<view class="Price">
-							<!-- 商品价格 -->
-							<span style="color: #666;">价格：</span>￥{{markerValue.sellPrice}}
-						</view>
-						<!-- 按钮 -->
-						<view class="mintxtline" @click.stop="route(markerValue)">
-							路线
-						</view>
+					<view class="">
+						按钮
 					</view>
 				</view>
 			</view>
@@ -91,7 +96,7 @@
 		onHide: function() {},
 		methods: {
 			// 购买
-			buyroute(e){
+			buyroute(e) {
 				let obj = {
 					commodityId: e.mapid,
 					buyNum: 1
@@ -121,7 +126,7 @@
 				})
 				this.show = false
 			},
-			route(e){
+			route(e) {
 				let that = this
 				//组装数据
 				let val = [{
@@ -146,9 +151,9 @@
 				uni.navigateTo({
 					url: '/pages/columnGoods/postionMap/index?item=' + encodeURIComponent(JSON.stringify(val)
 						.replace(/%/g, '%25'))
-				
+
 				})
-				
+
 			},
 			// 关闭弹窗
 			close() {
@@ -161,7 +166,7 @@
 					pageSize: 100,
 					status: 1, //0 待审核，1通过2，未通过
 					productName: this.searchValue,
-					wxHomeFlag:true
+					wxHomeFlag: true
 				}
 				this.$myRequest({
 					url: "/tsf/tsfBusCommodity/list",
@@ -301,7 +306,8 @@
 	.Price {
 		color: #DCA842;
 	}
-	.boxPrice{
+
+	.boxPrice {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

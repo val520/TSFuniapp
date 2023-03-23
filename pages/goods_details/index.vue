@@ -15,7 +15,6 @@
 		<view id="home" class="home acea-row row-center-wrapper iconfont icon-xiangzuo" :class="opacity>0.5?'on':''"
 			:style="{ top: homeTop + 'rpx' }" v-if="returnShow" @tap="returns">
 		</view>
-		<!-- 	<view class='iconfont icon-xiangzuo' :style="'top:'+navH/2+'rpx'" @tap='returns'></view> -->
 		<view>
 			<scroll-view :scroll-top="scrollTop" scroll-y='true' scroll-with-animation="true"
 				:style='"height:"+height+"px;"' @scroll="scroll">
@@ -38,52 +37,7 @@
 									销量:{{Math.floor(productInfo.sales) + Math.floor(productInfo.ficti) || 0}}{{productInfo.unitName || ''}}
 								</view> -->
 							</view>
-							<view class="coupon acea-row row-between-wrapper" v-if="activityH5.length">
-								<view class="line1 acea-row">
-									<text class="activityName">活&nbsp;&nbsp;&nbsp;动：</text>
-									<view v-for='(item,index) in activityH5' :key='index' @click="goActivity(item)"
-										class="activityBox">
-										<view v-if="item.type === '1'"
-											:class="index==0?'activity_pin':'' || index==1?'activity_miao':'' || index==2?'activity_kan':''">
-											<text class="iconfonts iconfont icon-pintuan"></text>
-											<text class="activity_title"> 参与秒杀</text>
-										</view>
-										<view
-											:class="index==0?'activity_pin':'' || index==1?'activity_miao':'' || index==2?'activity_kan':''"
-											v-if="item.type === '2'">
-											<text class="iconfonts iconfont icon-shenhezhong"></text>
-											<text class="activity_title"> 参与砍价</text>
-										</view>
-										<view
-											:class="index==0?'activity_pin':'' || index==1?'activity_miao':'' || index==2?'activity_kan':''"
-											v-if="item.type === '3'">
-											<text class="iconfonts iconfont icon-kanjia"></text>
-											<text class="activity_title"> 参与拼团</text>
-										</view>
-									</view>
-								</view>
-							</view>
 						</view>
-						<!-- <view class='attribute acea-row row-between-wrapper mb30 borRadius14' @click="selecAttr">
-							<view class="line1">{{attrTxt}}：
-								<text class='atterTxt'>{{attrValue}}</text>
-							</view>
-							<view class='iconfont icon-jiantou'></view>
-						</view> -->
-						<!-- <view class='userEvaluation' id="past1">
-							<view class='title acea-row row-between-wrapper'
-								:style="replyCount==0?'border-bottom-left-radius:14rpx;border-bottom-right-radius:14rpx;':''">
-								<view>用户评价<i>({{replyCount}})</i></view>
-								<navigator class='praise' hover-class='none'
-									:url='"/pages/users/goods_comment_list/index?productId="+id'>
-									<i>好评</i>&nbsp;<text class='font-color'>{{replyChance || 0}}%</text>
-									<text class='iconfont icon-jiantou'></text>
-								</navigator>
-							</view>
-							<block v-if="replyCount">
-								<userEvaluation :reply="reply"></userEvaluation>
-							</block>
-						</view> -->
 						<!-- 优品推荐 -->
 						<view class="superior borRadius14" if='good_list.length' id="past2">
 							<view class="title acea-row row-center-wrapper">
@@ -108,7 +62,6 @@
 											</view>
 										</view>
 									</swiper-item>
-									<!-- <view class="swiper-pagination" slot="pagination"></view> -->
 								</swiper>
 							</view>
 						</view>
@@ -122,27 +75,15 @@
 					</view>
 					<view class='conter'>
 						<!-- <jyf-parser :html="description" ref="article" :tag-style="tagStyle"></jyf-parser> -->
-						<image style="height: 250px;" mode="scaleToFill" v-for="(item, index) in productInfo.detailAttIds"
-							v-bind:key="index" :id="index" :src="item.interRqUrl" hidden />
+						<image style="height: 250px;" mode="scaleToFill"
+							v-for="(item, index) in productInfo.detailAttIds" v-bind:key="index" :id="index"
+							:src="item.interRqUrl" hidden />
 					</view>
-					<!-- <rich-text :nodes="description" class="conter"></rich-text> -->
 				</view>
 				<view style='height:120rpx;'></view>
 			</scroll-view>
 		</view>
 		<view class='footer acea-row row-between-wrapper'>
-			<!-- #ifdef MP -->
-			<!-- <button open-type="contact" hover-class='none' class='item'>
-				<view class='iconfont icon-kefu'></view>
-				<view>客服</view>
-			</button> -->
-			<!-- #endif -->
-			<!-- #ifndef MP -->
-			<!-- <view class="item" @click="kefuClick">
-				<view class="iconfont icon-kefu"></view>
-				<view>客服</view>
-			</view> -->
-			<!-- #endif -->
 			<block v-if="type === 'normal'">
 				<view @click="setCollect" class='item'>
 					<view class='iconfont icon-shoucang1' v-if="userCollect"></view>
@@ -156,7 +97,7 @@
 					</view>
 					<view>购物车</view>
 				</navigator>
-				<view class="bnt acea-row" v-if="attr.productSelect.stock <= 0">
+				<view class="bnt acea-row" v-if="productInfo.forSellAmount <= 0">
 					<form @submit="joinCart(productInfo,0)" report-submit="true"><button class="joinCart bnts"
 							form-type="submit">加入购物车</button></form>
 					<form report-submit="true"><button class="buy bnts bg-color-hui" form-type="submit">已售罄</button>
@@ -179,62 +120,20 @@
 				</form>
 			</view>
 		</view>
-		<!-- 分享弹窗 -->
-		<!-- <shareRedPackets :sharePacket="sharePacket" @listenerActionSheet="listenerActionSheet"
-			@closeChange="closeChange"></shareRedPackets> -->
-		<!-- 组件 -->
-		<productWindow :attr="attr" :isShow='1' :iSplus='1' @myevent="onMyEvent" @ChangeAttr="ChangeAttr"
-			@ChangeCartNum="ChangeCartNum" @attrVal="attrVal" @iptCartNum="iptCartNum" id='product-window'>
-		</productWindow>
 		<home></home>
-		<couponListWindow :coupon='coupon' @ChangCouponsClone="ChangCouponsClone" @ChangCoupons="ChangCoupons"
-			@ChangCouponsUseState="ChangCouponsUseState" @tabCouponType="tabCouponType"></couponListWindow>
-		<!-- 分享按钮 -->
-		<view class="generate-posters acea-row row-middle" :class="posters ? 'on' : ''">
-			<!-- #ifndef MP -->
-			<button class="item" hover-class='none' v-if="weixinStatus === true" @click="H5ShareBox = true">
-				<view class="iconfont icon-weixin3"></view>
-				<view class="">发送给朋友</view>
-			</button>
-			<!-- #endif -->
-			<!-- #ifdef MP -->
-			<button class="item" open-type="share" hover-class='none' @click="goFriend">
-				<view class="iconfont icon-weixin3"></view>
-				<view class="">发送给朋友</view>
-			</button>
-			<!-- #endif -->
-			<button class="item" hover-class='none' @click="goPoster">
-				<view class="iconfont icon-haibao"></view>
-				<view class="">生成海报</view>
-			</button>
-		</view>
-		<view class="mask" v-if="posters" @click="closePosters"></view>
-		<view class="mask" v-if="canvasStatus"></view>
-		<!-- #ifdef MP -->
-		<!-- <authorize @onLoadFun="onLoadFun" :isAuto="isAuto" :isShowAuth="isShowAuth" @authColse="authColse"></authorize> -->
-		<!-- #endif -->
-		<!-- 海报展示 -->
-		<view class='poster-pop' v-if="canvasStatus">
-			<image src='../../static/images/poster-close.png' class='close' @click="posterImageClose"></image>
-			<image :src='imagePath'></image>
-			<!-- #ifndef H5  -->
-			<view class='save-poster' @click="savePosterPath">保存到手机</view>
-			<!-- #endif -->
-			<!-- #ifdef H5 -->
-			<view class="keep">长按图片可以保存到手机</view>
-			<!-- #endif -->
-		</view>
-		<view class="canvas" v-else>
-			<canvas style="width:750px;height:1190px;" canvas-id="firstCanvas"></canvas>
-			<canvas canvas-id="qrcode" :style="{width: `${qrcodeSize}px`, height: `${qrcodeSize}px`}" />
-		</view>
-		<!-- 发送给朋友图片 -->
-		<view class="share-box" v-if="H5ShareBox">
-			<image src="/static/images/share-info.png" @click="H5ShareBox = false"></image>
-		</view>
-		// 购买弹窗
+		<!-- 购买弹窗 -->
 		<u-popup :show="buyshow" @close="buyclose" closeOnClickOverlay closeable="true" safeAreaInsetTop="true"
 			round="10">
+			<view style="display: flex;justify-content: flex-start;align-items: center;margin:0rpx 20rpx 20rpx 30rpx;">
+				<view style="width: 100%;">
+					<u--form labelPosition="left" labelWidth="80">
+						<u-form-item label="选择项目" required="true" borderBottom ref="item1">
+							<hg-select value="projTypeId" :localdata="requireSorts" @change="projectchange">
+							</hg-select>
+						</u-form-item>
+					</u--form>
+				</view>
+			</view>
 			<view class="box">
 				<!-- // 图片区域 -->
 				<view style="margin-right: 10rpx;">
@@ -269,17 +168,6 @@
 						<span style="color: #666;">价格：</span>￥{{markerValue.sellPrice}}
 					</view>
 				</view>
-				<view v-if="btnshowType === 1" class="buybtn" @click="newbuy(markerValue)">
-					立即购买
-				</view>
-				<view v-if="btnshowType === 0" class="buybtn2" @click="addnewbuy(markerValue)">
-					加入购物车
-				</view>
-			</view>
-			<view class="numaply">
-				<view style="margin-left: 40rpx;">
-					购买数量
-				</view>
 				<view class="centernum">
 					<view class="addnum" @click="downnum">
 						-
@@ -291,82 +179,40 @@
 						+
 					</view>
 				</view>
+
+			</view>
+			<view class="numaply">
+				<view v-if="btnshowType === 1" class="buybtn" @click="newbuy(markerValue)">
+					立即购买
+				</view>
+				<view v-if="btnshowType === 0" class="buybtn2" @click="addnewbuy(markerValue)">
+					加入购物车
+				</view>
 			</view>
 		</u-popup>
 	</view>
 </template>
 
 <script>
-	import uQRCode from '@/js_sdk/Sansnn-uQRCode/uqrcode.js'
-	// import yzf_chat from '@/plugin/chat/yzf_chat.js'
-	import store from '@/store';
-	import {
-		getProductDetail,
-		collectAdd,
-		collectDel,
-		postCartAdd,
-		getReplyList,
-		getReplyConfig,
-		getProductGood,
-		getReplyProduct
-	} from '@/api/store.js';
-	import {
-		spread
-	} from "@/api/user";
-	import {
-		getCoupons
-	} from '@/api/api.js';
-	import {
-		getCartCounts
-	} from '@/api/order.js';
-	import {
-		toLogin
-	} from '@/libs/login.js';
-	import {
-		computeUser
-	} from "@/api/user.js";
-	import {
-		mapGetters
-	} from "vuex";
-	import {
-		imageBase64
-	} from "@/api/public";
+	//轮播图组件
 	import productConSwiper from '@/components/productConSwiper';
-	import couponListWindow from '@/components/couponListWindow';
-	import productWindow from '@/components/productWindow';
-	import userEvaluation from '@/components/userEvaluation';
-	import shareRedPackets from '@/components/shareRedPackets';
+	// 下拉选择组件
+	import hgSelect from '@/components/uni-data-select/uni-data-select.vue'
+	//返回首页组件
 	import home from '@/components/home';
-	import {
-		silenceBindingSpread
-	} from "@/utils";
-	import parser from "@/components/jyf-parser/jyf-parser";
-	// #ifdef MP
-	import {
-		base64src
-	} from '@/utils/base64src.js'
-	import authorize from '@/components/Authorize';
-	import {
-		getQrcode
-	} from '@/api/api.js';
-	// #endif
 	let app = getApp();
 	export default {
 		components: {
 			productConSwiper,
-			couponListWindow,
-			productWindow,
-			userEvaluation,
-			// shareRedPackets,
 			home,
-			"jyf-parser": parser,
-			// #ifdef MP
-			authorize
-			// #endif
+			hgSelect
 		},
 		data() {
-			let that = this;
 			return {
+				//本人的项目数据
+				requireSorts: [],
+				// 当前选择的项目id
+				projTypeId: '',
 				//是否显示按钮
 				btnshowType: null,
 				// 当前购买商品数据
@@ -375,48 +221,18 @@
 				buyshow: false,
 				// 购买数量
 				buyNum: 1,
-				//属性是否打开
-				coupon: {
-					coupon: false,
-					type: 1,
-					list: [],
-					count: []
-				},
 				// 存取当前商品的库存
 				mountNew: 0,
-				attrTxt: '请选择', //属性页面提示
-				attrValue: '', //已选属性
+				//是否已经加入购物车
+				CartCount: 0,
 				animated: false, //购物车动画
-				id: 0, //商品id
-				replyCount: 0, //总评论数量
-				reply: [], //评论列表
 				productInfo: {}, //商品详情
-				productValue: [], //系统属性
-				couponList: [], //优惠券
-				cart_num: 1, //购买数量
-				isAuto: false, //没有授权的不会自动授权
-				isShowAuth: false, //是否隐藏授权
-				isOpen: false, //是否打开属性组件
-				actionSheetHidden: true,
-				storeImage: '', //海报产品图
-				PromotionCode: '', //二维码图片
-				posterbackgd: '/static/images/posterbackgd.png',
-				sharePacket: {
-					isState: true, //默认不显示
-				}, //分销商详细
-				// uid: 0, //用户uid
 				circular: false,
 				autoplay: false,
 				interval: 3000,
 				duration: 500,
 				clientHeight: "",
-				systemStore: {}, //门店信息
 				good_list: [],
-				replyChance: 0,
-				CartCount: 0,
-				isDown: true,
-				posters: false,
-				weixinStatus: false,
 				attr: {
 					cartAttr: false,
 					productAttr: [],
@@ -428,7 +244,7 @@
 				activityH5: [],
 				retunTop: true, //顶部返回
 				navH: "",
-				navList: ['商品', '详情', '推荐'],
+				navList: ['商品详情'],
 				opacity: 0,
 				scrollY: 0,
 				topArr: [],
@@ -437,15 +253,7 @@
 				heightArr: [],
 				lock: false,
 				scrollTop: 0,
-				tagStyle: {
-					img: 'width:100%;display:block;',
-					table: 'width:100%',
-					video: 'width:100%'
-				},
 				sliderImage: [],
-				qrcodeSize: 600,
-				canvasStatus: false, //是否显示海报
-				imagePath: '', //海报路径
 				imgTop: '',
 				errT: '',
 				homeTop: 20,
@@ -454,26 +262,6 @@
 				returnShow: true, //判断顶部返回是否出现
 				type: "" //视频号普通商品类型
 			};
-		},
-		computed: mapGetters(['isLogin', 'uid', 'chatUrl']),
-		watch: {
-			isLogin: {
-				handler: function(newV, oldV) {
-					let that = this;
-					if (newV == true) {
-						that.getCouponList();
-						that.getCartCount();
-						//that.downloadFilePromotionCode();
-					}
-				},
-				deep: true
-			},
-			productInfo: {
-				handler: function() {
-					this.$nextTick(() => {});
-				},
-				immediate: true
-			}
 		},
 		onLoad(options) {
 			let that = this
@@ -526,10 +314,8 @@
 				that.$store.commit("PRODUCT_TYPE", that.type);
 			}
 			that.getGoodsDetails(options.id);
-			// this.getCouponList();
-			// this.getProductReplyList();
-			// this.getProductReplyCount();
-			this.getGoods();
+			that.getGoods();
+			that.projectData()
 		},
 		onReady() {
 			this.$nextTick(function() {
@@ -571,6 +357,36 @@
 		},
 		// #endif
 		methods: {
+			//选择项目赋值
+			projectchange(e) {
+				this.projTypeId = e
+			},
+			//获取审核通过的项目
+			projectData() {
+				let val = {
+					pageNo: 1,
+					pageSize: 99999
+				}
+				this.$myRequest({
+					url: "/tsf/tsfBusProject/wxList",
+					method: "get",
+					data: val
+				}).then(res => {
+					if (res.data.code === 200) {
+						this.requireSorts = []
+						res.data.result.records.forEach((obj) => {
+							if (obj.projectStatus === 1) {
+								obj.text = obj.projectName
+								obj.value = obj.id
+								this.requireSorts.push(obj)
+							}
+						});
+					} else {
+						this.requireSorts = []
+						uni.$u.toast(res.data.message)
+					}
+				})
+			},
 			getChat(uid) {
 				window.yzf && window.yzf.init({
 					sign: '37ef9b97872756ce2a1596ec4fe9b66b0b4cbeec7b36239a65924fa6cbd5c29ac6b013c274511b2eee929e72312baeeeb97aae86',
@@ -1016,6 +832,7 @@
 						data: [this.productInfo.collectKeyId]
 					}).then(res => {
 						if (res.data.code === 200) {
+							this.getGoodsDetails(this.productInfo.id)
 							this.$set(this, 'userCollect', !this.userCollect);
 						} else {
 							uni.$u.toast(res.data.message)
@@ -1032,6 +849,7 @@
 						data: val
 					}).then(res => {
 						if (res.data.code === 200) {
+							this.getGoodsDetails(this.productInfo.id)
 							this.$set(this, 'userCollect', !this.userCollect);
 						} else {
 							uni.$u.toast(res.data.message)
@@ -1152,47 +970,55 @@
 			},
 			// 确认购买
 			newbuy(e) {
-				let obj = {
-					commodityId: e.id,
-					buyNum: this.buyNum
-				}
-				this.$myRequest({
-					url: "/tsf/tsfSystemOrder/add",
-					method: "post",
-					data: [obj]
-				}).then(res => {
-					if (res.data.code === 200) {
-						uni.$u.toast(res.data.message)
-						uni.redirectTo({
-							//关闭当前页面，跳转到应用内的某个页面。
-							url: '/pages/columnGoods/ticketPurchase/index'
-						});
-					} else {
-						uni.$u.toast(res.data.message)
+				if (this.projTypeId === '') {
+					uni.$u.toast('请选择项目')
+				} else {
+					let obj = {
+						commodityId: e.id,
+						buyNum: this.buyNum
 					}
-				})
+					this.$myRequest({
+						url: "/tsf/tsfSystemOrder/add",
+						method: "post",
+						data: [obj]
+					}).then(res => {
+						if (res.data.code === 200) {
+							uni.$u.toast(res.data.message)
+							uni.redirectTo({
+								//关闭当前页面，跳转到应用内的某个页面。
+								url: '/pages/columnGoods/ticketPurchase/index'
+							});
+						} else {
+							uni.$u.toast(res.data.message)
+						}
+					})
+				}
 			},
 			// 加入购物车确认
 			addnewbuy(e) {
-				let obj = {
-					productId: e.id,
-					cartNum: this.buyNum
-				}
-				this.$myRequest({
-					url: "/tsf/tsfStoreCart/add",
-					method: "post",
-					data: obj
-				}).then(res => {
-					if (res.data.code === 200) {
-						uni.$u.toast(res.data.message)
-						uni.switchTab({
-							//关闭当前页面，跳转到应用内的某个页面。
-							url: '/pages/order_addcart/order_addcart'
-						});
-					} else {
-						uni.$u.toast(res.data.message)
+				if (this.projTypeId === '') {
+					uni.$u.toast('请选择项目')
+				} else {
+					let obj = {
+						productId: e.id,
+						cartNum: this.buyNum
 					}
-				})
+					this.$myRequest({
+						url: "/tsf/tsfStoreCart/add",
+						method: "post",
+						data: obj
+					}).then(res => {
+						if (res.data.code === 200) {
+							uni.$u.toast(res.data.message)
+							uni.switchTab({
+								//关闭当前页面，跳转到应用内的某个页面。
+								url: '/pages/order_addcart/order_addcart'
+							});
+						} else {
+							uni.$u.toast(res.data.message)
+						}
+					})
+				}
 			},
 			// 关闭弹窗
 			buyclose() {
@@ -2103,14 +1929,14 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin: 10rpx;
+		margin: 20rpx;
 	}
 
 	.centernum {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
-		width: 35%;
+		width: 30%;
 		margin-right: 20rpx;
 	}
 
@@ -2123,18 +1949,24 @@
 	}
 
 	.buybtn {
-		padding: 10rpx;
+		padding: 20rpx;
 		background-image: linear-gradient(to right, #fa6514 0%, #e93323 100%);
 		color: #FFF;
 		border-radius: 10rpx;
 		margin-left: 30rpx;
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
 	}
 
 	.buybtn2 {
-		padding: 10rpx;
+		font-weight: bold;
+		padding: 20rpx;
 		background-image: linear-gradient(to right, #fea10f 0%, #fa8013 100%);
 		color: #FFF;
 		border-radius: 10rpx;
 		margin-left: 30rpx;
+		width: 100%;
+		text-align: center;
 	}
 </style>
