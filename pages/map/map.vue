@@ -18,52 +18,62 @@
 		</view>
 		<!-- 详情弹窗框 -->
 		<u-popup :show="show" closeOnClickOverlay closeable="true" safeAreaInsetTop="true" round="10" @close="close">
-			<view class="box" @click="projectDate(markerValue)">
-				<!-- // 图片区域 -->
-				<view style="margin-right: 10rpx;">
-					<u--image :showLoading="true" radius="20rpx" :src="markerValue.coverAttIds[0].interRqUrl"
-						width="160rpx" height="160rpx"></u--image>
+			<view style="max-height: 750rpx; overflow-y: auto;">
+				<view class="poptitle">
+					{{markerValue.title}}
 				</view>
-				<!-- // 文字区域 -->
-				<view style="display: flex;justify-content: space-between;align-items: center;">
-					<view class="">
-						<view class="center">
-							<view class="cenbox">
-								<view class="">
-									<!-- 商品名称 -->
-									<span style="color: #666;">名称：</span>{{markerValue.productName}}
+				<view class="box" v-for="(item,index) in tempArr" :key="index" @click="projectDate(markerValue)">
+					<!-- // 图片区域 -->
+					<view style="margin-right: 10rpx;">
+						<u--image :showLoading="true" radius="20rpx" :src="markerValue.coverAttIds[0].interRqUrl"
+							width="160rpx" height="160rpx"></u--image>
+					</view>
+					<!-- // 文字区域 -->
+					<view style="display: flex;justify-content: space-between;align-items: center;">
+						<view class="">
+							<view class="center">
+								<view class="cenbox">
+									<view class="">
+										<!-- 商品名称 -->
+										<span style="color: #666;">名称：</span>{{markerValue.productName}}
+									</view>
+									<!-- 按钮 -->
+									<!-- <view class="mintxt" @click.stop="buyroute(markerValue)">
+										购买
+									</view> -->
+
+								</view>
+							</view>
+							<view class="center">
+								<!-- 商品类型 -->
+								<span style="color: #666;">类型：</span>{{markerValue.categoryTypeName}}
+							</view>
+							<view class="center">
+								<!-- 商品描述 -->
+								<span style="color: #666;">描述：</span>{{markerValue.remark}}
+							</view>
+							<view class="center">
+								<!-- 商品库存 -->
+								<span style="color: #666;">库存：</span>{{markerValue.forSellAmount}}
+							</view>
+							<view class="boxPrice">
+								<view class="Price">
+									<!-- 商品价格 -->
+									<span style="color: #666;">价格：</span>￥{{markerValue.sellPrice}}
 								</view>
 								<!-- 按钮 -->
-								<!-- <view class="mintxt" @click.stop="buyroute(markerValue)">
-									购买
+								<!-- <view class="mintxtline" @click.stop="route(markerValue)">
+									路线
 								</view> -->
-
 							</view>
 						</view>
-						<view class="center">
-							<!-- 商品类型 -->
-							<span style="color: #666;">类型：</span>{{markerValue.categoryTypeName}}
+						<view class="mintxt" @click.stop="buyshoping(markerValue)">
+							购买
 						</view>
-						<view class="center">
-							<!-- 商品描述 -->
-							<span style="color: #666;">描述：</span>{{markerValue.remark}}
-						</view>
-						<view class="boxPrice">
-							<view class="Price">
-								<!-- 商品价格 -->
-								<span style="color: #666;">价格：</span>￥{{markerValue.sellPrice}}
-							</view>
-							<!-- 按钮 -->
-							<!-- <view class="mintxtline" @click.stop="route(markerValue)">
-								路线
-							</view> -->
-						</view>
-					</view>
-					<view class="">
-						按钮
 					</view>
 				</view>
 			</view>
+
 		</u-popup>
 	</view>
 
@@ -76,6 +86,8 @@
 				amapFile: require('../../gdlibs/amap-wx.js'),
 				config: require('../../gdlibs/config.js'),
 				markers: [],
+				//项目下面所有的商品
+				tempArr: [{},{},{},{},{},],
 				// 搜索类容
 				searchValue: "",
 				// 默认 经纬度
@@ -95,6 +107,13 @@
 		onLoad() {},
 		onHide: function() {},
 		methods: {
+			// 跳转商品购买界面
+			buyshoping(item) {
+				console.log(item);
+				uni.navigateTo({
+					url: `/pages/goods_details/index?id=${item.mapid}`
+				})
+			},
 			// 购买
 			buyroute(e) {
 				let obj = {
@@ -254,14 +273,16 @@
 
 	.box {
 		margin: 10rpx;
+		padding-top: 10rpx;
 		display: flex;
 		justify-content: space-around;
+		border-top: 1rpx solid #e4e4e4;
 		align-items: center;
 	}
 
 	.center {
 		color: #999;
-		width: 500rpx;
+		width: 400rpx;
 		margin-bottom: 10rpx;
 		overflow: hidden;
 		white-space: nowrap;
@@ -311,5 +332,12 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	.poptitle{
+		position: absolute;
+		top: 10rpx;
+		font-weight: bold;
+		margin: 20rpx 30rpx 30rpx 30rpx;
+		font-size: 30rpx
 	}
 </style>

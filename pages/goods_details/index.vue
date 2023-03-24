@@ -619,9 +619,9 @@
 							});
 						}
 						this.$set(this, 'good_list', goodArray);
-						let navList = ['商品', '详情'];
+						let navList = ['详情'];
 						if (goodArray.length) {
-							navList.splice(2, 0, '推荐')
+							navList.splice(2, 0, )
 						}
 						this.$set(this, 'navList', navList);
 						this.$nextTick(() => {
