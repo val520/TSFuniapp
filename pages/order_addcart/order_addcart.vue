@@ -614,7 +614,8 @@
 						if (key === obj.id) {
 							wsxd.push({
 								commodityId: obj.productId,
-								buyNum: obj.cartNum
+								buyNum: obj.cartNum,
+								projectId: obj.projectVo.id
 							})
 							deldetID.push(obj.id)
 						}

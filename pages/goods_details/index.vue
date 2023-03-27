@@ -975,7 +975,8 @@
 				} else {
 					let obj = {
 						commodityId: e.id,
-						buyNum: this.buyNum
+						buyNum: this.buyNum,
+						projectId: this.projTypeId,
 					}
 					this.$myRequest({
 						url: "/tsf/tsfSystemOrder/add",
@@ -1001,7 +1002,8 @@
 				} else {
 					let obj = {
 						productId: e.id,
-						cartNum: this.buyNum
+						cartNum: this.buyNum,
+						projectId: this.projTypeId
 					}
 					this.$myRequest({
 						url: "/tsf/tsfStoreCart/add",

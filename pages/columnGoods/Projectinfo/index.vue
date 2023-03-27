@@ -53,6 +53,7 @@
 						name: '',
 						org: '',
 						poption: '',
+						projTypeId:"",
 						requireSorts: 0
 					},
 				},
@@ -86,22 +87,20 @@
 			// 获取项目类型数据
 			projectObjlist() {
 				let val = {
-					dictId: '1627974333232074753',
 					pageNo: 1,
 					pageSize: 10000
 				}
 				this.$myRequest({
-					url: "/sys/dictItem/list",
+					url: "/tsf/tsfProjectType/list",
 					method: "get",
 					data: val
 				}).then(res => {
-					if (res.data.code === 0) {
+					if (res.data.code === 200) {
 						res.data.result.records.forEach((res) => {
 							res.value = res.id
-							res.text = res.itemText
+							res.text = res.typeName
 						})
 						this.requireSorts = res.data.result.records
-
 					} else {
 						uni.$u.toast(res.data.message)
 						this.requireSorts = []

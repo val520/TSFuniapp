@@ -27,9 +27,9 @@
 					</view>
 				</checkbox-group>
 			</view>
-			<view class='loadingicon acea-row row-center-wrapper'>
+			<!-- <view class='loadingicon acea-row row-center-wrapper'>
 				<text class='loading iconfont icon-jiazai' :hidden='loading==false'></text>{{loadTitle}}
-			</view>
+			</view> -->
 			<view v-if="!footerswitch" class='footer acea-row row-between-wrapper'>
 				<view>
 					<checkbox-group @change="checkboxAllChange">

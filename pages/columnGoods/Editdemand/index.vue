@@ -20,13 +20,13 @@
 						@change="shopeType">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="地理位置" required="true" prop="address" borderBottom ref="item1">
+				<!-- <u-form-item label="地理位置" required="true" prop="address" borderBottom ref="item1">
 					<view class="potion" @click="mapClick">
 						<u--input disabled disabledColor="#ffffff" v-model="projectInfo.address" border="none"
 							placeholder="请选择"></u--input>
 						<u-icon @click="mapClick" name="map-fill" color="#DCA842" size="28"></u-icon>
 					</view>
-				</u-form-item>
+				</u-form-item> -->
 				<u-form-item label="购买审核" required="true" prop="isBuyCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.isBuyCheck" iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
@@ -35,35 +35,45 @@
 						</u-radio>
 					</u-radio-group>
 				</u-form-item>
-				<u-form-item label="支付审核" required="true" prop="cashCheck" borderBottom ref="item1">
+				<!-- <u-form-item label="支付审核" required="true" prop="cashCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.cashCheck" iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
 							@change="payChange">
 						</u-radio>
 					</u-radio-group>
-				</u-form-item>
+				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
 				<u-form-item label="商品名称" required="true" prop="productName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.productName" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
-				<!-- <u-form-item label="商品单位" prop="comm_DW" borderBottom ref="item1">
-					<u--input v-model="projectInfo.comm_DW" border="none" placeholder="请输入"></u--input>
-				</u-form-item> -->
 				<u-form-item label="商品描述" required="true" prop="remark" borderBottom ref="item1">
 					<u--input v-model="projectInfo.remark" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-form-item label="商品库存" required="true" prop="totalAmount" borderBottom ref="item1">
-					<u--input v-model="projectInfo.totalAmount" type="number" border="none" placeholder="请输入">
-					</u--input>
+					<u-row justify="space-between" gutter="10">
+						<u-col span="6">
+							<u--input v-model="projectInfo.totalAmount" type="number" border="none"
+								placeholder="请输入商品库存">
+							</u--input>
+						</u-col>
+						<u-col span="3">
+							<view @click="unit"
+								style="color: #666;font-size: 30rpx;display: flex;justify-content: center;align-items: center;">
+								{{unitValue}}
+								<u-icon name="arrow-right" color="#DCA842" size="20"></u-icon>
+							</view>
+						</u-col>
+					</u-row>
+
 				</u-form-item>
 				<u-form-item label="商品售价" required="true" prop="sellPrice" borderBottom ref="item1">
 					<u--input v-model="projectInfo.sellPrice" type="number" border="none" placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="上架时间" required="true" prop="onShelfTime" borderBottom ref="item1">
+				<!-- <u-form-item label="上架时间" required="true" prop="onShelfTime" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.onShelfTime" @change="uptimelist" type="datetime" />
-				</u-form-item>
+				</u-form-item> -->
 				<u-form-item label="交易时间" required="true" prop="time" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.time" @change="timelist" type="datetimerange"
 						rangeSeparator="至" />
@@ -91,6 +101,9 @@
 				确 认
 			</view>
 		</view>
+		<!-- 选择商品单位弹窗 -->
+		<u-picker :show="unitshow" :columns="unitcolumns" :defaultIndex='unitArry' closeOnClickOverlay='true'
+			@confirm="unitfirm" @cancel="unitclose" @close="unitclose" keyName="name"></u-picker>
 	</view>
 </template>
 <script>
@@ -111,6 +124,9 @@
 		},
 		data: function() {
 			return {
+				//默认回显
+				unitArry: [0],
+				unitshow: false,
 				//发布商品信息数据
 				projectInfo: {
 					// 所属项目名称
@@ -131,6 +147,8 @@
 					productName: "",
 					// 商品库存
 					totalAmount: "",
+					// 商品单位
+					unitId: '',
 					//  商品描述
 					remark: "",
 					// 商品售价
@@ -156,6 +174,9 @@
 				fileList3: [],
 				// 详情图
 				fileList4: [],
+				//单位数据
+				unitcolumns: [],
+				unitValue: 'm³',
 				// 项目数据
 				requireSorts: [],
 				// 购票审核数据
@@ -278,6 +299,8 @@
 				this.projectInfo = item
 				// this.$nextTick(() => {
 				this.projectInfo.categoryTypeId = item.categoryTypeId
+				//回显单位
+				this.unitValue = item.unitDictItem.itemValue
 				this.projectInfo.time = [item.sellTimeStart, item.selllTimeEnd]
 				this.projectInfo.coverAttIds.forEach((res) => {
 					res.url = res.interRqUrl
@@ -305,6 +328,7 @@
 			this.projectData()
 			this.shoneType()
 			this.shonping()
+			this.unitlist()
 		},
 		onReady() {
 			//如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则。
@@ -314,6 +338,46 @@
 
 		},
 		methods: {
+			//选择单位
+			unit() {
+				this.unitshow = true
+			},
+			//关闭弹窗
+			unitclose() {
+				this.unitshow = false
+			},
+			//选择商品单位确认
+			unitfirm(e) {
+				console.log(e);
+				this.unitValue = e.value[0].value
+				this.projectInfo.unitId = e.value[0].id
+				this.unitshow = false
+			},
+			// 获取库存单位数据
+			unitlist() {
+				let val = {
+					dictId: '1638779386059649025',
+					pageNo: 1,
+					pageSize: 10000
+				}
+				this.$myRequest({
+					url: "/sys/dictItem/list",
+					method: "get",
+					data: val
+				}).then(res => {
+					if (res.data.code === 0) {
+						res.data.result.records.forEach((res) => {
+							res.name = res.itemText
+							res.value = res.itemValue
+						})
+						this.unitcolumns[0] = res.data.result.records
+
+					} else {
+						uni.$u.toast(res.data.message)
+						this.unitcolumns[0] = []
+					}
+				})
+			},
 			// 获取商品具体分类
 			shonping(e) {
 				let val = {
@@ -461,6 +525,12 @@
 						val3.push(res.id)
 					})
 					this.projectInfo.detailAttIds = val3
+					//赋值单位id
+					this.unitcolumns[0].forEach((res) => {
+						if (this.unitValue === res.value) {
+							this.projectInfo.unitId = res.id
+						}
+					})
 					this.$myRequest({
 						url: "/tsf/tsfBusCommodity/edit",
 						method: "post",

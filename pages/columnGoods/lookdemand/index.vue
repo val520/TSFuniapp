@@ -24,12 +24,12 @@
 						@change="shopeType">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="地理位置"  borderBottom ref="item1">
+				<!-- <u-form-item label="地理位置"  borderBottom ref="item1">
 					<view class="potion">
 						<u--input disabled disabledColor="#ffffff" v-model="projectInfo.address" border="none"
 							placeholder="请选择"></u--input>
 					</view>
-				</u-form-item>
+				</u-form-item> -->
 				<u-form-item label="购买审核"  borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.isBuyCheck" disabled iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
@@ -38,14 +38,14 @@
 						</u-radio>
 					</u-radio-group>
 				</u-form-item>
-				<u-form-item label="支付审核" borderBottom ref="item1">
+				<!-- <u-form-item label="支付审核" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.cashCheck" disabled iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
 							@change="payChange">
 						</u-radio>
 					</u-radio-group>
-				</u-form-item>
+				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
 				<u-form-item label="商品名称" borderBottom ref="item1">
 					<u--input v-model="projectInfo.productName" disabled disabledColor="#ffffff" border="none"
@@ -59,18 +59,29 @@
 						placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-form-item label="商品库存" borderBottom ref="item1">
-					<u--input v-model="projectInfo.totalAmount" disabled disabledColor="#ffffff" type="number"
-						border="none" placeholder="请输入">
-					</u--input>
+					<u-row justify="space-between" gutter="10">
+						<u-col span="6">
+							<u--input v-model="projectInfo.totalAmount" type="number" border="none"
+								placeholder="请输入商品库存">
+							</u--input>
+						</u-col>
+						<u-col span="3">
+							<view
+								style="color: #666;font-size: 30rpx;display: flex;justify-content: center;align-items: center;">
+								{{unitValue}}
+								<u-icon name="arrow-right" color="#DCA842" size="20"></u-icon>
+							</view>
+						</u-col>
+					</u-row>
 				</u-form-item>
 				<u-form-item label="商品售价" borderBottom ref="item1">
 					<u--input v-model="projectInfo.sellPrice" disabled disabledColor="#ffffff" type="number"
 						border="none" placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="上架时间" borderBottom ref="item1">
+			<!-- 	<u-form-item label="上架时间" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.onShelfTime" disabled @change="uptimelist" type="datetime" />
-				</u-form-item>
+				</u-form-item> -->
 				<u-form-item label="交易时间" borderBottom ref="item1">
 					<time-picker v-model="time" @change="timelist" disabled type="datetimerange" rangeSeparator="至" />
 				</u-form-item>
@@ -111,6 +122,7 @@
 		},
 		data: function() {
 			return {
+				unitValue:"",
 				// // 商品交易时间
 				time: [],
 				//发布商品信息数据
@@ -184,6 +196,8 @@
 				this.projectInfo.coverAttIds.forEach((res) => {
 					res.url = res.interRqUrl
 				})
+				//回显单位
+				this.unitValue = item.unitDictItem.itemValue
 				this.fileList2 = this.projectInfo.coverAttIds
 				this.projectInfo.coverImg = this.fileList2[0].id
 				this.$refs.form1.validateField("coverImg")

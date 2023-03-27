@@ -80,6 +80,7 @@
 				let val = {
 					pageNo: 1,
 					pageSize: 10,
+					wxHomeFlag:true,
 					status: 1, //0 待审核，1通过2，未通过
 				}
 				this.$myRequest({
@@ -151,6 +152,7 @@
 					let val = {
 						pageNo: 1,
 						pageSize: 10,
+						wxHomeFlag:true,
 						status: 1, //0 待审核，1通过2，未通过
 						productName:that.searchValue
 					}

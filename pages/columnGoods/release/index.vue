@@ -47,9 +47,6 @@
 				<u-form-item label="商品名称" required="true" prop="productName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.productName" border="none" placeholder="请输入商品名称"></u--input>
 				</u-form-item>
-				<!-- <u-form-item label="商品单位" prop="comm_DW" borderBottom ref="item1">
-					<u--input v-model="projectInfo.comm_DW" border="none" placeholder="请输入"></u--input>
-				</u-form-item> -->
 				<u-form-item label="商品描述" required="true" prop="remark" borderBottom ref="item1">
 					<u--input v-model="projectInfo.remark" border="none" placeholder="请输入商品描述"></u--input>
 				</u-form-item>
@@ -149,6 +146,8 @@
 					productName: "",
 					// 商品库存
 					totalAmount: "",
+					// 商品单位
+					unitId:'',
 					//  商品描述
 					remark: "",
 					// 商品售价
@@ -333,9 +332,10 @@
 			unitfirm(e) {
 				console.log(e);
 				this.unitValue = e.value[0].value
+				this.projectInfo.unitId = e.value[0].id
 				this.unitshow = false
 			},
-			// 获取项目类型数据
+			// 获取库存单位数据
 			unitlist() {
 				let val = {
 					dictId: '1638779386059649025',
@@ -507,6 +507,12 @@
 						val3.push(res.id)
 					})
 					this.projectInfo.detailAttIds = val3
+					//赋值单位id
+					this.unitcolumns[0].forEach((res) => {
+						if (this.unitValue === res.value) {
+							this.projectInfo.unitId = res.id
+						}
+					})
 					this.$myRequest({
 						url: "/tsf/tsfBusCommodity/add",
 						method: "post",
