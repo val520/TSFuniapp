@@ -23,8 +23,19 @@
 				<!-- #ifdef MP -->
 				<!-- <button hover-class="none" @click="loginwwwwwwwwww" class="bg-green btn1">微信登录</button> -->
 				<!-- <button hover-class="none" @open-type="getPhoneNumber" @getphonenumber="WXlogin"  class="bg-green btn1">微信登录</button> -->
-				<button style="margin-top:6rpx;background-color: #5AC725;color: #FFF;border: none;" type="success"
+				<view style="justify-content: center;align-items: center;display: flex;margin-bottom: 30rpx;">
+					<!-- <u-radio activeColor="red" label="用户使用协议"></u-radio> -->
+					<u-checkbox-group @change="agree">
+						<u-checkbox activeColor="#5AC725" :checked="checked" label=" "></u-checkbox>
+					</u-checkbox-group>
+					<view style="color: #00aaff;" @click="usershow = true">
+						我同意用户使用协议
+					</view>
+				</view>
+				<button v-if="checked" style="margin-top:6rpx;background-color: #5AC725;color: #FFF;border: none;" type="success"
 					open-type="getPhoneNumber" @getphonenumber="WXlogin">微信手机号快捷登录</button>
+					
+				<button v-else style="margin-top:6rpx;background-color: #999;color: #FFF;border: none;" type="success" @click="WXlogin">微信手机号快捷登录</button>
 				<!-- #endif -->
 				<!-- <button hover-class="none" @click="isUp = true" class="btn2">手机号登录</button> -->
 			</view>
@@ -42,6 +53,24 @@
 			<routinePhone :logoUrl="logoUrl" :isPhoneBox="isPhoneBox" @close="bindPhoneClose" :authKey="authKey">
 			</routinePhone>
 		</block>
+		<u-popup :show="usershow" @close="userclose" closeOnClickOverlay safeAreaInsetTop="true" round="10">
+			<view style="margin: 0rpx 20rpx 20rpx 20rpx;color: #999;">
+				<view style="font-weight: bold;color: #000;text-align: center;font-size: 40rpx;">
+					重庆土石方小程序用户使用协议
+				</view>
+				<view style="margin: 10rpx;color: #666;text-align: center;">
+					一：重要提示
+				</view>
+				<text decode>{{onetxt}}</text>
+				<view style="margin: 10rpx;color: #666;text-align: center;">
+					二：用户协议
+				</view>
+				<text decode>{{twotxt}}</text>
+				<view class="btnok" @click="agreeok">
+					同意并勾选
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -68,10 +97,15 @@
 	} from '@/api/user.js'
 	import Routine from '@/libs/routine';
 	import wechat from "@/libs/wechat";
-	import {BASE_URL} from '@/config/app.js'
+	import {
+		BASE_URL
+	} from '@/config/app.js'
 	export default {
 		data() {
 			return {
+				onetxt: '用户可以从官方途径(即腾讯微信客户端)获取本软件。如果用户从末经官方途径授权的第三方获取本软件或与本软件名称相同的安装程序，重庆土石方小程序无法保证该软件能够正常使用，并对因此给用户造成的损失不予负责。',
+				twotxt: '用户在使用重庆土石方小程序前需要绑定用户的微信账号。获取微信号的目的是为了获取本人的手机号作为登录账号，请用户在注册时详尽、准确地提供个人资料，并不断更新注册资料。因注册信息不真实而引起的问题，由用户自行承担相应的后果',
+				usershow: false,
 				avatarUrl: '', // 头像
 				nickName: '', // 昵称
 				isUp: false,
@@ -84,7 +118,9 @@
 				authKey: '',
 				options: '',
 				userInfo: {},
-				codeNum: 0
+				codeNum: 0,
+				//是否勾选用户使用协议
+				checked: false,
 			}
 		},
 		components: {
@@ -95,6 +131,22 @@
 
 		},
 		methods: {
+			//勾选改变状态
+			agree(e) {
+				if (e.length === 0) {
+					this.checked = false
+				} else {
+					this.checked = true
+				}
+			},
+			agreeok() {
+				this.checked = true
+				this.usershow = false
+			},
+			// 关闭弹窗
+			userclose() {
+				this.usershow = false
+			},
 			// onChooseAvatar(e) {
 			//   console.log(e);
 			//   this.uploadFilePromise(e.detail.avatarUrl)
@@ -123,65 +175,69 @@
 			// //接收 avatarUrl / nickName 
 			// completeMemberInfo(data) {
 			// 	//接收 avatarUrl / nickName 调接口完善头像或者昵称信息
-   //              console.log(data);
+			//              console.log(data);
 			// 	this.avatarUrl = data.interRqUrl
 			// },
 			// 微信登录
 			WXlogin(e) {
-				console.log(e);
-				let that = this
-				// 获取code
-				let code = e.detail.code
-				// 获取微信ID
-				let wxid = e.detail.cloudID
-				// 获取用户头像
-				uni.getUserInfo({
-					provider: 'weixin',
-					success: function(res) {
-						console.log('用户信息111', res);
-						if (e.detail.errMsg === 'getPhoneNumber:ok') {
-							uni.showLoading({
-								title: '登录中',
-							});
-							let params = {
-								code: code,
-								wxId: wxid,
-								avatar: res.userInfo.avatarUrl
-							}
-							that.$myRequest({
-								url: "/thirdWxLogin/weixinLogin",
-								method: "post",
-								data: params
-							}).then(res => {
-								if (res.data.code === 200) {
-									//存取个人token
-									uni.setStorageSync("X-Access-Token", res
-										.data.result.token)
-									// 存取用户信息
-									uni.setStorageSync("userInfo", res.data.result.userInfo)
-									uni.showLoading({
-										title: '登录成功',
-									});
-									setTimeout(() => {
-										// 返回上一页 delta返回的页面数 如果delta大于现有页面数，则返回首页
-										uni.navigateBack({
-											delta: 1
-										});
-									}, 1000);
-									//隐藏加载框
-									uni.hideLoading();
-								} else {
-									uni.showToast({
-										title: res.data.message,
-										icon: "none"
-									})
-									//隐藏加载框
-									uni.hideLoading();
+				if (this.checked) {
+					let that = this
+					// 获取code
+					let code = e.detail.code
+					// 获取微信ID
+					let wxid = e.detail.cloudID
+					// 获取用户头像
+					uni.getUserInfo({
+						provider: 'weixin',
+						success: function(res) {
+							console.log('用户信息111', res);
+							if (e.detail.errMsg === 'getPhoneNumber:ok') {
+								uni.showLoading({
+									title: '登录中',
+								});
+								let params = {
+									code: code,
+									wxId: wxid,
+									avatar: res.userInfo.avatarUrl
 								}
-							})
+								that.$myRequest({
+									url: "/thirdWxLogin/weixinLogin",
+									method: "post",
+									data: params
+								}).then(res => {
+									if (res.data.code === 200) {
+										//存取个人token
+										uni.setStorageSync("X-Access-Token", res
+											.data.result.token)
+										// 存取用户信息
+										uni.setStorageSync("userInfo", res.data.result.userInfo)
+										uni.showLoading({
+											title: '登录成功',
+										});
+										setTimeout(() => {
+											// 返回上一页 delta返回的页面数 如果delta大于现有页面数，则返回首页
+											uni.navigateBack({
+												delta: 1
+											});
+										}, 1000);
+										//隐藏加载框
+										uni.hideLoading();
+									} else {
+										uni.showToast({
+											title: res.data.message,
+											icon: "none"
+										})
+										//隐藏加载框
+										uni.hideLoading();
+									}
+								})
+							}
 						}
-					}
-				});
+					});
+
+				} else {
+					uni.$u.toast('请勾选用户协议')
+				}
 
 			},
 			back() {
@@ -461,11 +517,22 @@
 			height: 50rpx;
 		}
 	}
-	.avatar-wrapper{
+
+	.avatar-wrapper {
 		width: 200rpx;
 		height: 200rpx;
 		border-radius: 50%;
 		overflow: hidden;
 		border: 1px solid red;
+	}
+
+	.btnok {
+		margin-top: 50rpx;
+		text-align: center;
+		background: #5AC725;
+		border-radius: 20rpx;
+		padding: 20rpx;
+		color: #FFF;
+		font-weight: bold;
 	}
 </style>

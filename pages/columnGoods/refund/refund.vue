@@ -1,61 +1,75 @@
 <template>
-	<view class="container">
-		<view class="search">
-			<!-- 输入框 -->
-			<!-- <u-input placeholder="请输入内容" clearable v-model="value">
+	<view>
+		<!-- 搜索区域 -->
+		<view class="header">
+			<view style="width: 100%;">
+				<u--input placeholder="请输入司机名称"  prefixIcon="search" v-model="value" @change="change" @clear="closevalue" border="surround"
+					shape="circle" clearable>
+				</u--input>
+			</view>
+		</view>
+		<!-- 占位符 -->
+		<view style="margin-top:80rpx;"></view>
+
+		<view class="container">
+			<view class="search">
+				<!-- 输入框 -->
+				<!-- <u-input placeholder="请输入内容" clearable v-model="value">
 				<template slot="suffix">
 					<uni-icons @click="change" color="#928D81" size="30px" type="search"></uni-icons>
 				</template>
 			</u-input> -->
-		</view>
-		<!-- 列表 -->
-		<view class="content_box">
-			<view v-if="proList.length===0">
-				<u-empty mode="list" icon="http://cdn.uviewui.com/uview/empty/list.png">
-				</u-empty>
 			</view>
-			<view class="content" v-else v-for="(item,index) in proList" :key="index" @click="listinfo(item)">
-				<view class="ContenOne">
-					<view class="tentxt">
-						{{item.driver}}
-					</view>
-					<view v-if="item.appStatus == '待审核'" class="btn">
-						{{item.appStatus}}
-					</view>
-					<view v-else-if="item.appStatus == '生效中'" class="btnblur">
-						{{item.appStatus}}
-					</view>
-					<view v-else class="redbtn">
-						{{item.appStatus}}
-					</view>
+			<!-- 列表 -->
+			<view class="content_box">
+				<view v-if="proList.length===0">
+					<u-empty mode="list" icon="http://cdn.uviewui.com/uview/empty/list.png">
+					</u-empty>
 				</view>
-				<view class="ContenTwo">
-					总方量<span class="pro_num">{{item.earthTotal}}</span>m³
-				</view>
-				<view class="dress">
-					电话:{{item.createBy}}
-				</view>
-				<view class="bom">
-					<view class="time">
-						有效日期:{{item.createTime}}
+				<view class="content" v-else v-for="(item,index) in proList" :key="index" @click="listinfo(item)">
+					<view class="ContenOne">
+						<view class="tentxt">
+							{{item.driver}}
+						</view>
+						<view v-if="item.appStatus == '待审核'" class="btn">
+							{{item.appStatus}}
+						</view>
+						<view v-else-if="item.appStatus == '生效中'" class="btnblur">
+							{{item.appStatus}}
+						</view>
+						<view v-else class="redbtn">
+							{{item.appStatus}}
+						</view>
 					</view>
-					<view v-if="item.appStatus =='待审核'" class="bombtn" @click.stop="clickProject(item)">
-						审核
+					<view class="ContenTwo">
+						总方量<span class="pro_num">{{item.earthTotal}}</span>m³
+					</view>
+					<view class="dress">
+						电话:{{item.createBy}}
+					</view>
+					<view class="bom">
+						<view class="time">
+							有效日期:{{item.createTime}}
+						</view>
+						<view v-if="item.appStatus =='待审核'" class="bombtn" @click.stop="clickProject(item)">
+							审核
+						</view>
 					</view>
 				</view>
 			</view>
+			<u-modal :show="showFalse" :closeOnClickOverlay="true" @close="showFalse=false" confirmText='通过'
+				cancelText='不通过' @cancel="noto" title="确认审核通过该记录" :showCancelButton='true' @confirm="confirm"
+				confirmColor="#DFB76D" ref="uModal">
+				<template Slots="default">
+					<view>
+						<u-input placeholder="请输入意见" clearable v-model="yjvalue"></u-input>
+					</view>
+				</template>
+			</u-modal>
+			<!-- 返回TOP -->
+			<u-back-top :scroll-top="scrollTop" icon="arrow-up" :customStyle="custom"
+				:iconStyle="iconStyle"></u-back-top>
 		</view>
-		<u-modal :show="showFalse" :closeOnClickOverlay="true" @close="showFalse=false" confirmText='通过'
-			cancelText='不通过' @cancel="noto" title="确认审核通过该记录" :showCancelButton='true' @confirm="confirm"
-			confirmColor="#DFB76D" ref="uModal">
-			<template Slots="default">
-				<view>
-					<u-input placeholder="请输入意见" clearable v-model="yjvalue"></u-input>
-				</view>
-			</template>
-		</u-modal>
-		<!-- 返回TOP -->
-		<u-back-top :scroll-top="scrollTop" icon="arrow-up" :customStyle="custom" :iconStyle="iconStyle"></u-back-top>
 	</view>
 </template>
 
@@ -104,7 +118,7 @@
 
 		// 触底事件
 		async onReachBottom() {
-			
+
 		},
 		onShow() {
 			this.size = 1
@@ -135,8 +149,9 @@
 				let params = {
 					pageNo: 1,
 					pageSize: 20,
-					appStatus: '待审核',	
-					adminCheckFlag:true
+					appStatus: '待审核',
+					adminCheckFlag: true,
+					driver:this.value
 				}
 				this.$myRequest({
 					url: "/src/tsfBusTransport/wxList",
@@ -160,7 +175,7 @@
 			// 不通过
 			noto() {
 				let val = {
-					id:this.newValue.id,
+					id: this.newValue.id,
 					appStatus: '不通过',
 					// checkTime: getDateTime.dateTimeStr('y-m-d h:i:s')
 				}
@@ -185,10 +200,16 @@
 					}
 				})
 			},
+			//清空搜索
+			closevalue() {
+				this.size = 1
+				this.value = ''
+				this.sceher()
+			},
 			// 通过
 			confirm() {
 				let val = {
-					id:this.newValue.id,
+					id: this.newValue.id,
 					appStatus: '通过',
 					// checkTime: getDateTime.dateTimeStr('y-m-d h:i:s')
 				}
@@ -218,7 +239,7 @@
 			menuClick(item) {
 				console.log('item', item.name)
 			},
-			change(){
+			change() {
 				this.size = 1
 				this.sceher()
 			},
@@ -229,6 +250,19 @@
 <style scoped lang="scss">
 	.container {
 		padding: 20rpx;
+	}
+
+	.header {
+		width: 100%;
+		background-color: #FFF;
+		padding: 10rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		box-shadow: 0 0 12rpx #d7d7d7;
+		position: fixed;
+		top: 0px;
+		z-index: 99999;
 	}
 
 	.search {
@@ -342,7 +376,8 @@
 		background-color: #DFB76D;
 		color: #FFF;
 	}
-	.btnblur{
+
+	.btnblur {
 		border: 1rpx solid #549F43;
 		background: #EDF6EC;
 		color: #549F43;

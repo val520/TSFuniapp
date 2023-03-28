@@ -20,12 +20,12 @@
 						<view class='input'><input type='text' disabled name='nickname' :value='userInfo.phone'></input>
 						</view>
 					</view>
-					<view class='item acea-row row-between-wrapper'>
+					<!-- <view class='item acea-row row-between-wrapper'>
 						<view>ID号</view>
 						<view class='input'><input type='text' disabled name='nickname'
 								:value='userInfo.workNo'></input>
 						</view>
-					</view>
+					</view> -->
 					<view class='item acea-row row-between-wrapper'>
 						<view>机构</view>
 						<view class='input'><input type='text' disabled name='nickname'

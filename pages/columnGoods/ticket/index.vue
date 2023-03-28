@@ -1,20 +1,15 @@
 <template>
 	<view>
-		<view class="index">
-			<!-- 头部搜索 -->
-			<view class="header">
-				<u-input placeholder="请输入内容" border="none" @clear="closevalue" clearable v-model="value">
-					<template slot="suffix">
-						<u-icon @click="change" name="search" size="24"></u-icon>
-					</template>
-				</u-input>
+		<view class="header">
+			<view style="width: 100%;">
+				<u--input placeholder="请输入内容"  prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
+					border="surround" shape="circle" clearable>
+				</u--input>
 			</view>
-			<!-- 标签栏 -->
-			<!-- <view class="body_menu">
-				<u-tabs @click="taglist" :list="list1" lineColor="#DFB76D">
-				</u-tabs>
-			</view> -->
-			<!-- 列表区域 -->
+		</view>
+		<!-- 占位符 -->
+		<view style="margin-top:80rpx;"></view>
+		<view class="index">
 			<view class="listCalss">
 				<view v-if="proList.length===0">
 					<u-empty mode="list" icon="http://cdn.uviewui.com/uview/empty/list.png">
@@ -165,6 +160,8 @@
 					} else {
 						this.proList = [...this.proList, ...res.data.result.records]
 					}
+				} else {
+					uni.$u.toast(res.data.message)
 				}
 			})
 		},
@@ -211,6 +208,9 @@
 				}).then(res => {
 					if (res.data.code === 200) {
 						this.proList = res.data.result.records
+					} else {
+						this.proList = []
+						uni.$u.toast(res.data.message)
 					}
 				})
 			},
@@ -338,10 +338,20 @@
 	}
 
 	.header {
+		// background-color: #FFF;
+		// padding: 10rpx;
+		// border-radius: 10rpx;
+		// box-shadow: 0 0 12rpx #d7d7d7;
+		width: 100%;
 		background-color: #FFF;
 		padding: 10rpx;
-		border-radius: 10rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		box-shadow: 0 0 12rpx #d7d7d7;
+		position: fixed;
+		top: 0px;
+		z-index: 99999;
 	}
 
 	.body_menu {

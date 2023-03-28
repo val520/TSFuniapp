@@ -1,80 +1,86 @@
 <template>
-	<view class="container">
-		<view class="search">
-			<!-- 输入框 -->
-			<u-input placeholder="请输入订单号" clearable @clear="closevalue" v-model="value">
-				<template slot="suffix">
-					<u-icon @click="change" name="search" size="24"></u-icon>
-				</template>
-			</u-input>
-		</view>
-		<!-- tab -->
-		<!-- 	<view class="body_menu">
-			<u-tabs @click="menuClick" :list="menuList" lineColor="#DFB76D">
-			</u-tabs>
-		</view> -->
-		<!-- 列表 -->
-		<view class="content_box">
-			<view v-if="proList.length===0">
-				<u-empty mode="list" icon="http://cdn.uviewui.com/uview/empty/list.png">
-				</u-empty>
+	<view>
+		<!-- 搜索区域 -->
+		<view class="header">
+			<view style="width: 100%;">
+				<u--input placeholder="请输入单号查询" prefixIcon="search" v-model="value" @change="change" @clear="closevalue" border="surround"
+					shape="circle" clearable>
+				</u--input>
 			</view>
-			<view class="content" v-else v-for="(item,index) in proList" :key="index" @click="listinfo(item)">
-				<view class="ContenOne">
-					<view class="dress">
-						单号：<u-tooltip :text="item.orderNum"></u-tooltip>
-					</view>
-					<view v-if="item.orderStatus === 0" class="btn">
-						审核通过
-					</view>
-					<view v-else-if="item.orderStatus === 2" class="dshbtn">
-						待审核
-					</view>
-					<view v-else class="redbtn">
-						不通过
-					</view>
+		</view>
+		<!-- 占位符 -->
+		<view style="margin-top:80rpx;"></view>
+		<view class="container">
+			<!-- 列表 -->
+			<view class="content_box">
+				<view v-if="proList.length===0">
+					<u-empty mode="list" icon="http://cdn.uviewui.com/uview/empty/list.png">
+					</u-empty>
 				</view>
-				<!-- <view class="ContenTwo">
+				<view class="content" v-else v-for="(item,index) in proList" :key="index" @click="listinfo(item)">
+					<view class="ContenOne">
+						<view class="dress">
+							单号：<u-tooltip :text="item.orderNum" direction="bottom"></u-tooltip>
+						</view>
+						<view v-if="item.orderStatus === 0" class="btn">
+							审核通过
+						</view>
+						<view v-else-if="item.orderStatus === 2" class="dshbtn">
+							待审核
+						</view>
+						<view v-else class="redbtn">
+							不通过
+						</view>
+					</view>
+					<!-- <view class="ContenTwo">
 					剩余<span class="pro_num">{{item.totalEarth}}</span>m³
 				</view> -->
-				<!-- <view class="dress">
+					<!-- <view class="dress">
 					单号：{{item.orderNum}}
 				</view> -->
-				<view class="centerbox" v-for="(obj,indexs) in item.orderProductList" :key="indexs">
-					<view class="imgLeft">
-						<u--image :showLoading="true" radius="20rpx" :src="obj.productImageUrl" width="160rpx"
-							height="160rpx"></u--image>
-					</view>
-					<view class="">
-						<view style="color: #666;">
-							商品名称：{{obj.productName}}
+					<view class="centerbox" v-for="(obj,indexs) in item.orderProductList" :key="indexs">
+						<view class="imgLeft">
+							<u--image :showLoading="true" radius="20rpx" :src="obj.productImageUrl" width="160rpx"
+								height="160rpx"></u--image>
 						</view>
-						<view style="color: #666;">
-							购买数量：x{{obj.sellNum}}
+						<view style="margin-left: 50rpx; overflow:hidden; text-overflow:ellipsis;white-space: nowrap;-o-text-overflow: ellipsis;">
+							<view style="color: #999;">
+								名称：{{obj.productName}}
+							</view>
+							<view style="color: #999;">
+								单价：{{obj.sellPrice}}
+							</view>
+							<view style="color: #999;">
+								数量：x{{obj.sellNum}}
+							</view>
+							<view style="color: #DCA842;font-weight: bold;">
+								总价：{{item.payPrice}}
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="bom">
-					<view class="time">
-						下单日期:{{item.createTime}}
-					</view>
-					<view v-if="item.orderStatus ===2" class="bombtn" @click.stop="clickProject(item)">
-						审核
+					<view class="bom">
+						<view class="time">
+							下单日期:{{item.createTime}}
+						</view>
+						<view v-if="item.orderStatus ===2" class="bombtn" @click.stop="clickProject(item)">
+							审核
+						</view>
 					</view>
 				</view>
 			</view>
+			<u-modal :show="showFalse" :closeOnClickOverlay="true" @close="showFalse=false" confirmText='通过'
+				cancelText='不通过' @cancel="noto" title="确认审核通过该记录" :showCancelButton='true' @confirm="confirm"
+				confirmColor="#DFB76D" ref="uModal">
+				<template Slots="default">
+					<view>
+						<u-input placeholder="请输入意见" clearable v-model="yjvalue"></u-input>
+					</view>
+				</template>
+			</u-modal>
+			<!-- 返回TOP -->
+			<u-back-top :scroll-top="scrollTop" icon="arrow-up" :customStyle="custom"
+				:iconStyle="iconStyle"></u-back-top>
 		</view>
-		<u-modal :show="showFalse" :closeOnClickOverlay="true" @close="showFalse=false" confirmText='通过'
-			cancelText='不通过' @cancel="noto" title="确认审核通过该记录" :showCancelButton='true' @confirm="confirm"
-			confirmColor="#DFB76D" ref="uModal">
-			<template Slots="default">
-				<view>
-					<u-input placeholder="请输入意见" clearable v-model="yjvalue"></u-input>
-				</view>
-			</template>
-		</u-modal>
-		<!-- 返回TOP -->
-		<u-back-top :scroll-top="scrollTop" icon="arrow-up" :customStyle="custom" :iconStyle="iconStyle"></u-back-top>
 	</view>
 </template>
 
@@ -130,7 +136,7 @@
 				pageSize: 10,
 				orderNum: this.value,
 				cashCheck: 1,
-				wxCheckFlag:true
+				wxCheckFlag: true
 			}
 			this.$myRequest({
 				url: '/tsf/tsfSystemOrder/wxList',
@@ -173,7 +179,7 @@
 					pageSize: 10,
 					orderNum: this.value,
 					cashCheck: 1,
-					wxCheckFlag:true
+					wxCheckFlag: true
 				}
 				this.$myRequest({
 					url: '/tsf/tsfSystemOrder/wxList',
@@ -287,6 +293,19 @@
 <style scoped lang="scss">
 	.container {
 		padding: 20rpx;
+	}
+
+	.header {
+		width: 100%;
+		background-color: #FFF;
+		padding: 10rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		box-shadow: 0 0 12rpx #d7d7d7;
+		position: fixed;
+		top: 0px;
+		z-index: 99999;
 	}
 
 	.search {

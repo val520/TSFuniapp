@@ -32,7 +32,7 @@
 							<view class='introduce line1'>{{productInfo.remark}}</view>
 							<view class='label acea-row row-between-wrapper line1'>
 								<!-- <view>原价:￥{{productInfo.otPrice || 0}}</view> -->
-								<view>库存:{{productInfo.forSellAmount || 0}}</view>
+								<view>库存:{{productInfo.forSellAmount || 0}}/{{productInfo.unitDictItem.itemValue||''}}</view>
 								<!-- <view>
 									销量:{{Math.floor(productInfo.sales) + Math.floor(productInfo.ficti) || 0}}{{productInfo.unitName || ''}}
 								</view> -->
@@ -161,7 +161,7 @@
 					</view>
 					<view class="center">
 						<!-- 库存 -->
-						<span style="color: #666;">库存：</span>{{markerValue.forSellAmount}}
+						<span style="color: #666;">库存：</span>{{markerValue.forSellAmount}}/{{markerValue.unitDictItem.itemValue||''}}
 					</view>
 					<view class="Price">
 						<!-- 商品价格 -->
@@ -619,7 +619,7 @@
 							});
 						}
 						this.$set(this, 'good_list', goodArray);
-						let navList = ['详情'];
+						let navList = ['商品详情'];
 						if (goodArray.length) {
 							navList.splice(2, 0, )
 						}
@@ -985,9 +985,9 @@
 					}).then(res => {
 						if (res.data.code === 200) {
 							uni.$u.toast(res.data.message)
-							uni.redirectTo({
+							uni.switchTab({
 								//关闭当前页面，跳转到应用内的某个页面。
-								url: '/pages/columnGoods/ticketPurchase/index'
+								url: '/pages/user/index'
 							});
 						} else {
 							uni.$u.toast(res.data.message)
@@ -1829,7 +1829,7 @@
 		height: 5rpx;
 		background-repeat: no-repeat;
 		content: "";
-		background-image: linear-gradient(to right, #FFF 0%, #DCA842 100%);
+		// background-image: linear-gradient(to right, #FFF 0%, #DCA842 100%);
 		bottom: -10rpx;
 		left: 50%;
 		margin-left: -28rpx;

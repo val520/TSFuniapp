@@ -43,7 +43,7 @@
 			</view> -->
 			<view class='list'>
 				<view class='item' v-for="(item,index) in orderList" :key="index">
-					<view @click='goOrderDetails(item.orderId)'>
+					<view>
 						<view class='title acea-row row-between-wrapper'>
 							<view class="acea-row row-middle">
 								<!-- <text class="sign cart-color acea-row row-center-wrapper"
@@ -68,7 +68,7 @@
 							<view class='pictrue'>
 								<image :src='items.productImageUrl'></image>
 							</view>
-							<view class='text acea-row row-between'>
+							<view style="display: flex;justify-content: space-between;align-items: center;" class='text acea-row row-between'>
 								<view class='name line2'>{{items.productName}}</view>
 								<view class='money'>
 									<view>￥{{items.sellPrice}}</view>
@@ -83,14 +83,17 @@
 						</view>
 					</view>
 					<view class='bottom acea-row row-right row-middle'
-						style="display: flex;justify-content: flex-end; align-items: center;">
+						style="display: flex;justify-content: space-between; align-items: center;">
 						<!-- <view v-if="item.orderInfoList[0].isCheck ===1" style="color: #999;margin-right: 20rpx;">
 							该订单需要审核
 						</view>
 						<view v-else style="color: #999;margin-right: 20rpx;">
 							该订单无需要审核
 						</view> -->
-						<view style="color: #999;margin-right: 20rpx;">
+						<view style="color: #666;">
+							下单时间
+						</view>
+						<view style="color: #999;">
 							{{item.createTime}}
 						</view>
 						<!-- <view class='bnt cancelBnt' v-if="!item.paid" @click='cancelOrder(index,item.id)'>取消订单</view> -->
@@ -117,7 +120,7 @@
 				</view>
 			</view>
 			<view class='loadingicon acea-row row-center-wrapper' v-if="orderList.length>0">
-				<text class='loading iconfont icon-jiazai' :hidden='loading==false'></text>{{loadTitle}}
+				<!-- <text class='loading iconfont icon-jiazai' :hidden='loading==false'></text>{{loadTitle}} -->
 			</view>
 			<view v-if="orderList.length == 0">
 				<emptyPage title="暂无订单~"></emptyPage>
@@ -680,6 +683,7 @@
 		top: 0rpx;
 		width: 100%;
 		background-color: #fff;
-		margin-top: 10rpx;
+		// border: 1px solid red;
+		padding-top: 10rpx;
 	}
 </style>

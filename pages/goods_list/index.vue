@@ -52,7 +52,7 @@
 								<!-- <view class='vip-money' v-if="item.vip_price && item.vip_price > 0">￥{{item.vip_price}}
 									<image src='../../static/images/vip.png'></image>
 								</view> -->
-								<view>库存{{item.forSellAmount||0}}</view>
+								<view>库存{{item.forSellAmount||0}}/{{item.unitDictItem.itemValue||''}}</view>
 								<!-- <view v-if="item.isCheck===1">该商品无需审核</view>
 								<view v-else>该商品需审核</view> -->
 							</view>

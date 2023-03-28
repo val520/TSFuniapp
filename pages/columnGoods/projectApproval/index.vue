@@ -3,7 +3,7 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入内容" @change="query" v-model="queryValue" @clear="queryValue = ''"
+				<u--input placeholder="请输入内容" prefixIcon="search" @change="query" v-model="queryValue" @clear="queryValue = ''"
 					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>

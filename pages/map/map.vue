@@ -61,7 +61,7 @@
 								</view>
 								<view class="center">
 									<!-- 商品库存 -->
-									<span style="color: #666;">库存：</span>{{item.forSellAmount|| 0}}
+									<span style="color: #666;">库存：</span>{{item.forSellAmount|| 0}}/{{item.unitDictItem.itemValue||''}}
 								</view>
 								<view class="boxPrice">
 									<view class="Price">

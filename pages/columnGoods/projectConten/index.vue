@@ -3,13 +3,13 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入内容" v-model="queryValue" @change="query" @clear="queryValue = ''"
+				<u--input placeholder="请输入内容" prefixIcon="search" v-model="queryValue" @change="query" @clear="queryValue = ''"
 					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
-			<view @click="newproject">
+			<!-- <view @click="newproject">
 				<u-button type="warning" shape="circle" text="新增"></u-button>
-			</view>
+			</view> -->
 		</view>
 		<!-- 占位符 -->
 		<view style="margin-top:120rpx ;"></view>
@@ -60,6 +60,10 @@
 		</u-modal>
 		<!-- 返回TOP -->
 		<u-back-top :scroll-top="scrollTop" icon="arrow-up" :customStyle="custom" :iconStyle="iconStyle"></u-back-top>
+		<!-- 新增悬浮图标 -->
+		<view class="suspension" @click="newproject">
+			<u-icon name="plus" color="#FFF" size="28"></u-icon>
+		</view>
 	</view>
 
 </template>
@@ -264,5 +268,18 @@
 	.mintxtred {
 		color: red;
 		font-weight: bold;
+	}
+
+	.suspension {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #DCA842;
+		position: fixed;
+		z-index: 99999;
+		right: 10rpx;
+		bottom: 100rpx;
+		padding: 20rpx;
+		border-radius: 50%;
 	}
 </style>
