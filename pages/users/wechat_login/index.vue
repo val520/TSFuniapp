@@ -32,10 +32,11 @@
 						我同意用户使用协议
 					</view>
 				</view>
-				<button v-if="checked" style="margin-top:6rpx;background-color: #5AC725;color: #FFF;border: none;" type="success"
-					open-type="getPhoneNumber" @getphonenumber="WXlogin">微信手机号快捷登录</button>
-					
-				<button v-else style="margin-top:6rpx;background-color: #999;color: #FFF;border: none;" type="success" @click="WXlogin">微信手机号快捷登录</button>
+				<button v-if="checked" style="margin-top:6rpx;background-color: #5AC725;color: #FFF;border: none;"
+					type="success" open-type="getPhoneNumber" @getphonenumber="WXlogin">微信手机号快捷登录</button>
+
+				<button v-else style="margin-top:6rpx;background-color: #999;color: #FFF;border: none;" type="success"
+					@click="WXlogin">微信手机号快捷登录</button>
 				<!-- #endif -->
 				<!-- <button hover-class="none" @click="isUp = true" class="btn2">手机号登录</button> -->
 			</view>
@@ -180,6 +181,12 @@
 			// },
 			// 微信登录
 			WXlogin(e) {
+				uni.getUserProfile({
+					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					success: (res) => {
+						console.log(res);
+					}
+				})
 				if (this.checked) {
 					let that = this
 					// 获取code

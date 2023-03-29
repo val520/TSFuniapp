@@ -4,7 +4,11 @@
 		<view class="box">
 			<u--form labelPosition="left" :model="projectInfo" labelWidth="80" ref="form1">
 				<u-form-item label="发布人员" borderBottom ref="item1">
-					<u--input v-model="projectInfo.createBy" disabled disabledColor="#ffffff" border="none"
+					<u--input v-model="projectInfo.createByUserName" disabled disabledColor="#ffffff" border="none"
+						placeholder="请输入"></u--input>
+				</u-form-item>
+				<u-form-item label="联系电话" borderBottom ref="item1">
+					<u--input v-model="projectInfo.createByUserPhone" disabled disabledColor="#ffffff" border="none"
 						placeholder="请输入"></u--input>
 				</u-form-item>
 				<!-- 项目名称 -->
@@ -14,7 +18,7 @@
 					</hg-select>
 				</u-form-item>
 				<u-form-item label="商品品类"  borderBottom ref="item1">
-					<data-picker placeholder="请选择类型" disabled :map="{text:'name',value:'id'}" popup-title="请选择商品类型"
+					<data-picker placeholder="请选择类型" readonly='true' :map="{text:'name',value:'id'}" popup-title="请选择商品类型"
 						clear-icon='false' :localdata="dataTree" v-model="projectInfo.categoryTypeId"
 						@change="shopechange">
 					</data-picker>

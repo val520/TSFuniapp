@@ -43,7 +43,8 @@
 							<u--image :showLoading="true" radius="20rpx" :src="obj.productImageUrl" width="160rpx"
 								height="160rpx"></u--image>
 						</view>
-						<view style="margin-left: 50rpx; overflow:hidden; text-overflow:ellipsis;white-space: nowrap;-o-text-overflow: ellipsis;">
+						<view
+							style="margin-left: 50rpx; overflow:hidden; text-overflow:ellipsis;white-space: nowrap;-o-text-overflow: ellipsis;">
 							<view style="color: #999;">
 								名称：{{obj.productName}}
 							</view>
@@ -58,9 +59,15 @@
 							</view>
 						</view>
 					</view>
+					<view style="margin-top: 10rpx;" class="time">
+						购买用户: {{item.userName||''}}
+					</view>
+					<view style="margin-top: 10rpx;" class="time">
+						联系电话: {{item.userPhone||''}}
+					</view>
 					<view class="bom">
 						<view class="time">
-							下单日期:{{item.createTime}}
+							下单日期: {{item.createTime}}
 						</view>
 						<view v-if="item.orderStatus ===2" class="bombtn" @click.stop="clickProject(item)">
 							审核

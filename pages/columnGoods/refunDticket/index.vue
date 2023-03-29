@@ -58,6 +58,12 @@
 							</view>
 						</view>
 					</view>
+					<view style="margin-top: 10rpx;" class="time">
+						购买用户: {{item.userName||''}}
+					</view>
+					<view style="margin-top: 10rpx;" class="time">
+						联系电话: {{item.userPhone||''}}
+					</view>
 					<view class="bom">
 						<view class="time">
 							下单日期:{{item.createTime}}

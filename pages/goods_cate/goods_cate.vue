@@ -66,15 +66,14 @@
 				tabbarH: 0
 			}
 		},
-		onLoad(options) {
-		},
+		onLoad(options) {},
 		onShow() {
 			this.shoppengType();
 		},
 		methods: {
 			// 获取商品分类
 			shoppengType() {
-				let that= this
+				let that = this
 				let val = {
 					pageNo: 1,
 					pageSize: 99999
@@ -85,7 +84,13 @@
 					data: val
 				}).then(res => {
 					if (res.data.code === 200) {
-						that.productList = res.data.result.records
+                        let newObj = []
+						res.data.result.records.forEach(element => {
+                            if(element.status !==0){
+								newObj.push(element)
+							}
+						});
+						that.productList = newObj
 						setTimeout(function() {
 							that.infoScroll();
 						}, 500)

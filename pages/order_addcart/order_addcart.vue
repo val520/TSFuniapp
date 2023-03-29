@@ -239,7 +239,7 @@
 				this.hotScroll = false,
 				this.loadend = false;
 			this.page = 1;
-			this.cartList.valid = [];
+			// this.cartList.valid = [];
 			// this.getCartList();
 			this.loadendInvalid = false;
 			this.pageInvalid = 1;

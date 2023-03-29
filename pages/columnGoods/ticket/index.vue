@@ -2,7 +2,7 @@
 	<view>
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入内容"  prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
+				<u--input placeholder="请输入内容" prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
 					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
@@ -45,11 +45,12 @@
 						<view class="pro_num">余量:<span>{{item.residueAmount}}</span></view>
 						<view class="pro_msg">{{item.address}}</view>
 					</view>
-					<view class="content_right" v-if="item.ticketStatus=='生效中'">
-						<!-- <view class="code_imgBox" @click.stop="noticket(item)">
-							<view class="backTickte_img">
-							</view>
-						</view> -->
+					<view class="">
+						<u-collapse>
+							<u-collapse-item title="更多" name="Docs guide">
+								<text class="u-collapse-content">涵盖uniapp各个方面，给开发者方向指导和设计理念，让您茅塞顿开，一马平川</text>
+							</u-collapse-item>
+						</u-collapse>
 					</view>
 					<view class="bottomClass" v-if="item.ticketStatus==='生效中'">
 						<view style="color: #918c80;">
@@ -143,8 +144,6 @@
 			let val = {
 				pageNo: this.size,
 				pageSize: 10,
-				ticketStatus: this.state,
-				projectName: this.value
 			}
 			this.$myRequest({
 				url: "/tsf/tsfEarthTicket/wxList",
@@ -203,6 +202,7 @@
 				}
 				this.$myRequest({
 					url: '/tsf/tsfEarthTicket/wxList',
+					// url: '/tsf/tsfSystemOrder/queryOrderGroupList',
 					method: "get",
 					data: val
 				}).then(res => {
