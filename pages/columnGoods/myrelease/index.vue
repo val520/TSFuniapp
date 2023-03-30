@@ -134,7 +134,7 @@
 					// wxHomeFlag:true
 				}
 				this.$myRequest({
-					url: "/tsf/tsfBusCommodity/list",
+					url: "/tsf/tsfBusCommodity/wxList",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -198,7 +198,7 @@
 				// wxHomeFlag:true
 			}
 			this.$myRequest({
-				url: "/tsf/tsfBusCommodity/list",
+				url: "/tsf/tsfBusCommodity/wxList",
 				method: "get",
 				data: val
 			}).then(res => {

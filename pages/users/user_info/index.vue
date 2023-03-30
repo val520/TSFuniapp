@@ -6,6 +6,7 @@
 					<view class="item acea-row row-between-wrapper">
 						<view>头像</view>
 						<view class="pictrue">
+							<!-- <image src='http://tmp/Wc0zzIiIbxiKdc385b8f0dc193ac34e865519cc81538.png'></image> -->
 							<image :src='userInfo.avatar'></image>
 						</view>
 					</view>

@@ -5,20 +5,20 @@
 				<u-form-item label="可申请总方量" borderBottom ref="item1">
 					<u--input v-model="userInfo.userall" disabled disabledColor="#ffffff" border="none"></u--input>
 				</u-form-item>
-				<u-form-item label="运输人员" prop="driver" borderBottom ref="item1">
+				<u-form-item label="运输人员" required="true" prop="driver" borderBottom ref="item1">
 					<u--input v-model="userInfo.driver" border="none" placeholder="请输入人员姓名"></u--input>
 				</u-form-item>
-				<u-form-item label="联系电话" prop="telephone" borderBottom ref="item1">
+				<u-form-item label="联系电话" required="true" prop="telephone" borderBottom ref="item1">
 					<u--input v-model="userInfo.telephone" border="none" placeholder="请输入联系电话"></u--input>
 				</u-form-item>
-				<u-form-item label="申请张数" prop="applyNumber" borderBottom ref="item1">
+				<u-form-item label="申请张数" required="true" prop="applyNumber" borderBottom ref="item1">
 					<u--input @change="alldata" v-model="userInfo.applyNumber" border="none" placeholder="请输入申请张数">
 					</u--input>
 				</u-form-item>
 				<!-- <u-form-item label="车载重量" prop="carLoad" borderBottom ref="item1">
 					<u--input v-model="userInfo.carLoad" border="none" placeholder="请输入车载重量"></u--input>
 				</u-form-item> -->
-				<u-form-item label="单次运量" prop="applyEarth" borderBottom ref="item1">
+				<u-form-item label="单次运量" required="true" prop="applyEarth" borderBottom ref="item1">
 					<u--input @change="alldata" v-model="userInfo.applyEarth" border="none" placeholder="请输入单次运量">
 					</u--input>
 				</u-form-item>

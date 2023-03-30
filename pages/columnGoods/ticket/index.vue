@@ -45,13 +45,13 @@
 						<view class="pro_num">余量:<span>{{item.residueAmount}}</span></view>
 						<view class="pro_msg">{{item.address}}</view>
 					</view>
-					<view class="">
+				<!-- 	<view class="">
 						<u-collapse>
 							<u-collapse-item title="更多" name="Docs guide">
 								<text class="u-collapse-content">涵盖uniapp各个方面，给开发者方向指导和设计理念，让您茅塞顿开，一马平川</text>
 							</u-collapse-item>
 						</u-collapse>
-					</view>
+					</view> -->
 					<view class="bottomClass" v-if="item.ticketStatus==='生效中'">
 						<view style="color: #918c80;">
 							<span>{{item.createTime}}</span>

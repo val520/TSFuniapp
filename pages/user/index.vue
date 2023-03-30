@@ -46,7 +46,7 @@
 					</view>
 				</view>
 				<view class="contenBox">
-					<view class="user-menus" style="margin-top: 20rpx;box-shadow: 0 0 12rpx #d7d7d7;">
+					<view class="user-menus" v-if="isAdmin" style="margin-top: 20rpx;box-shadow: 0 0 12rpx #d7d7d7;">
 						<view class="menu-title">我的审核</view>
 						<view class="list-box">
 							<button class="item" v-for="(item,index) in orderMenu" :key="index" @click="goto(item.url)"
@@ -237,8 +237,10 @@
 				pageHeight: app.globalData.windowHeight,
 				// #endif
 				// #ifdef H5
-				isWeixin: Auth.isWeixin()
+				isWeixin: Auth.isWeixin(),
 				//#endif
+				// 是否展示管理员审核界面
+				isAdmin:false
 			}
 		},
 		onLoad() {
@@ -254,10 +256,24 @@
 				// #endif
 			}
 			this.userInfo = uni.getStorageSync("userInfo")
+			this.userInfo.userRoleList.forEach((e)=>{
+				if(e.roleCode === 'admin' || e.roleCode === 'orgAdmin'){
+					this.isAdmin = true
+				}else{
+					this.isAdmin = false
+				}
+			})
 			this.microlabel()
 		},
 		onShow: function() {
 			this.userInfo = uni.getStorageSync("userInfo")
+			this.userInfo.userRoleList.forEach((e)=>{
+				if(e.roleCode === 'admin' || e.roleCode === 'orgAdmin'){
+					this.isAdmin = true
+				}else{
+					this.isAdmin = false
+				}
+			})
 			let that = this;
 			// #ifdef H5
 			uni.getSystemInfo({

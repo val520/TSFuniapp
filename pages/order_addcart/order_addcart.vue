@@ -632,9 +632,9 @@
 							uni.$u.toast(res.data.message)
 							// 删除商品
 							that.deleteshopne(deldetID)
-							uni.redirectTo({
+							uni.switchTab({
 								//关闭当前页面，跳转到应用内的某个页面。
-								url: '/pages/columnGoods/ticketPurchase/index'
+								url: '/pages/user/index'
 							});
 						} else {
 							uni.$u.toast(res.data.message)
