@@ -16,16 +16,17 @@
 			</view>
 		</view>
 		<!-- 详情弹窗框 -->
-		<u-popup :show="show" closeOnClickOverlay closeable="true" safeAreaInsetTop="true" round="10" @close="close">
+		<u-popup :show="show" closeOnClickOverlay closeable="false" safeAreaInsetTop="true" round="10" @close="close">
+			<!-- 项目名称 -->
+			<view class="poptitle">
+				{{markerValue.title}}
+			</view>
 			<!-- 搜索区域 -->
 			<view style="margin: 0rpx 20rpx;">
 				<u-search placeholder="请输入商品名称" @search='seacherlist' @clear='closepro' :clearabled="true" :showAction="false" v-model="keyword"></u-search>
 			</view>
 			<view style="max-height: 750rpx">
-				<!-- 项目名称 -->
-				<view class="poptitle">
-					{{markerValue.title}}
-				</view>
+				
 				<u-empty v-if="tempArr.length === 0" mode="data" icon="http://cdn.uviewui.com/uview/empty/data.png"></u-empty>
 				<!-- 列表区域 -->
 				<u-list height="300"  v-else lowerThreshold='1' @scrolltolower="scrolltolower">
@@ -237,8 +238,9 @@
 							if (res.data.result[i].projTypeImgInterRqUrl === null) {
 								res.data.result[i].iconPath = '../../static/images/mapIcon_green.png'
 							} else {
-								res.data.result[i].iconPath = '//' + res.data.result[i].projTypeImgInterRqUrl
-									.split('//')[1]
+								// res.data.result[i].iconPath = '//' + res.data.result[i].projTypeImgInterRqUrl
+								// 	.split('//')[1]
+								res.data.result[i].iconPath = res.data.result[i].projTypeImgInterRqUrl
 							}
 							// res.data.result[i].iconTapPath = res.data.result[i].projTypeImgInterRqUrl
 							res.data.result[i].title = res.data.result[i].projectName
@@ -438,8 +440,9 @@
 	}
 
 	.poptitle {
-		position: absolute;
-		top: 10rpx;
+		// position: absolute;
+		// top: 10rpx;
+		text-align: center;
 		font-weight: bold;
 		margin: 20rpx 30rpx 30rpx 30rpx;
 		font-size: 30rpx

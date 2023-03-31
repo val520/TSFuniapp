@@ -32,7 +32,8 @@
 							<view class='introduce line1'>{{productInfo.remark}}</view>
 							<view class='label acea-row row-between-wrapper line1'>
 								<!-- <view>原价:￥{{productInfo.otPrice || 0}}</view> -->
-								<view>库存:{{productInfo.forSellAmount || 0}}/{{productInfo.unitDictItem.itemValue||''}}</view>
+								<view>库存:{{productInfo.forSellAmount || 0}}/{{productInfo.unitDictItem.itemValue||''}}
+								</view>
 								<!-- <view>
 									销量:{{Math.floor(productInfo.sales) + Math.floor(productInfo.ficti) || 0}}{{productInfo.unitName || ''}}
 								</view> -->
@@ -124,7 +125,8 @@
 		<!-- 购买弹窗 -->
 		<u-popup :show="buyshow" @close="buyclose" closeOnClickOverlay closeable="true" safeAreaInsetTop="true"
 			round="10">
-			<view style="display: flex;justify-content: flex-start;align-items: center;margin:0rpx 20rpx 20rpx 30rpx;">
+			<view v-if="markerValue.productTypeId != '2efsdFFGDF'"
+				style="display: flex;justify-content: flex-start;align-items: center;margin:0rpx 20rpx 20rpx 30rpx;">
 				<view style="width: 100%;">
 					<u--form labelPosition="left" labelWidth="80">
 						<u-form-item label="选择项目" required="true" borderBottom ref="item1">
@@ -161,7 +163,8 @@
 					</view>
 					<view class="center">
 						<!-- 库存 -->
-						<span style="color: #666;">库存：</span>{{markerValue.forSellAmount}}/{{markerValue.unitDictItem.itemValue||''}}
+						<span
+							style="color: #666;">库存：</span>{{markerValue.forSellAmount}}/{{markerValue.unitDictItem.itemValue||''}}
 					</view>
 					<view class="Price">
 						<!-- 商品价格 -->
@@ -970,13 +973,11 @@
 			},
 			// 确认购买
 			newbuy(e) {
-				if (this.projTypeId === '') {
-					uni.$u.toast('请选择项目')
-				} else {
+				if (e.productTypeId === '2efsdFFGDF') {
 					let obj = {
 						commodityId: e.id,
 						buyNum: this.buyNum,
-						projectId: this.projTypeId,
+						// projectId: this.projTypeId,
 					}
 					this.$myRequest({
 						url: "/tsf/tsfSystemOrder/add",
@@ -993,17 +994,41 @@
 							uni.$u.toast(res.data.message)
 						}
 					})
+				} else {
+					if (this.projTypeId === '') {
+						uni.$u.toast('请选择项目')
+					} else {
+						let obj = {
+							commodityId: e.id,
+							buyNum: this.buyNum,
+							projectId: this.projTypeId,
+						}
+						this.$myRequest({
+							url: "/tsf/tsfSystemOrder/add",
+							method: "post",
+							data: [obj]
+						}).then(res => {
+							if (res.data.code === 200) {
+								uni.$u.toast(res.data.message)
+								uni.switchTab({
+									//关闭当前页面，跳转到应用内的某个页面。
+									url: '/pages/user/index'
+								});
+							} else {
+								uni.$u.toast(res.data.message)
+							}
+						})
+					}
 				}
+
 			},
 			// 加入购物车确认
 			addnewbuy(e) {
-				if (this.projTypeId === '') {
-					uni.$u.toast('请选择项目')
-				} else {
+				if (e.productTypeId === '2efsdFFGDF') {
 					let obj = {
 						productId: e.id,
 						cartNum: this.buyNum,
-						projectId: this.projTypeId
+						// projectId: this.projTypeId
 					}
 					this.$myRequest({
 						url: "/tsf/tsfStoreCart/add",
@@ -1020,7 +1045,33 @@
 							uni.$u.toast(res.data.message)
 						}
 					})
+				} else {
+					if (this.projTypeId === '') {
+						uni.$u.toast('请选择项目')
+					} else {
+						let obj = {
+							productId: e.id,
+							cartNum: this.buyNum,
+							projectId: this.projTypeId
+						}
+						this.$myRequest({
+							url: "/tsf/tsfStoreCart/add",
+							method: "post",
+							data: obj
+						}).then(res => {
+							if (res.data.code === 200) {
+								uni.$u.toast(res.data.message)
+								uni.switchTab({
+									//关闭当前页面，跳转到应用内的某个页面。
+									url: '/pages/order_addcart/order_addcart'
+								});
+							} else {
+								uni.$u.toast(res.data.message)
+							}
+						})
+					}
 				}
+
 			},
 			// 关闭弹窗
 			buyclose() {

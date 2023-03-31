@@ -2,7 +2,7 @@
 	<view class="register absolute">
 	    <view class="shading">
 	      <view class="pictrue acea-row row-center-wrapper">
-			 <image src="../../static/images/logo2.png"></image>
+			 <!-- <image src="../../static/images/logo2.png"></image> -->
 	      </view>
 	    </view>
 	    <view class="whiteBg">
@@ -16,7 +16,7 @@
 	        </view>
 	        <view class="item">
 	          <view class="align-left acea-row row-middle">
-				<image src="/static/images/code_2.png"></image>
+				<!-- <image src="/static/images/code_2.png"></image> -->
 	            <input type="text" placeholder="填写验证码" class="codeIput" v-model="captcha" placeholder-class="placeholder"/>
 	            <button class="code" :disabled="disabled" :class="disabled === true ? 'on' : ''" @click="code">
 	              {{ text }}

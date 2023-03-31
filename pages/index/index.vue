@@ -107,7 +107,9 @@
 					}]
 				],
 				// 类型数据
-				typecolumns: [[]],
+				typecolumns: [
+					[]
+				],
 				list1: [{
 					name: '推荐',
 				}, {
@@ -117,7 +119,7 @@
 				}, {
 					name: '类型'
 				}, ],
-				statusBarHeight: statusBarHeight,//头部高度
+				statusBarHeight: statusBarHeight, //头部高度
 				imgUrls: [{
 					pic: "https://tsf.ccle.cn/earhtWorkAttachments/0/202303206d225c48135a4f8ea65a5a350c3c982ebanner.png"
 				}, {
@@ -145,6 +147,15 @@
 			this.hall()
 		},
 		methods: {
+			onShareAppMessage(res) {
+				if (res.from === 'button') { // 来自页面内分享按钮
+					console.log(res.target)
+				}
+				return {
+					title: '重庆土石方',
+					path: '/pages/index/index'
+				}
+			},
 			//获取类型数据
 			typeList() {
 				let that = this
@@ -265,12 +276,12 @@
 	}
 </style>
 <style lang="scss">
-	
 	.page-index {
 		display: flex;
 		flex-direction: column;
 		min-height: 100%;
 		background: linear-gradient(180deg, #fff 0%, #f5f5f5 100%);
+
 		.mp-header {
 			z-index: 999;
 			position: fixed;
@@ -314,6 +325,7 @@
 				}
 			}
 		}
+
 		.page_content {
 			background-color: #f5f5f5;
 			/* #ifdef H5 */

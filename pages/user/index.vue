@@ -11,15 +11,15 @@
 							<image class="avatar" v-else src="/static/images/f.png" @click="goEdit()" mode=""></image>
 							<view class="info">
 								<view class="name" v-if="userInfo.username">
-									<!-- {{userInfo.realname}} -->
-									{{userInfo.phone}}
+									{{userInfo.realname}}
+									<!-- {{userInfo.phone}} -->
 								</view>
 								<view class="name" v-else @tap="openAuto">
 									请先登录
 								</view>
-								<!-- <view class="num" v-if="userInfo.phone">
+								<view class="num" v-if="userInfo.phone">
 									<view class="num-txt">{{userInfo.phone}}</view>
-								</view> -->
+								</view>
 							</view>
 						</view>
 					</view>
@@ -560,7 +560,7 @@
 					.info {
 						flex: 1;
 						display: flex;
-						// flex-direction: column;
+						flex-direction: column;
 						justify-content: space-between;
 						margin-left: 20rpx;
 						padding: 15rpx 0;

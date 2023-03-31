@@ -57,7 +57,7 @@
 						</view>
 					</view>
 					<view class="gear">
-						<image src="../../static/images/writeOff.jpg"></image>
+						<!-- <image src="../../static/images/writeOff.jpg"></image> -->
 					</view>
 					<view class="num">{{orderInfo.verifyCode}}</view>
 					<view class="rules" v-if='orderInfo.systemStore'>

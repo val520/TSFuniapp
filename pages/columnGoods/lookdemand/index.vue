@@ -279,7 +279,8 @@
 					pageSize: 99999
 				}
 				this.$myRequest({
-					url: "/tsf/tsfBusProject/wxList",
+					// url: "/tsf/tsfBusProject/wxList",
+					url: "/tsf/tsfBusProject/list",
 					method: "get",
 					data: val
 				}).then(res => {
