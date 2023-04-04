@@ -343,6 +343,7 @@
 							pageNo: 1,
 							pageSize: 9999,
 							cashCheck: 1,
+							orderStatus: 2
 						}
 					}).then(res => {
 						if (res.data.code === 200) {
@@ -363,6 +364,7 @@
 							pageNo: 1,
 							pageSize: 9999,
 							checkStatus: 1,
+							orderStatus: 2
 						}
 					}).then(res => {
 						if (res.data.code === 200) {

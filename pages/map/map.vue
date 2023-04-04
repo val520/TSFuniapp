@@ -191,6 +191,7 @@
 			// 关闭弹窗
 			close() {
 				this.show = false
+				this.keyword = ''
 			},
 			// 获取点位
 			markerlist() {

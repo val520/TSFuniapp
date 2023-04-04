@@ -86,8 +86,16 @@
 				<!-- 	<u-form-item label="上架时间" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.onShelfTime" disabled @change="uptimelist" type="datetime" />
 				</u-form-item> -->
-				<u-form-item label="交易时间" borderBottom ref="item1">
+				<!-- <u-form-item label="交易时间" borderBottom ref="item1">
 					<time-picker v-model="time" @change="timelist" disabled type="datetimerange" rangeSeparator="至" />
+				</u-form-item> -->
+				<u-form-item label="开始时间" borderBottom ref="item1">
+					<u--input v-model="projectInfo.sellTimeStart" disabled disabledColor="#ffffff" type="number"
+						border="none" placeholder="交易开始时间"></u--input>
+				</u-form-item>
+				<u-form-item label="结束时间" borderBottom ref="item1">
+					<u--input v-model="projectInfo.selllTimeEnd" disabled disabledColor="#ffffff" type="number"
+						border="none" placeholder="交易结束时间"></u--input>
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
 				<u-form-item label="封面图片" borderBottom ref="item1">

@@ -3,8 +3,8 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入司机名称"  prefixIcon="search" v-model="value" @change="change" @clear="closevalue" border="surround"
-					shape="circle" clearable>
+				<u--input placeholder="请输入司机名称" prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
+					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
 		</view>
@@ -42,10 +42,19 @@
 						</view>
 					</view>
 					<view class="ContenTwo">
-						总方量<span class="pro_num">{{item.earthTotal}}</span>m³
+						申请人:{{item.createBy}}
+					</view>
+					<view class="ContenTwo">
+						总方量:<span class="pro_num">{{item.earthTotal}}</span>m³
+					</view>
+					<view class="ContenTwo">
+						申请张数:{{item.applyNumber}}
+					</view>
+					<view class="ContenTwo">
+						单次运量:{{item.applyEarth}}
 					</view>
 					<view class="dress">
-						电话:{{item.createBy}}
+						联系电话:{{item.createBy}}
 					</view>
 					<view class="bom">
 						<view class="time">
@@ -118,7 +127,29 @@
 
 		// 触底事件
 		async onReachBottom() {
-
+			this.size = this.size + 1
+			let val = {
+				pageNo: this.size,
+				pageSize: 20,
+				appStatus: '待审核',
+				adminCheckFlag: true,
+				driver: this.value
+			}
+			this.$myRequest({
+				url: "/src/tsfBusTransport/wxList",
+				method: "get",
+				data: val
+			}).then(res => {
+				if (res.data.code === 200) {
+					if (this.proList.length === res.data.result.total) {
+						uni.$u.toast('没有更多了')
+					} else {
+						this.proList = [...this.proList, ...res.data.result.records]
+					}
+				} else {
+					uni.$u.toast(res.data.message)
+				}
+			})
 		},
 		onShow() {
 			this.size = 1
@@ -147,11 +178,11 @@
 			//查询购票审核
 			sceher() {
 				let params = {
-					pageNo: 1,
+					pageNo: this.size,
 					pageSize: 20,
 					appStatus: '待审核',
 					adminCheckFlag: true,
-					driver:this.value
+					driver: this.value
 				}
 				this.$myRequest({
 					url: "/src/tsfBusTransport/wxList",

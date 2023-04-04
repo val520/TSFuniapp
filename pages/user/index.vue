@@ -63,30 +63,31 @@
 					<view class="user-menus" style="margin-top: 20rpx;box-shadow: 0 0 12rpx #d7d7d7;">
 						<view class="menu-title">我的管理</view>
 						<view class="list-box">
-							<button class="item" @click="goto('/pages/columnGoods/release/index')" hover-class='none'>
-								<image :src="servicePic1"></image>
-								<text>发布商品</text>
-							</button>
-							<button class="item" @click="see" hover-class='none'>
-								<image :src="servicePic2"></image>
-								<text>扫一扫</text>
-							</button>
-							<button class="item" @click="goto('/pages/columnGoods/ticket/index')" hover-class='none'>
-								<image :src="servicePic3"></image>
-								<text>土石方票</text>
-							</button>
 							<button class="item" @click="goto('/pages/columnGoods/projectConten/index')"
 								hover-class='none'>
 								<image :src="servicePic4"></image>
 								<text>项目管理</text>
 							</button>
+							<button class="item" @click="goto('/pages/columnGoods/release/index')" hover-class='none'>
+								<image :src="servicePic1"></image>
+								<text>发布商品</text>
+							</button>
+							<button class="item" @click="goto('/pages/columnGoods/myrelease/index')" hover-class='none'>
+								<image :src="servicePic6"></image>
+								<text>我的发布</text>
+							</button>
+						
+							<button class="item" @click="goto('/pages/columnGoods/ticket/index')" hover-class='none'>
+								<image :src="servicePic3"></image>
+								<text>土石方票</text>
+							</button>
 							<!-- <button class="item" open-type='contact' hover-class='none'>
 								<image :src="servicePic5"></image>
 								<text>地址管理</text>
 							</button> -->
-							<button class="item" @click="goto('/pages/columnGoods/myrelease/index')" hover-class='none'>
-								<image :src="servicePic6"></image>
-								<text>我的发布</text>
+							<button class="item" @click="see" hover-class='none'>
+								<image :src="servicePic2"></image>
+								<text>扫一扫</text>
 							</button>
 							<button class="item" @click="goto('/pages/users/user_goods_collection/index')"
 								hover-class='none'>

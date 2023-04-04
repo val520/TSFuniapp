@@ -33,11 +33,11 @@
 						:maxCount="0" :previewFullImage="true" :deletable="false"></u-upload>
 				</u-form-item>
 			</u--form>
-			<view class="btn" v-if="model1.userInfo.projectStatus === 0" @click="onsbment">
+			<!-- <view class="btn" v-if="model1.userInfo.projectStatus === 0" @click="onsbment">
 				<view>
 					审核
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<!-- 提示框 -->
 		<u-modal :show="show" title="提示" confirmColor="#DCA842" @confirm="addshow" @cancel="noshow" @close='showclose'
