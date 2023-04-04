@@ -56,6 +56,11 @@
 							<view style="color:#1BA737;" v-if="item.orderStatus === 0">审核通过</view>
 							<view class='font-color' v-else-if="item.orderStatus === 1">待支付</view>
 							<view class='font-color' v-else-if="item.orderStatus === 2">待审核</view>
+							<view class='font-color' v-else-if="item.orderStatus === 3">
+								<span style="color: #ff5500;" v-if="item.checkStatus ===3">购买审核不通过</span>
+								<span style="color: #ff5500;" v-else-if="item.cashCheck ===3">支付审核不通过</span>
+								<span style="color: #ff5500;" v-else>审核不通过</span>
+							</view>
 							<!-- <view v-if="item.status?item.status.type == 0:0" class='font-color'>待付款</view>
 							<view v-else-if="item.status?item.status.type == 1:0 && item.storeOrder.shippingType==1" class='font-color'>待发货</view>
 							<view v-else-if="item.status?item.status.type == 2:0 && item.storeOrder.shippingType==1" class='font-color'>待收货</view>
@@ -68,7 +73,8 @@
 							<view class='pictrue'>
 								<image :src='items.productImageUrl'></image>
 							</view>
-							<view style="display: flex;justify-content: space-between;align-items: center;" class='text acea-row row-between'>
+							<view style="display: flex;justify-content: space-between;align-items: center;"
+								class='text acea-row row-between'>
 								<view class='name line2'>{{items.productName}}</view>
 								<view class='money'>
 									<view>￥{{items.sellPrice}}</view>
@@ -76,10 +82,13 @@
 								</view>
 							</view>
 						</view>
-						<view class='totalPrice'>
-							<!-- 共{{item.totalNum}}件商品， -->
-							总金额
-							<text class='money font-color'>￥{{item.totalPrice}}</text>
+						<view class='totalPrice' style="display: flex;justify-content: space-between;align-items: center;">
+							
+							<view class="">
+								总金额
+								<text class='money font-color'>￥{{item.totalPrice}}</text>
+							</view>
+							
 						</view>
 					</view>
 					<view class='bottom acea-row row-right row-middle'
@@ -178,7 +187,7 @@
 				custom: {
 					background: '#DCA842'
 				},
-				list: ['已完成', '待支付', '待审核'],
+				list: ['已完成', '待支付', '待审核', '不通过'],
 				current: 0,
 				iconStyle: {
 					fontSize: '32rpx',
@@ -232,12 +241,20 @@
 						pageNo: 1,
 						pageSize: 9999,
 						cashCheck: 1,
+						orderStatus: 2,
 					}
 				} else if (e === 2) {
 					val = {
 						pageNo: 1,
 						pageSize: 9999,
 						checkStatus: 1,
+						orderStatus: 2,
+					}
+				} else if (e === 3) {
+					val = {
+						pageNo: 1,
+						pageSize: 9999,
+						orderStatus: 3,
 					}
 				} else {
 					val = {
@@ -315,7 +332,7 @@
 			 */
 			onLoad: function(options) {
 				console.log(options);
-				this.current = options.item
+				this.current = parseInt(options.item)
 				if (options.item === '0') {
 					this.order()
 				} else if (options.item === '1') {
@@ -338,7 +355,7 @@
 							})
 						}
 					})
-				}else{
+				} else {
 					this.$myRequest({
 						url: "/tsf/tsfSystemOrder/wxList",
 						method: "get",

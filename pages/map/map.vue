@@ -8,7 +8,7 @@
 				<view class='search acea-row row-between-wrapper'>
 					<view class='input acea-row row-between-wrapper'>
 						<text class='iconfont icon-sousuo2'></text>
-						<input type='text' :value='searchValue' :focus="focus" placeholder='点击搜索商品'
+						<input type='text' :value='searchValue' :focus="focus" placeholder='点击搜索项目'
 							placeholder-class='placeholder' @input="setValue"></input>
 					</view>
 					<!-- <view class='bnt' @tap='setValue'>搜索</view> -->
@@ -23,13 +23,15 @@
 			</view>
 			<!-- 搜索区域 -->
 			<view style="margin: 0rpx 20rpx;">
-				<u-search placeholder="请输入商品名称" @search='seacherlist' @clear='closepro' :clearabled="true" :showAction="false" v-model="keyword"></u-search>
+				<u-search placeholder="请输入商品名称" @search='seacherlist' @clear='closepro' :clearabled="true"
+					:showAction="false" v-model="keyword"></u-search>
 			</view>
 			<view style="max-height: 750rpx">
-				
-				<u-empty v-if="tempArr.length === 0" mode="data" icon="http://cdn.uviewui.com/uview/empty/data.png"></u-empty>
+
+				<u-empty v-if="tempArr.length === 0" mode="data"
+					icon="http://cdn.uviewui.com/uview/empty/data.png"></u-empty>
 				<!-- 列表区域 -->
-				<u-list height="300"  v-else lowerThreshold='1' @scrolltolower="scrolltolower">
+				<u-list height="300" v-else lowerThreshold='1' @scrolltolower="scrolltolower">
 					<view class="box" v-for="(item,index) in tempArr" :key="index" @click="projectDate(item)">
 						<!-- // 图片区域 -->
 						<view style="margin-right: 10rpx;">
@@ -62,7 +64,8 @@
 								</view>
 								<view class="center">
 									<!-- 商品库存 -->
-									<span style="color: #666;">库存：</span>{{item.forSellAmount|| 0}}/{{item.unitDictItem.itemValue||''}}
+									<span
+										style="color: #666;">库存：</span>{{item.forSellAmount|| 0}}/{{item.unitDictItem.itemValue||''}}
 								</view>
 								<view class="boxPrice">
 									<view class="Price">
@@ -106,7 +109,7 @@
 				show: false,
 				//查询分页
 				page: 1,
-				keyword:'',//搜索参数
+				keyword: '', //搜索参数
 			}
 		},
 		mounted() {
@@ -232,25 +235,29 @@
 					data: val
 				}).then(res => {
 					if (res.data.code === 200) {
-						for (var i = 0; i < res.data.result.length; i++) {
-							res.data.result[i].longitude = res.data.result[i].positionSpace.split(',')[0]
-							res.data.result[i].latitude = res.data.result[i].positionSpace.split(',')[1]
-							if (res.data.result[i].projTypeImgInterRqUrl === null) {
-								res.data.result[i].iconPath = '../../static/images/mapIcon_green.png'
-							} else {
-								// res.data.result[i].iconPath = '//' + res.data.result[i].projTypeImgInterRqUrl
-								// 	.split('//')[1]
-								res.data.result[i].iconPath = res.data.result[i].projTypeImgInterRqUrl
+						if (res.data.result.length === 0) {
+							uni.$u.toast('数据为空')
+						} else {
+							for (var i = 0; i < res.data.result.length; i++) {
+								res.data.result[i].longitude = res.data.result[i].positionSpace.split(',')[0]
+								res.data.result[i].latitude = res.data.result[i].positionSpace.split(',')[1]
+								if (res.data.result[i].projTypeImgInterRqUrl === null) {
+									res.data.result[i].iconPath = '../../static/images/mapIcon_green.png'
+								} else {
+									// res.data.result[i].iconPath = '//' + res.data.result[i].projTypeImgInterRqUrl
+									// 	.split('//')[1]
+									res.data.result[i].iconPath = res.data.result[i].projTypeImgInterRqUrl
+								}
+								// res.data.result[i].iconTapPath = res.data.result[i].projTypeImgInterRqUrl
+								res.data.result[i].title = res.data.result[i].projectName
+								res.data.result[i].height = 50
+								res.data.result[i].width = 40
+								res.data.result[i].alpha = 1
+								res.data.result[i].mapid = res.data.result[i].id
+								res.data.result[i].id = Math.floor(Math.random() * (9999 - 1000)) + 1000
 							}
-							// res.data.result[i].iconTapPath = res.data.result[i].projTypeImgInterRqUrl
-							res.data.result[i].title = res.data.result[i].projectName
-							res.data.result[i].height = 50
-							res.data.result[i].width = 40
-							res.data.result[i].alpha = 1
-							res.data.result[i].mapid = res.data.result[i].id
-							res.data.result[i].id = Math.floor(Math.random() * (9999 - 1000)) + 1000
+							this.markers = res.data.result
 						}
-						this.markers = res.data.result
 						console.log(this.markers);
 					} else {
 						this.markers = []
@@ -274,13 +281,14 @@
 				console.log('点击图标点', e)
 			},
 			// 获取项目下的商品列表
-			proshingList(){
+			proshingList() {
 				let val = {
 					pageNo: this.page,
 					pageSize: 10,
-					projectId:this.markerValue.mapid,
-					productName:this.keyword,
-					wxHomeFlag:true
+					projectId: this.markerValue.mapid,
+					productName: this.keyword,
+					wxHomeFlag: true,
+					status:1
 				}
 				this.$myRequest({
 					url: "/tsf/tsfBusCommodity/list",
@@ -306,25 +314,25 @@
 				this.markerlist()
 			},
 			//搜索商品列表
-			seacherlist(){
+			seacherlist() {
 				this.page = 1
 				this.proshingList()
 			},
 			//清除搜搜条件
-			closepro(){
+			closepro() {
 				this.page = 1
 				this.proshingList()
 			},
 			//列表到底触发事件
-			scrolltolower(){
+			scrolltolower() {
 				this.page = this.page + 1
 				console.log();
 				let val = {
 					pageNo: this.page,
 					pageSize: 10,
-					projectId:this.markerValue.mapid,
-					productName:this.keyword,
-					wxHomeFlag:true
+					projectId: this.markerValue.mapid,
+					productName: this.keyword,
+					wxHomeFlag: true
 				}
 				this.$myRequest({
 					url: "/tsf/tsfBusCommodity/list",

@@ -147,7 +147,7 @@
 					// 商品库存
 					totalAmount: "",
 					// 商品单位
-					unitId:'',
+					unitId: '',
 					//  商品描述
 					remark: "",
 					// 商品售价
@@ -227,7 +227,7 @@
 					'productTypeId': {
 						type: 'string',
 						required: true,
-						message: '请选择物流类型',
+						message: '请选择商品类型',
 						trigger: ['blur', 'change']
 					},
 					'comm_DW': {
@@ -353,7 +353,7 @@
 							res.value = res.itemValue
 						})
 						this.unitcolumns[0] = res.data.result.records
-			
+
 					} else {
 						uni.$u.toast(res.data.message)
 						this.unitcolumns[0] = []
@@ -395,7 +395,24 @@
 					data: val
 				}).then(res => {
 					if (res.data.code === 200) {
-						this.dataTree = res.data.result.records
+						let newObj = []
+						res.data.result.records.forEach(element => {
+							if(element.children.length > 0){
+								if (element.status !== 0) {
+									if (element.children.length > 0) {
+										let newchildren = []
+										element.children.forEach(obj => {
+											if (obj.status !== 0) {
+												newchildren.push(obj)
+											}
+										})
+										element.children = newchildren
+									}
+									newObj.push(element)
+								}
+							}
+						});
+						this.dataTree = newObj
 					} else {
 						this.dataTree = []
 						uni.$u.toast(res.data.message)
@@ -459,6 +476,7 @@
 			// 选择物流类型触发
 			shopeType(e) {
 				console.log(e);
+				this.$refs.form1.validateField('productTypeId')
 			},
 			// 选择上架时间触发
 			uptimelist(e) {
@@ -537,6 +555,16 @@
 			// 删除图片
 			deletePic(event) {
 				this[`fileList${event.name}`].splice(event.index, 1)
+				if (event.name === "2") {
+					//封面图片
+					this.projectInfo.coverImg = ''
+				} else if (event.name === "3") {
+					// 轮播图片
+					this.projectInfo.RotationImg = this[`fileList${event.name}`]
+				} else {
+					// 详情图片
+					this.projectInfo.detailsImg = this[`fileList${event.name}`]
+				}
 			},
 			// 新增图片
 			async afterRead(event) {

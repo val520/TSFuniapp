@@ -3,8 +3,8 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入内容" prefixIcon="search" @change="query" v-model="queryValue" @clear="queryValue = ''"
-					border="surround" shape="circle" clearable>
+				<u--input placeholder="请输入内容" prefixIcon="search" @change="query" v-model="queryValue"
+					@clear="queryValue = ''" border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
 		</view>
@@ -117,10 +117,18 @@
 		methods: {
 			// 跳转项目详情
 			projectDate(item) {
-				uni.navigateTo({
-					url: '/pages/columnGoods/Editdemand/index?item=' + encodeURIComponent(JSON.stringify(item)
-						.replace(/%/g, '%25'))
-				})
+				if (item.status === 0) {
+					uni.navigateTo({
+						url: '/pages/columnGoods/Editdemand/index?item=' + encodeURIComponent(JSON.stringify(item)
+							.replace(/%/g, '%25'))
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/columnGoods/lookdemand/index?item=' + encodeURIComponent(JSON.stringify(item)
+							.replace(/%/g, '%25'))
+					})
+				}
+
 			},
 
 			//查询项目列表数据

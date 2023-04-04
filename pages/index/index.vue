@@ -175,7 +175,13 @@
 								val = [...val, ...obj.children]
 							}
 						})
-						that.typecolumns[0] = val
+						let obj =[]
+						val.forEach((item) => {
+							if(item.status === 1){
+								obj.push(item)
+							}
+						})
+						that.typecolumns[0] = obj
 
 					} else {
 						uni.$u.toast(res.data.message)
@@ -186,12 +192,16 @@
 			taglist(e) {
 				if (e.name === '推荐') {
 					this.typeValue = ''
+					this.timeValue = ''
+					this.priceValue = ''
 					this.hall()
 				} else if (e.name === '价格') {
 					this.typeValue = ''
+					this.timeValue = ''
 					this.priceshow = true
 				} else if (e.name === '时间') {
 					this.typeValue = ''
+					this.priceValue = ''
 					this.timeshow = true
 				} else if (e.name === '类型') {
 					this.typeshow = true

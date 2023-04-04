@@ -1110,7 +1110,9 @@
 						title: `不能大于库存`,
 						icon: "none"
 					})
-					this.buyNum = 1
+					setTimeout(()=>{
+						this.buyNum = 1
+					},500)
 				} else if (this.buyNum === 0) {
 					uni.showToast({
 						title: `不能小于1`,

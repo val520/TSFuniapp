@@ -42,7 +42,7 @@
 			<u-popup :show="usershow" @close="userclose" closeOnClickOverlay safeAreaInsetTop="true" round="10">
 				<view style="margin: 0rpx 20rpx 20rpx 20rpx;color: #999;">
 					<view style="font-weight: bold;color: #000;text-align: center;font-size: 40rpx;">
-						重庆土石方小程序用户使用协议
+						重庆渝土方小程序用户使用协议
 					</view>
 					<view style="margin: 10rpx;color: #666;text-align: center;">
 						一：重要提示
@@ -68,8 +68,8 @@
 	export default {
 		data() {
 			return {
-				onetxt: '用户可以从官方途径(即腾讯微信客户端)获取本软件。如果用户从末经官方途径授权的第三方获取本软件或与本软件名称相同的安装程序，重庆土石方小程序无法保证该软件能够正常使用，并对因此给用户造成的损失不予负责。',
-				twotxt: '用户在使用重庆土石方小程序前需要绑定用户的微信账号。获取微信号的目的是为了获取本人的手机号作为登录账号，请用户在注册时详尽、准确地提供个人资料，并不断更新注册资料。因注册信息不真实而引起的问题，由用户自行承担相应的后果',
+				onetxt: '用户可以从官方途径(即腾讯微信客户端)获取本软件。如果用户从末经官方途径授权的第三方获取本软件或与本软件名称相同的安装程序，重庆渝土方小程序无法保证该软件能够正常使用，并对因此给用户造成的损失不予负责。',
+				twotxt: '用户在使用重庆渝土方小程序前需要绑定用户的微信账号。获取微信号的目的是为了获取本人的手机号作为登录账号，请用户在注册时详尽、准确地提供个人资料，并不断更新注册资料。因注册信息不真实而引起的问题，由用户自行承担相应的后果',
 				usershow: false,
 				avatarUrl: '', // 头像
 				nickName: '', // 昵称

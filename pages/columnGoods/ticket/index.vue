@@ -56,9 +56,9 @@
 						<view style="color: #918c80;">
 							<span>{{item.createTime}}</span>
 						</view>
-						<view class="btnpop" @click.stop="clickCode(item)">
+					<!-- 	<view class="btnpop" @click.stop="clickCode(item)">
 							<span>运输码</span>
-						</view>
+						</view> -->
 						<view class="btnpop" v-if="item.residueAmount>0" @click.stop="clickFp(item)">
 							<span>分票码</span>
 						</view>

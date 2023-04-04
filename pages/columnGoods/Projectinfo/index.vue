@@ -33,7 +33,21 @@
 						:maxCount="0" :previewFullImage="true" :deletable="false"></u-upload>
 				</u-form-item>
 			</u--form>
+			<view class="btn" v-if="model1.userInfo.projectStatus === 0" @click="onsbment">
+				<view>
+					审核
+				</view>
+			</view>
 		</view>
+		<!-- 提示框 -->
+		<u-modal :show="show" title="提示" confirmColor="#DCA842" @confirm="addshow" @cancel="noshow" @close='showclose'
+			:closeOnClickOverlay="true" showCancelButton="true" confirmText='通过' cancelText='不通过'>
+			<template Slots="default">
+				<view>
+					<u-input placeholder="请输入意见" clearable v-model="yjvalue"></u-input>
+				</view>
+			</template>
+		</u-modal>
 	</view>
 
 </template>
@@ -45,6 +59,9 @@
 		},
 		data: function() {
 			return {
+				show: false,
+				// 意见变量
+				yjvalue: "",
 				// 表单数据
 				model1: {
 					userInfo: {
@@ -53,7 +70,7 @@
 						name: '',
 						org: '',
 						poption: '',
-						projTypeId:"",
+						projTypeId: "",
 						requireSorts: 0
 					},
 				},
@@ -84,6 +101,71 @@
 
 		},
 		methods: {
+			// 点击审核
+			onsbment() {
+				this.show = true
+			},
+			// 弹窗点击确认
+			addshow() {
+				let val = {
+					checkOpinion: this.yjvalue,
+					checkStatus: 0,
+					projectId: this.model1.userInfo.id
+				}
+				this.$myRequest({
+					url: "/tsf/tsfProjectCheck/check",
+					method: "post",
+					data: val
+				}).then(res => {
+					if (res.data.code === 200) {
+						this.show = false
+						this.yjvalue = ""
+						//跳转到上一页
+						setTimeout(() => {
+							uni.navigateBack({
+								delta: 1
+							});
+						}, 500);
+					} else {
+						uni.$u.toast(res.data.message)
+					}
+				})
+			},
+			// 关闭弹窗
+			showclose() {
+				this.show = false
+				this.yjvalue = ""
+			},
+			// 点击不通过
+			noshow() {
+				if (this.yjvalue === "") {
+					uni.$u.toast('请先输入意见')
+				} else {
+					let val = {
+						checkOpinion: this.yjvalue,
+						checkStatus: 1,
+						projectId: this.model1.userInfo.id
+					}
+					this.$myRequest({
+						url: "/tsf/tsfProjectCheck/check",
+						method: "post",
+						data: val
+					}).then(res => {
+						if (res.data.code === 200) {
+							this.show = false
+							this.yjvalue = ""
+							//跳转到上一页
+							setTimeout(() => {
+								uni.navigateBack({
+									delta: 1
+								});
+							}, 500);
+						} else {
+							uni.$u.toast(res.data.message)
+						}
+					})
+				}
+			},
 			// 获取项目类型数据
 			projectObjlist() {
 				let val = {
@@ -127,5 +209,15 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	.btn {
+		box-shadow: 0 0 12rpx #d7d7d7;
+		background: #DCA842;
+		margin: 30rpx;
+		border-radius: 10rpx;
+		padding: 30rpx;
+		text-align: center;
+		color: #FFF;
+		font-weight: bold;
 	}
 </style>

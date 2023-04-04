@@ -124,8 +124,11 @@
 								//清除缓存
 								uni.clearStorage()
 								uni.clearStorageSync()
-								uni.switchTab({
-									url: '/pages/index/index'
+								// uni.switchTab({
+								// 	url: '/pages/index/index'
+								// })
+								uni.navigateTo({
+									url:'/pages/users/wechat_login/index'
 								})
 							} else if (res.cancel) {
 								console.log('用户点击取消');

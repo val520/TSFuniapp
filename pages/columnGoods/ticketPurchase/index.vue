@@ -143,6 +143,7 @@
 				pageSize: 10,
 				orderNum: this.value,
 				checkStatus: 1,
+				orderStatus: 2,
 				wxCheckFlag: true
 			}
 			this.$myRequest({
@@ -186,6 +187,7 @@
 					pageSize: 10,
 					orderNum: this.value,
 					checkStatus: 1,
+					orderStatus: 2,
 					wxCheckFlag: true
 				}
 				this.$myRequest({

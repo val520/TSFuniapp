@@ -9,10 +9,11 @@
 					<u--input v-model="userInfo.driver" border="none" placeholder="请输入人员姓名"></u--input>
 				</u-form-item>
 				<u-form-item label="联系电话" required="true" prop="telephone" borderBottom ref="item1">
-					<u--input v-model="userInfo.telephone" border="none" placeholder="请输入联系电话"></u--input>
+					<u--input type='number' v-model="userInfo.telephone" border="none" placeholder="请输入联系电话"></u--input>
 				</u-form-item>
 				<u-form-item label="申请张数" required="true" prop="applyNumber" borderBottom ref="item1">
-					<u--input @change="alldata" v-model="userInfo.applyNumber" border="none" placeholder="请输入申请张数">
+					<u--input @change="alldata" type='number' v-model="userInfo.applyNumber" border="none"
+						placeholder="请输入申请张数">
 					</u--input>
 				</u-form-item>
 				<!-- <u-form-item label="车载重量" prop="carLoad" borderBottom ref="item1">
@@ -143,7 +144,8 @@
 			},
 			// 计算总量
 			alldata() {
-				this.userInfo.all = this.userInfo.applyNumber * this.userInfo.applyEarth
+				let val = this.userInfo.applyNumber * this.userInfo.applyEarth
+				this.userInfo.all = val.toFixed(1) ==="NaN" ? '' : val.toFixed(1)
 			},
 			// 确认方法
 			onsbment() {

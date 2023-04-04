@@ -34,6 +34,9 @@
 			</view>
 			<view class="mintxt" v-if="item.projectStatus === 0">
 				待审核
+				<view class="btn1" @click.stop="editProject(item)">
+					编辑
+				</view>
 			</view>
 			<view class="mintxtred" v-else-if="item.projectStatus === 2">
 				不通过
@@ -42,9 +45,9 @@
 				</view>
 			</view>
 			<view class="" v-else>
-				<view class="btn1" @click.stop="editProject(item)">
+				<!-- <view class="btn1" @click.stop="editProject(item)">
 					编辑
-				</view>
+				</view> -->
 				<view class="btn2" @click.stop="openshow(item)">
 					删除
 				</view>

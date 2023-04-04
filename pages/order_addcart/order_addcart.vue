@@ -615,7 +615,7 @@
 							wsxd.push({
 								commodityId: obj.productId,
 								buyNum: obj.cartNum,
-								projectId: obj.projectVo.id
+								projectId: obj.projectVo === null ? '' : obj.projectVo.id
 							})
 							deldetID.push(obj.id)
 						}
@@ -1251,6 +1251,9 @@
 
 	.shoppingCart .list .item .picTxt .carnum .num {
 		color: #282828;
+		// overflow: hidden;
+		// text-overflow: ellipsis;
+		// white-space: nowrap;
 	}
 
 	.shoppingCart .invalidGoods {

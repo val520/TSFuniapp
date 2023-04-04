@@ -17,13 +17,13 @@
 						@change="prjchange">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="商品品类"  borderBottom ref="item1">
-					<data-picker placeholder="请选择类型" readonly='true' :map="{text:'name',value:'id'}" popup-title="请选择商品类型"
-						clear-icon='false' :localdata="dataTree" v-model="projectInfo.categoryTypeId"
-						@change="shopechange">
+				<u-form-item label="商品品类" borderBottom ref="item1">
+					<data-picker placeholder="请选择类型" readonly='true' :map="{text:'name',value:'id'}"
+						popup-title="请选择商品类型" clear-icon='false' :localdata="dataTree"
+						v-model="projectInfo.categoryTypeId" @change="shopechange">
 					</data-picker>
 				</u-form-item>
-				<u-form-item label="商品类型"  borderBottom ref="item1">
+				<u-form-item label="商品类型" borderBottom ref="item1">
 					<hg-select v-model="projectInfo.productTypeId" disabled placeholder="请选择" :localdata="objType"
 						@change="shopeType">
 					</hg-select>
@@ -34,7 +34,7 @@
 							placeholder="请选择"></u--input>
 					</view>
 				</u-form-item> -->
-				<u-form-item label="购买审核"  borderBottom ref="item1">
+				<u-form-item label="购买审核" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.isBuyCheck" disabled iconPlacement="right" placement="row">
 						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
@@ -83,18 +83,18 @@
 						border="none" placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-			<!-- 	<u-form-item label="上架时间" borderBottom ref="item1">
+				<!-- 	<u-form-item label="上架时间" borderBottom ref="item1">
 					<time-picker v-model="projectInfo.onShelfTime" disabled @change="uptimelist" type="datetime" />
 				</u-form-item> -->
 				<u-form-item label="交易时间" borderBottom ref="item1">
 					<time-picker v-model="time" @change="timelist" disabled type="datetimerange" rangeSeparator="至" />
 				</u-form-item>
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="封面图片"  borderBottom ref="item1">
+				<u-form-item label="封面图片" borderBottom ref="item1">
 					<u-upload :fileList="fileList2" @afterRead="afterRead" @delete="deletePic" :deletable="false"
 						disabled name="2" multiple :maxCount="1" :previewFullImage="true"></u-upload>
 				</u-form-item>
-				<u-form-item label="轮播图片"  borderBottom ref="item1">
+				<u-form-item label="轮播图片" borderBottom ref="item1">
 					<u-upload :fileList="fileList3" @afterRead="afterRead" @delete="deletePic" :deletable="false"
 						disabled name="3" multiple :maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
@@ -103,12 +103,21 @@
 						disabled name="4" multiple :maxCount="3" :previewFullImage="true"></u-upload>
 				</u-form-item>
 			</u--form>
-		</view>
-		<!-- <view class="btn" @click="onsbment">
-			<view>
-				确 认
+			<view class="btn" v-if="projectInfo.status === 0" @click="onsbment">
+				<view>
+					审核
+				</view>
 			</view>
-		</view> -->
+		</view>
+		<!-- 提示框 -->
+		<u-modal :show="show" title="提示" confirmColor="#DCA842" @confirm="addshow" @cancel="noshow" @close='showclose'
+			:closeOnClickOverlay="true" showCancelButton="true" confirmText='通过' cancelText='不通过'>
+			<template Slots="default">
+				<view>
+					<u-input placeholder="请输入意见" clearable v-model="yjvalue"></u-input>
+				</view>
+			</template>
+		</u-modal>
 	</view>
 </template>
 <script>
@@ -126,7 +135,10 @@
 		},
 		data: function() {
 			return {
-				unitValue:"",
+				show: false,
+				// 意见变量
+				yjvalue: "",
+				unitValue: "",
 				// // 商品交易时间
 				time: [],
 				//发布商品信息数据
@@ -230,6 +242,71 @@
 
 		},
 		methods: {
+			// 点击审核
+			onsbment(){
+				this.show = true
+			},
+			// 弹窗点击确认
+			addshow() {
+				let val = {
+					checkOpinion: this.yjvalue,
+					checkStatus: 0,
+					proId: this.projectInfo.id
+				}
+				this.$myRequest({
+					url: "/tsf/tsfCommodityCheck/add",
+					method: "post",
+					data: val
+				}).then(res => {
+					if (res.data.code === 200) {
+						this.show = false
+						this.yjvalue = ""
+						//跳转到上一页
+						setTimeout(() => {
+							uni.navigateBack({
+								delta: 1
+							});
+						}, 500);
+					} else {
+						uni.$u.toast(res.data.message)
+					}
+				})
+			},
+			// 关闭弹窗
+			showclose() {
+				this.show = false
+				this.yjvalue = ""
+			},
+			// 点击不通过
+			noshow() {
+				if (this.yjvalue === "") {
+					uni.$u.toast('请先输入意见')
+				} else {
+					let val = {
+						checkOpinion: this.yjvalue,
+						checkStatus: 1,
+						proId: this.projectInfo.id
+					}
+					this.$myRequest({
+						url: "/tsf/tsfCommodityCheck/add",
+						method: "post",
+						data: val
+					}).then(res => {
+						if (res.data.code === 200) {
+							this.show = false
+							this.yjvalue = ""
+							//跳转到上一页
+							setTimeout(() => {
+								uni.navigateBack({
+									delta: 1
+								});
+							}, 500);
+						} else {
+							uni.$u.toast(res.data.message)
+						}
+					})
+				}
+			},
 			// 获取商品具体分类
 			shonping(e) {
 				let val = {

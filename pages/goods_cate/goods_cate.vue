@@ -29,7 +29,7 @@
 						</view>
 						<view class='list acea-row'>
 							<block v-for="(itemn,indexn) in item.children" :key="indexn">
-								<navigator hover-class='none'
+								<navigator hover-class='none' v-if='itemn.status === 1'
 									:url='"/pages/goods_list/index?cid="+itemn.id+"&title="+itemn.name'
 									class='item acea-row row-column row-middle'>
 									<view class='picture' :style="{'background-color':itemn.extra?'none':'#f7f7f7'}">
