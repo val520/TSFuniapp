@@ -63,12 +63,22 @@
 						message: '请填运输人员',
 						trigger: ['blur', 'change']
 					},
-					'applyNumber': {
+					'applyNumber': [{
 						type: 'string',
 						required: true,
-						message: '请填申请数量',
+						message: '请填申请张数',
 						trigger: ['blur', 'change']
-					},
+					}, {
+						validator: (rule, value, callback) => {
+							// 上面有说，返回true表示校验通过，返回false表示不通过
+							// uni.$u.test.mobile()就是返回true或者false的
+							if(value<=0){
+								callback('申请张数不允许小于0')
+							}else{
+								callback('')
+							}
+						},
+					}],
 					'carLoad': {
 						type: 'string',
 						required: true,
@@ -145,7 +155,7 @@
 			// 计算总量
 			alldata() {
 				let val = this.userInfo.applyNumber * this.userInfo.applyEarth
-				this.userInfo.all = val.toFixed(1) ==="NaN" ? '' : val.toFixed(1)
+				this.userInfo.all = val.toFixed(1) === "NaN" ? '' : val.toFixed(1)
 			},
 			// 确认方法
 			onsbment() {

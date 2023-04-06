@@ -20,7 +20,7 @@
 					<image v-if="avatarUrl" class="avatar" :src="avatarUrl"></image>
 					<span v-else>授权头像</span>
 				</button> -->
-				<input type="nickname" @blur='nicknameValue' v-model="nickName" class="weui-input" placeholder="授权微信昵称"
+				<input type="nickname" @blur='nicknameValue' v-model="nickName" class="weui-input" placeholder="点击授权微信昵称"
 					placeholder-style="color:#00aaff" />
 			</view>
 			<view class="btn-wrapper">
