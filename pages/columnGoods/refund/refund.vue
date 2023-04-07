@@ -41,9 +41,9 @@
 							{{item.appStatus}}
 						</view>
 					</view>
-					<view class="ContenTwo">
+					<!-- <view class="ContenTwo">
 						申请人:{{item.createBy}}
-					</view>
+					</view> -->
 					<view class="ContenTwo">
 						总方量:<span class="pro_num">{{item.earthTotal}}</span>m³
 					</view>

@@ -4,14 +4,14 @@
 			<view class='personal-data pad30'>
 				<view class='list borRadius14'>
 					<view class="item acea-row row-between-wrapper">
-						<view>头像</view>
+						<view>用户头像</view>
 						<view class="pictrue">
 							<!-- <image src='http://tmp/Wc0zzIiIbxiKdc385b8f0dc193ac34e865519cc81538.png'></image> -->
 							<image :src='userInfo.avatar'></image>
 						</view>
 					</view>
 					<view class='item acea-row row-between-wrapper'>
-						<view>昵称</view>
+						<view>用户昵称</view>
 						<view class='input'><input type='text' disabled name='nickname'
 								:value='userInfo.realname'></input>
 						</view>
@@ -28,9 +28,15 @@
 						</view>
 					</view> -->
 					<view class='item acea-row row-between-wrapper'>
-						<view>机构</view>
+						<view>用户机构</view>
 						<view class='input'><input type='text' disabled name='nickname'
 								:value='userInfo.orgCodeTxt'></input>
+						</view>
+					</view>
+					<view class='item acea-row row-between-wrapper'>
+						<view>用户权限</view>
+						<view class='input'><input type='text' disabled name='nickname'
+								:value='userInfo.userRoleList[0].roleName'></input>
 						</view>
 					</view>
 					<view class='item acea-row row-between-wrapper'>
@@ -118,7 +124,7 @@
 						title: '提示',
 						content: '确认退出登录?',
 						confirmColor: "#DCA842",
-						cancelColor:"#999",
+						cancelColor: "#999",
 						success: function(res) {
 							if (res.confirm) {
 								//清除缓存
@@ -128,7 +134,7 @@
 								// 	url: '/pages/index/index'
 								// })
 								uni.navigateTo({
-									url:'/pages/users/wechat_login/index'
+									url: '/pages/users/wechat_login/index'
 								})
 							} else if (res.cancel) {
 								console.log('用户点击取消');
