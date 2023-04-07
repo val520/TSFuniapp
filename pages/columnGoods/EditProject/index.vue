@@ -95,6 +95,8 @@
 				range: [],
 				// 项目类型数据
 				requireSorts: [],
+				//判断图片是否上传成功
+				imgUp: false,
 				// 校验规则
 				rules: {
 					'userInfo.projectName': {
@@ -157,6 +159,7 @@
 					res.url = res.interRqUrl
 				})
 				this.fileList3 = this.model1.userInfo.attachmentVoList
+				this.imgUp = true
 			}
 		},
 		onShow() {
@@ -242,7 +245,7 @@
 					if (this.fileList3.length === 0) {
 						uni.$u.toast('请上传附件')
 					} else {
-						if(this.fileList3[0].id != undefined){
+						if (this.imgUp) {
 							let val = []
 							// 循环组装图片id
 							this.fileList3.forEach((res) => {
@@ -267,10 +270,10 @@
 									uni.$u.toast(res.data.message)
 								}
 							})
-						}else{
+						} else {
 							uni.$u.toast('请等待图片上传')
 						}
-						
+
 					}
 				}).catch(errors => {
 					uni.$u.toast(errors[0].message)
@@ -299,7 +302,7 @@
 			},
 			// 新增图片
 			async afterRead(event) {
-				console.log(event.file[0].name);
+				this.imgUp = false
 				// 判断文件后缀是否为jpg或者png
 				let type = event.file[0].url.split('.')
 				if (type[1] === 'jpg' || type[1] === 'png' || type[1] === 'JPG' || type[1] === 'PNG') {
@@ -344,6 +347,7 @@
 						success: (res) => {
 							setTimeout(() => {
 								resolve(JSON.parse(res.data).result)
+								this.imgUp = true
 							}, 1000)
 						}
 					});

@@ -29,7 +29,7 @@
 					<u-tag v-else :text='codeList.ticketStatus' type="error" plain>
 					</u-tag>
 				</view>
-				<view class="tfsBox" v-if="codeList.ticketStatus == '生效中'" @click="Write">
+				<view class="tfsBox" v-if="codeList.ticketStatus == '生效中' && isAdmin" @click="Write">
 					<view class="tsf_name">核销</view>
 				</view>
 			</view>
@@ -99,26 +99,73 @@
 				urls: '1', // 要生成的二维码值
 				showFalse: false,
 				codeList: {},
+				// 是否展示管理员审核界面
+				isAdmin: false,
+				//暂存ID
+				storageID: null
 			}
 
 		},
 		onShow() {
 			let that = this;
+			that.deit(that.storageID)
 			setTimeout(function() {
 				that.showQrcode(); //一加载生成二维码
 			}, 1000);
+			uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
+				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+					that.isAdmin = true
+				} else {
+					that.isAdmin = false
+				}
+			})
 		},
 		onLoad(option) {
-			const item = JSON.parse(decodeURIComponent(option.item));
-			this.codeList = item
-			let val = {
-				name: '2',
-				id: item.id
-			}
-			this.urls = JSON.stringify(val)
-			console.log('this.codeList', this.codeList)
+			// const item = JSON.parse(decodeURIComponent(option.item));
+			// console.log(item);
+			const item = option.id
+			this.storageID = item
+			// this.codeList = item
+			// 调用查询运输票的详情
+			this.deit(item)
+			uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
+				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+					this.isAdmin = true
+				} else {
+					this.isAdmin = false
+				}
+			})
+			// let val = {
+			// 	name: '2',
+			// 	id: item.id
+			// }
+			// this.urls = JSON.stringify(val)
+
 		},
 		methods: {
+			//获取当前票的详情
+			deit(e) {
+				let val = {
+					pageNo: 1,
+					pageSize: 10,
+					id: e,
+					adminCheckFlag: false
+				}
+				this.$myRequest({
+					url: "/tsf/tsfTransportTicket/wxList",
+					method: "get",
+					data: val
+				}).then(res => {
+					if (res.data.code === 200) {
+						this.codeList = res.data.result.records[0]
+						this.urls = `https://tsf.ccle.cn?id=${res.data.result.records[0].id}`
+						// this.urls = `https://tea.weiotchina.cn?id=${res.data.result.records[0].id}`
+						console.log('this.codeList', this.codeList, this.urls)
+					} else {
+						this.codeList = {}
+					}
+				})
+			},
 			// 展示二维码
 			showQrcode() {
 				let _this = this;

@@ -192,6 +192,7 @@
 			close() {
 				this.show = false
 				this.keyword = ''
+				this.page = 1
 			},
 			// 获取点位
 			markerlist() {
@@ -238,6 +239,7 @@
 					if (res.data.code === 200) {
 						if (res.data.result.length === 0) {
 							uni.$u.toast('数据为空')
+							this.markers = []
 						} else {
 							for (var i = 0; i < res.data.result.length; i++) {
 								res.data.result[i].longitude = res.data.result[i].positionSpace.split(',')[0]
@@ -289,7 +291,7 @@
 					projectId: this.markerValue.mapid,
 					productName: this.keyword,
 					wxHomeFlag: true,
-					status:1
+					status: 1
 				}
 				this.$myRequest({
 					url: "/tsf/tsfBusCommodity/list",

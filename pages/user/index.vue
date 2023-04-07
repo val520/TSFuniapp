@@ -145,10 +145,11 @@
 		data() {
 			return {
 				// 菜单列表
-				orderMenus: [{
-						img: '/static/images/mydsh.png',
-						title: '待审核',
-						url: '/pages/users/order_list/index?item=2',
+				orderMenus: [
+					{
+						img: '/static/images/myywc.png',
+						title: '已完成',
+						url: '/pages/users/order_list/index?item=0',
 						num: 0
 					},
 					{
@@ -158,9 +159,9 @@
 						num: 0
 					},
 					{
-						img: '/static/images/myywc.png',
-						title: '已完成',
-						url: '/pages/users/order_list/index?item=0',
+						img: '/static/images/mydsh.png',
+						title: '待审核',
+						url: '/pages/users/order_list/index?item=2',
 						num: 0
 					},
 					{
@@ -465,8 +466,9 @@
 			},
 			// 扫一扫
 			see() {
-				wx.scanCode({
+				uni.scanCode({
 					success: (res) => {
+						console.log(res);
 						if (res.errMsg == "scanCode:ok") {
 							console.log(res.path, '参数');
 							uni.navigateTo({

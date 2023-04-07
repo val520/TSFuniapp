@@ -179,6 +179,8 @@
 				unitValue: 'm³',
 				// 项目数据
 				requireSorts: [],
+				// 判断图片是否上传完成
+				imgUp:false,
 				// 购票审核数据
 				radiolist1: [{
 					label: 0,
@@ -320,6 +322,7 @@
 				this.fileList4 = this.projectInfo.detailAttIds
 				this.projectInfo.detailsImg = this.fileList4
 				this.$refs.form1.validateField("detailsImg")
+				this.imgUp = true
 				// })
 
 			}
@@ -505,49 +508,52 @@
 			// 点击确认
 			onsbment() {
 				console.log(this.projectInfo);
-
 				this.$refs.form1.validate().then(res => {
-					let val = []
-					// 循环组装封面图片id
-					this.fileList2.forEach((res) => {
-						val.push(res.id)
-					})
-					this.projectInfo.coverAttIds = val
-					let val2 = []
-					// 循环组装轮播图片id
-					this.fileList3.forEach((res) => {
-						val2.push(res.id)
-					})
-					this.projectInfo.slideAttIds = val2
-					let val3 = []
-					// 循环组装详情图片id
-					this.fileList4.forEach((res) => {
-						val3.push(res.id)
-					})
-					this.projectInfo.detailAttIds = val3
-					//赋值单位id
-					this.unitcolumns[0].forEach((res) => {
-						if (this.unitValue === res.value) {
-							this.projectInfo.unitId = res.id
-						}
-					})
-					this.$myRequest({
-						url: "/tsf/tsfBusCommodity/edit",
-						method: "post",
-						data: this.projectInfo
-					}).then(res => {
-						if (res.data.code === 200) {
-							uni.$u.toast(res.data.message)
-							// 新增成功返回上一级
-							setTimeout(() => {
-								uni.navigateBack({
-									delta: 1
-								});
-							}, 1000);
-						} else {
-							uni.$u.toast(res.data.message)
-						}
-					})
+					if(this.imgUp){
+						let val = []
+						// 循环组装封面图片id
+						this.fileList2.forEach((res) => {
+							val.push(res.id)
+						})
+						this.projectInfo.coverAttIds = val
+						let val2 = []
+						// 循环组装轮播图片id
+						this.fileList3.forEach((res) => {
+							val2.push(res.id)
+						})
+						this.projectInfo.slideAttIds = val2
+						let val3 = []
+						// 循环组装详情图片id
+						this.fileList4.forEach((res) => {
+							val3.push(res.id)
+						})
+						this.projectInfo.detailAttIds = val3
+						//赋值单位id
+						this.unitcolumns[0].forEach((res) => {
+							if (this.unitValue === res.value) {
+								this.projectInfo.unitId = res.id
+							}
+						})
+						this.$myRequest({
+							url: "/tsf/tsfBusCommodity/edit",
+							method: "post",
+							data: this.projectInfo
+						}).then(res => {
+							if (res.data.code === 200) {
+								uni.$u.toast(res.data.message)
+								// 新增成功返回上一级
+								setTimeout(() => {
+									uni.navigateBack({
+										delta: 1
+									});
+								}, 1000);
+							} else {
+								uni.$u.toast(res.data.message)
+							}
+						})
+					}else{
+						uni.$u.toast('等待图片上传')
+					}
 				}).catch(errors => {
 					uni.$u.toast(errors[0].message)
 				})
@@ -555,10 +561,16 @@
 			// 删除图片
 			deletePic(event) {
 				this[`fileList${event.name}`].splice(event.index, 1)
+				if (event.name === "2") {
+					//封面图片
+					this.projectInfo.coverImg = ''
+				}
+				console.log(this[`fileList${event.name}`]);
 			},
 			// 新增图片
 			async afterRead(event) {
 				console.log(event);
+				this.imgUp = false
 				// 判断文件后缀是否为jpg或者png
 				let type = event.file[0].url.split('.')
 				if (type[1] === 'jpg' || type[1] === 'png' || type[1] === 'JPG' || type[1] === 'PNG') {
@@ -619,6 +631,7 @@
 						success: (res) => {
 							setTimeout(() => {
 								resolve(JSON.parse(res.data).result)
+								this.imgUp = true
 							}, 1000)
 						}
 					});

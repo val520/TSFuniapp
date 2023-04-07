@@ -20,7 +20,7 @@
 					<u--input v-model="userInfo.carLoad" border="none" placeholder="请输入车载重量"></u--input>
 				</u-form-item> -->
 				<u-form-item label="单次运量" required="true" prop="applyEarth" borderBottom ref="item1">
-					<u--input @change="alldata" v-model="userInfo.applyEarth" border="none" placeholder="请输入单次运量">
+					<u--input @change="alldata" type='number' v-model="userInfo.applyEarth" border="none" placeholder="请输入单次运量">
 					</u--input>
 				</u-form-item>
 				<u-form-item label="申请总方量" borderBottom ref="item1">
@@ -64,7 +64,7 @@
 						trigger: ['blur', 'change']
 					},
 					'applyNumber': [{
-						type: 'string',
+						// type: 'string',
 						required: true,
 						message: '请填申请张数',
 						trigger: ['blur', 'change']
@@ -74,9 +74,9 @@
 							// uni.$u.test.mobile()就是返回true或者false的
 							if(value<=0){
 								callback('申请张数不允许小于0')
-							}else{
-								callback('')
+								return
 							}
+							callback()
 						},
 					}],
 					'carLoad': {
@@ -159,7 +159,9 @@
 			},
 			// 确认方法
 			onsbment() {
+				console.log(333333);
 				this.$refs.form1.validate().then(res => {
+					console.log(444444444);
 					this.$myRequest({
 						url: "/src/tsfBusTransport/add",
 						method: "post",

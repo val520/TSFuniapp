@@ -109,7 +109,7 @@
 			let val = {
 				pageNo: this.size,
 				pageSize: 10,
-				adminCheckFlag:false
+				adminCheckFlag: false
 			}
 			this.$myRequest({
 				url: "/tsf/tsfTransportTicket/wxList",
@@ -140,7 +140,7 @@
 				let val = {
 					pageNo: this.size,
 					pageSize: 10,
-					adminCheckFlag:false
+					adminCheckFlag: false
 				}
 				this.$myRequest({
 					url: "/tsf/tsfTransportTicket/wxList",
@@ -158,9 +158,10 @@
 			codeClick(item) {
 				console.log('运输码', item)
 				uni.navigateTo({
-					url: "/pages/columnGoods/Transportinfo/Transportinfo?item=" + encodeURIComponent(JSON
-						.stringify(item)
-						.replace(/%/g, '%25'))
+					// url: "/pages/columnGoods/Transportinfo/Transportinfo?item=" + encodeURIComponent(JSON
+					// 	.stringify(item)
+					// 	.replace(/%/g, '%25'))
+					url: `/pages/columnGoods/Transportinfo/Transportinfo?id=${item.id}`
 				})
 			},
 			//删除
