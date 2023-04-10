@@ -124,6 +124,7 @@
 		},
 		data: function() {
 			return {
+				isnum: true,
 				//默认回显
 				unitArry: [0],
 				unitshow: false,
@@ -180,7 +181,7 @@
 				// 项目数据
 				requireSorts: [],
 				// 判断图片是否上传完成
-				imgUp:false,
+				imgUp: false,
 				// 购票审核数据
 				radiolist1: [{
 					label: 0,
@@ -430,7 +431,8 @@
 					pageSize: 99999
 				}
 				this.$myRequest({
-					url: "/tsf/tsfBusProject/wxList",
+					// url: "/tsf/tsfBusProject/wxList",
+					url: "/tsf/tsfBusProject/list",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -507,52 +509,57 @@
 			},
 			// 点击确认
 			onsbment() {
-				console.log(this.projectInfo);
 				this.$refs.form1.validate().then(res => {
-					if(this.imgUp){
-						let val = []
-						// 循环组装封面图片id
-						this.fileList2.forEach((res) => {
-							val.push(res.id)
-						})
-						this.projectInfo.coverAttIds = val
-						let val2 = []
-						// 循环组装轮播图片id
-						this.fileList3.forEach((res) => {
-							val2.push(res.id)
-						})
-						this.projectInfo.slideAttIds = val2
-						let val3 = []
-						// 循环组装详情图片id
-						this.fileList4.forEach((res) => {
-							val3.push(res.id)
-						})
-						this.projectInfo.detailAttIds = val3
-						//赋值单位id
-						this.unitcolumns[0].forEach((res) => {
-							if (this.unitValue === res.value) {
-								this.projectInfo.unitId = res.id
-							}
-						})
-						this.$myRequest({
-							url: "/tsf/tsfBusCommodity/edit",
-							method: "post",
-							data: this.projectInfo
-						}).then(res => {
-							if (res.data.code === 200) {
-								uni.$u.toast(res.data.message)
-								// 新增成功返回上一级
-								setTimeout(() => {
-									uni.navigateBack({
-										delta: 1
-									});
-								}, 1000);
-							} else {
-								uni.$u.toast(res.data.message)
-							}
-						})
-					}else{
-						uni.$u.toast('等待图片上传')
+					if (this.isnum) {
+						if (this.imgUp) {
+							this.isnum = false
+							let val = []
+							// 循环组装封面图片id
+							this.fileList2.forEach((res) => {
+								val.push(res.id)
+							})
+							this.projectInfo.coverAttIds = val
+							let val2 = []
+							// 循环组装轮播图片id
+							this.fileList3.forEach((res) => {
+								val2.push(res.id)
+							})
+							this.projectInfo.slideAttIds = val2
+							let val3 = []
+							// 循环组装详情图片id
+							this.fileList4.forEach((res) => {
+								val3.push(res.id)
+							})
+							this.projectInfo.detailAttIds = val3
+							//赋值单位id
+							this.unitcolumns[0].forEach((res) => {
+								if (this.unitValue === res.value) {
+									this.projectInfo.unitId = res.id
+								}
+							})
+							this.$myRequest({
+								url: "/tsf/tsfBusCommodity/edit",
+								method: "post",
+								data: this.projectInfo
+							}).then(res => {
+								if (res.data.code === 200) {
+									uni.$u.toast(res.data.message)
+									// 新增成功返回上一级
+									setTimeout(() => {
+										uni.navigateBack({
+											delta: 1
+										});
+									}, 1000);
+								} else {
+									this.isnum = true
+									uni.$u.toast(res.data.message)
+								}
+							})
+						} else {
+							uni.$u.toast('等待图片上传')
+						}
+					} else {
+						uni.$u.toast('加载中')
 					}
 				}).catch(errors => {
 					uni.$u.toast(errors[0].message)
@@ -649,6 +656,7 @@
 		background-color: #FFF;
 		margin: 20rpx;
 		padding: 20rpx;
+		overflow: hidden;
 		box-shadow: 0 0 12rpx #d7d7d7;
 		border-radius: 10rpx;
 	}

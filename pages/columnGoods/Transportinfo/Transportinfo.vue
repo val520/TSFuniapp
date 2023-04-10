@@ -32,6 +32,9 @@
 				<view class="tfsBox" v-if="codeList.ticketStatus == '生效中' && isAdmin" @click="Write">
 					<view class="tsf_name">核销</view>
 				</view>
+				<!-- <view class="tfsBox" v-else>
+					<view class="tsf_name">待核销</view>
+				</view> -->
 			</view>
 			<view style="margin: 20rpx 10rpx;">
 				<u-line></u-line>

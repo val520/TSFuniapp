@@ -54,7 +54,7 @@
 								数量：x{{obj.sellNum}}
 							</view>
 							<view style="color: #DCA842;font-weight: bold;">
-								总价：{{item.payPrice}}
+								总价：￥{{item.payPrice}}
 							</view>
 						</view>
 					</view>

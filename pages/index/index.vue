@@ -121,7 +121,7 @@
 				}, ],
 				statusBarHeight: statusBarHeight, //头部高度
 				imgUrls: [{
-					pic: "https://tsf.ccle.cn/earhtWorkAttachments/0/202303206d225c48135a4f8ea65a5a350c3c982ebanner.png"
+					pic: "https://tsf.ccle.cn/earhtWorkAttachments/0/2023041059c0b7592e1d427f8a1109f9e62353b6804483b754ad9cc025684dbf190b0e1.png"
 				}, {
 					pic: "https://tsf.ccle.cn/earhtWorkAttachments/0/202303206d225c48135a4f8ea65a5a350c3c982ebanner.png"
 				}, ], //轮播图数据

@@ -3,8 +3,8 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入内容" @change="query" prefixIcon="search" v-model="queryValue" @clear="queryValue = ''"
-					border="surround" shape="circle" clearable>
+				<u--input placeholder="请输入内容" @change="query" prefixIcon="search" v-model="queryValue"
+					@clear="queryValue = ''" border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
 		</view>
@@ -24,7 +24,7 @@
 				<view class="">
 					<view class="center">
 						<view class="cenbox">
-							<view class="">
+							<view class="shopingtxt">
 								<!-- 商品名称 -->
 								<span style="color: #666;">名称：</span>{{item.productName}}
 							</view>
@@ -284,6 +284,13 @@
 		color: #999;
 		width: 500rpx;
 		margin-bottom: 10rpx;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+	}
+
+	.shopingtxt {
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;

@@ -162,6 +162,10 @@
 						data: val
 					}).then(res => {
 						if (res.data.code === 200) {
+							if (res.data.result.records.length === 0) {
+								uni.$u.toast('数据为空')
+								that.bastList = []
+							}
 							that.bastList = res.data.result.records
 						} else {
 							that.bastList = []

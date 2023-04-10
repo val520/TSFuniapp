@@ -114,6 +114,7 @@
 				}
 				this.$myRequest({
 					url: "/tsf/tsfBusProject/wxList",
+					// url: "/tsf/tsfBusProject/list",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -186,6 +187,7 @@
 			}
 			this.$myRequest({
 				url: "/tsf/tsfBusProject/wxList",
+				// url: "/tsf/tsfBusProject/list",
 				method: "get",
 				data: val
 			}).then(res => {

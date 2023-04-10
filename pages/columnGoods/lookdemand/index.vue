@@ -395,6 +395,7 @@
 		background-color: #FFF;
 		margin: 20rpx;
 		padding: 20rpx;
+		overflow: hidden;
 		box-shadow: 0 0 12rpx #d7d7d7;
 		border-radius: 10rpx;
 	}

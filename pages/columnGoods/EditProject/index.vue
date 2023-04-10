@@ -66,6 +66,7 @@
 		},
 		data: function() {
 			return {
+				isnum:true,
 				// 表单数据
 				model1: {
 					userInfo: {
@@ -245,35 +246,40 @@
 					if (this.fileList3.length === 0) {
 						uni.$u.toast('请上传附件')
 					} else {
-						if (this.imgUp) {
-							let val = []
-							// 循环组装图片id
-							this.fileList3.forEach((res) => {
-								console.log(res);
-								val.push(res.id)
-							})
-							this.model1.userInfo.attachmentIds = val
-							this.$myRequest({
-								url: "/tsf/tsfBusProject/edit",
-								method: "post",
-								data: this.model1.userInfo
-							}).then(res => {
-								if (res.data.code === 200) {
-									uni.$u.toast(res.data.message)
-									// 新增成功返回上一级
-									setTimeout(() => {
-										uni.navigateBack({
-											delta: 1
-										});
-									}, 1000);
-								} else {
-									uni.$u.toast(res.data.message)
-								}
-							})
+						if (this.isnum) {
+							if (this.imgUp) {
+								this.isnum = false
+								let val = []
+								// 循环组装图片id
+								this.fileList3.forEach((res) => {
+									console.log(res);
+									val.push(res.id)
+								})
+								this.model1.userInfo.attachmentIds = val
+								this.$myRequest({
+									url: "/tsf/tsfBusProject/edit",
+									method: "post",
+									data: this.model1.userInfo
+								}).then(res => {
+									if (res.data.code === 200) {
+										uni.$u.toast(res.data.message)
+										// 新增成功返回上一级
+										setTimeout(() => {
+											uni.navigateBack({
+												delta: 1
+											});
+										}, 1000);
+									} else {
+										this.isnum = true
+										uni.$u.toast(res.data.message)
+									}
+								})
+							} else {
+								uni.$u.toast('请等待图片上传')
+							}
 						} else {
-							uni.$u.toast('请等待图片上传')
+							uni.$u.toast('加载中')
 						}
-
 					}
 				}).catch(errors => {
 					uni.$u.toast(errors[0].message)
