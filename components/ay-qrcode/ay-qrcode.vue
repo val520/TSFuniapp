@@ -389,9 +389,9 @@
 	.canvas-qrcode {
 
 		// margin: auto;
-		padding: 10rpx;
+		// padding: 10rpx;
 		display: inline-block;
-		float: left;
+		// float: left;
 	}
 
 
