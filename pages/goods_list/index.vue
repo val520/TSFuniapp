@@ -33,7 +33,7 @@
 					<view class='item' :class='is_switch==true?"":"on"' hover-class='none'
 						v-for="(item,index) in productList" :key="index" @click="godDetail(item)">
 						<view class='pictrue' :class='is_switch==true?"":"on"'>
-							<image :src='item.coverAttIds[0].interRqUrl' :class='is_switch==true?"":"on"'></image>
+							<image :src='item.coverAttIds[0].interRqUrl' mode="aspectFill" :class='is_switch==true?"":"on"'></image>
 							<span class="pictrue_log_class"
 								:class="is_switch === true ? 'pictrue_log_big' : 'pictrue_log'"
 								v-if="item.activityH5 && item.activityH5.type === '1'">秒杀</span>

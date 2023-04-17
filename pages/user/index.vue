@@ -76,7 +76,7 @@
 								<image :src="servicePic6"></image>
 								<text>我的发布</text>
 							</button>
-						
+
 							<button class="item" @click="goto('/pages/columnGoods/ticket/index')" hover-class='none'>
 								<image :src="servicePic3"></image>
 								<text>土石方票</text>
@@ -145,8 +145,7 @@
 		data() {
 			return {
 				// 菜单列表
-				orderMenus: [
-					{
+				orderMenus: [{
 						img: '/static/images/myywc.png',
 						title: '已完成',
 						url: '/pages/users/order_list/index?item=0',
@@ -164,6 +163,7 @@
 						url: '/pages/users/order_list/index?item=2',
 						num: 0
 					},
+
 					{
 						img: '/static/images/myqb.png',
 						title: '全部',
@@ -179,17 +179,18 @@
 						num: 2
 					},
 					{
+						img: '/static/images/tpsp.png',
+						title: '支付审核',
+						url: '/pages/columnGoods/refunDticket/index',
+						num: 0
+					},
+					{
 						img: '/static/images/gpsp.png',
 						title: '购买审核',
 						url: '/pages/columnGoods/ticketPurchase/index',
 						num: 0
 					},
-					{
-						img: '/static/images/tpsp.png',
-						title: '支付审核',
-						url: '/pages/columnGoods/refunDticket/index',
-						num:0
-					},
+
 					{
 						img: '/static/images/fpsp.png',
 						title: '分票审核',
@@ -242,7 +243,7 @@
 				isWeixin: Auth.isWeixin(),
 				//#endif
 				// 是否展示管理员审核界面
-				isAdmin:false
+				isAdmin: false
 			}
 		},
 		onLoad() {
@@ -258,10 +259,10 @@
 				// #endif
 			}
 			this.userInfo = uni.getStorageSync("userInfo")
-			this.userInfo.userRoleList.forEach((e)=>{
-				if(e.roleCode === 'admin' || e.roleCode === 'orgAdmin'){
+			this.userInfo.userRoleList.forEach((e) => {
+				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
 					this.isAdmin = true
-				}else{
+				} else {
 					this.isAdmin = false
 				}
 			})
@@ -269,10 +270,10 @@
 		},
 		onShow: function() {
 			this.userInfo = uni.getStorageSync("userInfo")
-			this.userInfo.userRoleList.forEach((e)=>{
-				if(e.roleCode === 'admin' || e.roleCode === 'orgAdmin'){
+			this.userInfo.userRoleList.forEach((e) => {
+				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
 					this.isAdmin = true
-				}else{
+				} else {
 					this.isAdmin = false
 				}
 			})

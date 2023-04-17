@@ -16,92 +16,96 @@
 					</view>
 				</view>
 				<view v-if="cartList.valid.length > 0 || cartList.invalid.length > 0" class="pad30">
-						<view class='list'>
-							<checkbox-group @change="checkboxChange">
-								<block v-for="(item,index) in cartList.valid" :key="index">
-									<view class='item acea-row row-between-wrapper'>
-										<!-- #ifndef MP -->
-										<checkbox :value="(item.id).toString()" :checked="item.checked"
-											:disabled="!item.attrStatus && footerswitch" style="margin-right: 10rpx;" />
-										<!-- #endif -->
-										<!-- #ifdef MP -->
-										<checkbox :value="item.id" :checked="item.checked"
-											:disabled="!item.attrStatus && footerswitch" />
-										<!-- #endif -->
-										<navigator :url='"/pages/goods_details/index?id="+item.productId'
-											hover-class='none' class='picTxt acea-row row-between-wrapper'>
-											<view class='pictrue'>
-												<image :src='item.covertImageUrl'></image>
+					<view class='list'>
+						<checkbox-group @change="checkboxChange">
+							<block v-for="(item,index) in cartList.valid" :key="index">
+								<view class='item acea-row row-between-wrapper'>
+									<!-- #ifndef MP -->
+									<checkbox :value="(item.id).toString()" :checked="item.checked"
+										:disabled="!item.attrStatus && footerswitch" style="margin-right: 10rpx;" />
+									<!-- #endif -->
+									<!-- #ifdef MP -->
+									<checkbox :value="item.id" :checked="item.checked"
+										:disabled="!item.attrStatus && footerswitch" />
+									<!-- #endif -->
+									<navigator :url='"/pages/goods_details/index?id="+item.productId' hover-class='none'
+										class='picTxt acea-row row-between-wrapper'>
+										<view class='pictrue'>
+											<image :src='item.covertImageUrl' mode="aspectFill"></image>
+										</view>
+										<view class='text'>
+											<view class='line1' :class="item.attrStatus?'':'reColor'">
+												{{item.productName}}
 											</view>
-											<view class='text'>
-												<view class='line1' :class="item.attrStatus?'':'reColor'">
-													{{item.productName}}
-												</view>
-												<!-- <view class='infor line1' v-if="item.suk">属性：{{item.suk}}</view> -->
-												<view class='money' v-if="item.attrStatus">￥{{item.sellPrice}}</view>
-												<!-- <view class='money' v-if="item.attrStatus">￥{{item.truePrice}}</view> -->
-												<view class="reElection acea-row row-between-wrapper" v-else>
-													<view class="title">请重新选择商品规格</view>
-													<view class="reBnt cart-color acea-row row-center-wrapper"
-														@click.stop="reElection(item)">重选</view>
-												</view>
+											<view class='line1' style="color: #999;">
+												项目：{{item.projectVo.projectName}}
 											</view>
-											<view class='carnum acea-row row-center-wrapper' v-if="item.attrStatus">
-												<view class="reduce" :class="item.numSub ? 'on' : ''"
-													@click.stop='subCart(index)'>-</view>
-												<view class='num'>{{item.cartNum}}</view>
-												<view class="plus" :class="item.numAdd ? 'on' : ''"
-													@click.stop='addCart(index)'>+</view>
+											<!-- <view class='infor line1' v-if="item.suk">属性：{{item.suk}}</view> -->
+											<view class='money' v-if="item.attrStatus">￥{{item.sellPrice}}</view>
+											<!-- <view class='money' v-if="item.attrStatus">￥{{item.truePrice}}</view> -->
+											<view class="reElection acea-row row-between-wrapper" v-else>
+												<view class="title">请重新选择商品规格</view>
+												<view class="reBnt cart-color acea-row row-center-wrapper"
+													@click.stop="reElection(item)">重选</view>
 											</view>
-										</navigator>
-									</view>
-								</block>
-							</checkbox-group>
-						</view>
-						<!-- cartList.valid.length===0 && cartList.invalid.length > 0 -->
-						<view v-if="cartList.invalid.length > 0" class='invalidGoods borRadius14'
-							:style="cartList.valid.length===0 && cartList.invalid.length > 0 ? 'position: relative;z-index: 111;top: -120rpx;':'position: static;'">
-							<view class='goodsNav acea-row row-between-wrapper'>
-								<view v-if="cartList.invalid.length > 1 || cartList.valid.length > 0"
-									@click='goodsOpen'>
-									<text class='iconfont'
-										:class='goodsHidden==true?"icon-xiangxia":"icon-xiangshang"'></text>失效商品
+										</view>
+										<view class='carnum acea-row row-center-wrapper' v-if="item.attrStatus">
+											<view class="reduce" :class="item.numSub ? 'on' : ''"
+												@click.stop='subCart(index)'>-</view>
+											<view class='num' @click.stop='inputvalue(index)'>
+												{{item.cartNum}}
+											</view>
+											<view class="plus" :class="item.numAdd ? 'on' : ''"
+												@click.stop='addCart(index)'>+</view>
+										</view>
+									</navigator>
 								</view>
-								<view v-else>
-									失效商品
-								</view>
-								<view class='del' @click='unsetCart'><text class='iconfont icon-shanchu1'></text>清空
-								</view>
+							</block>
+						</checkbox-group>
+					</view>
+					<!-- cartList.valid.length===0 && cartList.invalid.length > 0 -->
+					<view v-if="cartList.invalid.length > 0" class='invalidGoods borRadius14'
+						:style="cartList.valid.length===0 && cartList.invalid.length > 0 ? 'position: relative;z-index: 111;top: -120rpx;':'position: static;'">
+						<view class='goodsNav acea-row row-between-wrapper'>
+							<view v-if="cartList.invalid.length > 1 || cartList.valid.length > 0" @click='goodsOpen'>
+								<text class='iconfont'
+									:class='goodsHidden==true?"icon-xiangxia":"icon-xiangshang"'></text>失效商品
 							</view>
-							<view class='goodsList' :hidden='goodsHidden'>
-								<block v-for="(item,index) in cartList.invalid" :key='index'>
-									<view class='item acea-row row-between-wrapper'>
-										<view class='invalid'>失效</view>
-										<view class='picTxt acea-row row-between-wrapper'>
-											<view class='pictrue'>
-												<image :src='item.image'></image>
-											</view>
-											<view class='text acea-row row-column-between'>
-												<view class='line1 name'>{{item.storeName}}</view>
-												<view class='infor line1' v-if="item.suk">属性：{{item.suk}}</view>
-												<view class='acea-row row-between-wrapper'>
-													<view class='end'>该商品已失效</view>
-												</view>
+							<view v-else>
+								失效商品
+							</view>
+							<view class='del' @click='unsetCart'><text class='iconfont icon-shanchu1'></text>清空
+							</view>
+						</view>
+						<view class='goodsList' :hidden='goodsHidden'>
+							<block v-for="(item,index) in cartList.invalid" :key='index'>
+								<view class='item acea-row row-between-wrapper'>
+									<view class='invalid'>失效</view>
+									<view class='picTxt acea-row row-between-wrapper'>
+										<view class='pictrue'>
+											<image :src='item.image'></image>
+										</view>
+										<view class='text acea-row row-column-between'>
+											<view class='line1 name'>{{item.storeName}}</view>
+											<view class='infor line1' v-if="item.suk">属性：{{item.suk}}</view>
+											<view class='acea-row row-between-wrapper'>
+												<view class='end'>该商品已失效</view>
 											</view>
 										</view>
 									</view>
-								</block>
-							</view>
+								</view>
+							</block>
 						</view>
-						<!-- <view class='loadingicon acea-row row-center-wrapper' v-if="cartList.valid.length&&!loadend">
+					</view>
+					<!-- <view class='loadingicon acea-row row-center-wrapper' v-if="cartList.valid.length&&!loadend">
 						<text class='loading iconfont icon-jiazai' :hidden='loading==false'></text>{{loadTitle}}
 					</view> -->
-						<view class='loadingicon acea-row row-center-wrapper' v-if="cartList.invalid.length&&loadend">
-							<text class='loading iconfont icon-jiazai'
-								:hidden='loadingInvalid==false'></text>{{loadTitleInvalid}}
-						</view>
+					<view class='loadingicon acea-row row-center-wrapper' v-if="cartList.invalid.length&&loadend">
+						<text class='loading iconfont icon-jiazai'
+							:hidden='loadingInvalid==false'></text>{{loadTitleInvalid}}
+					</view>
 				</view>
-			<!-- 	<view style="margin-top: 150rpx;" v-else>
+				<!-- 	<view style="margin-top: 150rpx;" v-else>
 					<u-empty mode="car"  icon="http://cdn.uviewui.com/uview/empty/car.png"></u-empty>
 				</view> -->
 				<view class='noCart' v-if="cartList.valid.length == 0 && cartList.invalid.length == 0 && canShow">
@@ -133,6 +137,7 @@
 					<button class='bnt' formType="submit">删除</button>
 				</form>
 			</view>
+
 		</view>
 		<productWindow :attr="attr" :isShow='1' :iSplus='1' :iScart='1' @myevent="onMyEvent" @ChangeAttr="ChangeAttr"
 			@ChangeCartNum="ChangeCartNum" @attrVal="attrVal" @iptCartNum="iptCartNum" @goCat="reGoCat"
@@ -142,8 +147,20 @@
 		<!-- #ifdef MP -->
 		<!-- <authorize :isAuto="isAuto" :isShowAuth="isShowAuth" @authColse="authColse"></authorize> -->
 		<!-- #endif -->
-
+		<view class="">
+			<!-- 数字输入弹窗 -->
+			<u-modal :show="inputshow" confirmColor="#DCA842" :closeOnClickOverlay="true" @confirm='confirminput'
+				@close='inputclose' title="购买数量">
+				<template Slots="default">
+					<view>
+						<u--input :value="clickdata.cartNum" class="uni-input" border="surround" type="number"
+							@input='popnum' />
+					</view>
+				</template>
+			</u-modal>
+		</view>
 	</view>
+
 </template>
 
 <script>
@@ -181,6 +198,10 @@
 		},
 		data() {
 			return {
+				//当前点击数据
+				clickdata: null,
+				inputshow: false,
+				inputtitlt: '购买数量',
 				cartCount: 0,
 				goodsHidden: false,
 				footerswitch: true,
@@ -263,6 +284,37 @@
 			this.orderList()
 		},
 		methods: {
+			//点击弹窗
+			inputvalue(e) {
+				this.inputshow = true
+				this.clickdata = this.cartList.valid[e]
+			},
+			// 修改值
+			popnum(e) {
+				if (e === "0") {
+					uni.showToast({
+						title: '购买数量不能小于1',
+						icon: 'none'
+					})
+					this.clickdata.cartNum = 1
+				} else {
+					this.clickdata.cartNum = e
+				}
+
+			},
+			inputclose() {
+				this.inputshow = false
+			},
+			confirminput() {
+				if (this.clickdata.cartNum > this.clickdata.residueNum) {
+					uni.showToast({
+						title: '购买数量大于库存，请重新填写',
+						icon: 'none'
+					})
+				} else {
+					this.inputshow = false
+				}
+			},
 			// 获取数据
 			orderList() {
 				let val = {
@@ -602,49 +654,89 @@
 			},
 			// 立即下单
 			subOrder: function(event) {
-				// 下单商品ID
-				let wsxd = []
-				// 删除商品ID
-				let deldetID = []
-				let that = this,
-					selectValue = that.selectValue;
-				console.log(selectValue);
-				selectValue.forEach((key) => {
-					that.cartList.valid.forEach((obj) => {
-						if (key === obj.id) {
-							wsxd.push({
-								commodityId: obj.productId,
-								buyNum: obj.cartNum,
-								projectId: obj.projectVo === null ? '' : obj.projectVo.id
-							})
-							deldetID.push(obj.id)
+				var map = {},
+					dest = [];
+				for (var i = 0; i < this.cartList.valid.length; i++) {
+					var ai = this.cartList.valid[i];
+					if (!map[ai.productId]) {
+						dest.push({
+							productId: ai.productId,
+							productName: ai.productName,
+							data: [ai]
+						});
+						map[ai.productId] = ai;
+					} else {
+						for (var j = 0; j < dest.length; j++) {
+							var dj = dest[j];
+							if (dj.productId == ai.productId) {
+								dj.data.push(ai);
+								break;
+							}
 						}
-					})
-				})
-
-				if (selectValue.length > 0) {
-					that.$myRequest({
-						url: "/tsf/tsfSystemOrder/add",
-						method: "post",
-						data: wsxd
-					}).then(res => {
-						if (res.data.code === 200) {
-							uni.$u.toast(res.data.message)
-							// 删除商品
-							that.deleteshopne(deldetID)
-							uni.switchTab({
-								//关闭当前页面，跳转到应用内的某个页面。
-								url: '/pages/user/index'
-							});
-						} else {
-							uni.$u.toast(res.data.message)
-						}
-					})
-				} else {
-					return that.$util.Tips({
-						title: '请选择产品'
-					});
+					}
 				}
+				console.log(dest, 3333);
+
+				//计算商品库存
+				
+				dest.forEach((obj) => {
+					let numberMAX = 0
+					obj.data.forEach((data) => {
+						numberMAX += data.cartNum
+						if (numberMAX > data.residueNum) {
+							uni.$u.toast(data.productName + ':库存不足')
+						}
+					})
+
+				})
+				console.log(numberMAX);
+
+
+
+
+				// // 下单商品ID
+				// let wsxd = []
+				// // 删除商品ID
+				// let deldetID = []
+				// let that = this,
+				// 	selectValue = that.selectValue;
+				// console.log(selectValue);
+				// selectValue.forEach((key) => {
+				// 	that.cartList.valid.forEach((obj) => {
+				// 		if (key === obj.id) {
+				// 			wsxd.push({
+				// 				commodityId: obj.productId,
+				// 				buyNum: obj.cartNum,
+				// 				projectId: obj.projectVo === null ? '' : obj.projectVo.id
+				// 			})
+				// 			deldetID.push(obj.id)
+				// 		}
+				// 	})
+				// })
+
+				// if (selectValue.length > 0) {
+				// 	that.$myRequest({
+				// 		url: "/tsf/tsfSystemOrder/add",
+				// 		method: "post",
+				// 		data: wsxd
+				// 	}).then(res => {
+				// 		if (res.data.code === 200) {
+				// 			uni.$u.toast(res.data.message)
+				// 			// 删除商品
+				// 			that.deleteshopne(deldetID)
+				// 			uni.switchTab({
+				// 				//关闭当前页面，跳转到应用内的某个页面。
+				// 				url: '/pages/user/index'
+				// 			});
+				// 		} else {
+				// 			uni.$u.toast(res.data.message)
+				// 		}
+				// 	})
+				// } else {
+				// 	return that.$util.Tips({
+				// 		title: '请选择商品'
+				// 	});
+				// }
 			},
 			// 删除商品
 			deleteshopne(e) {
@@ -683,6 +775,7 @@
 				} else {
 					this.setAllSelectValue(0)
 				}
+				console.log(this.selectValue);
 			},
 			setAllSelectValue: function(status) {
 				let that = this;
@@ -835,13 +928,14 @@
 				let item = that.cartList.valid[index];
 				item.cartNum = Number(item.cartNum) + 1;
 				let productInfo = item;
-				if (item.cartNum >= item.stock) {
-					item.cartNum = item.stock;
+				if (item.cartNum >= item.residueNum) {
+					item.cartNum = item.residueNum;
 					item.numAdd = true;
 					item.numSub = false;
 				} else {
 					item.numAdd = false;
 					item.numSub = false;
+
 				}
 				// that.setCartNum(item.id, item.cartNum, function(data) {
 				// 	that.cartList.valid[index] = item;

@@ -55,7 +55,8 @@
 											<view class="item" v-for="(val,indexn) in item.list" :key="indexn"
 												@click="goDetail(val)">
 												<view class="pictrue">
-													<image :src="val.coverAttIds[0].interRqUrl"></image>
+													<image :src="val.coverAttIds[0].interRqUrl" mode="aspectFill">
+													</image>
 													<span class="pictrue_log pictrue_log_class">推荐</span>
 												</view>
 												<view class="name line1">{{val.productName}}</view>
@@ -76,9 +77,9 @@
 					</view>
 					<view class='conter'>
 						<!-- <jyf-parser :html="description" ref="article" :tag-style="tagStyle"></jyf-parser> -->
-						<image style="height: 250px;" mode="scaleToFill"
+						<image style="height: 250px;" mode="aspectFill"
 							v-for="(item, index) in productInfo.detailAttIds" v-bind:key="index" :id="index"
-							:src="item.interRqUrl" hidden />
+							:src="item.interRqUrl" @click="imgsee(productInfo.detailAttIds)" hidden />
 					</view>
 				</view>
 				<view style='height:120rpx;'></view>
@@ -360,6 +361,24 @@
 		},
 		// #endif
 		methods: {
+			imgsee(e) {
+				let imglist = []
+				e.forEach(row => {
+					imglist.push(row.interRqUrl)
+				})
+				uni.previewImage({
+					urls: imglist,
+					longPressActions: {
+						itemList: ['发送给朋友', '保存图片', '收藏'],
+						success: function(data) {
+							console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+						},
+						fail: function(err) {
+							console.log(err.errMsg);
+						}
+					}
+				});
+			},
 			//选择项目赋值
 			projectchange(e) {
 				this.projTypeId = e
@@ -1111,9 +1130,9 @@
 						title: `不能大于库存`,
 						icon: "none"
 					})
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.buyNum = 1
-					},500)
+					}, 500)
 				} else if (this.buyNum === 0) {
 					uni.showToast({
 						title: `不能小于1`,

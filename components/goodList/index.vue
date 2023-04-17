@@ -3,7 +3,7 @@
 		<block v-for="(item,index) in bastList" :key="index">
 			<view @click="goDetail(item)" class='item acea-row row-between-wrapper' hover-class="none">
 				<view class='pictrue'>
-					<image :src='item.coverAttIds[0].interRqUrl'></image>
+					<image :src='item.coverAttIds[0].interRqUrl' mode="aspectFill"></image>
 					<span class="pictrue_log pictrue_log_class" v-if="item.activityH5 && item.activityH5.type === '1'">秒杀</span>
 					<span class="pictrue_log pictrue_log_class" v-if="item.activityH5 && item.activityH5.type === '2'">砍价</span>
 					<span class="pictrue_log pictrue_log_class" v-if="item.activityH5 && item.activityH5.type === '3'">拼团</span>
@@ -12,7 +12,7 @@
 					<view class='text'>
 						<view class='line1'>{{item.productName}}</view>
 						<view class='money font-color'>￥<text class='num'>{{item.sellPrice}}</text></view>
-						<view class='vip-money acea-row row-middle'><text class='num'>库存：{{item.totalAmount}}</text></view>
+						<view class='vip-money acea-row row-middle'><text class='num'>库存：{{item.forSellAmount}}</text></view>
 					</view>
 				</view>
 				<view class='iconfont icon-gouwuche cart-color acea-row row-center-wrapper'></view>

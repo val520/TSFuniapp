@@ -71,7 +71,7 @@
 						<view class='item-info acea-row row-between row-top'
 							v-for="(items,index) in item.orderProductList" :key="index">
 							<view class='pictrue'>
-								<image :src='items.productImageUrl'></image>
+								<image :src='items.productImageUrl' mode="aspectFill"></image>
 							</view>
 							<view style="display: flex;justify-content: space-between;align-items: center;"
 								class='text acea-row row-between'>

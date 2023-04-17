@@ -2,7 +2,7 @@
 	<view class='product-bg'>
 		<swiper :indicator-dots="indicatorDots" indicator-active-color="#DCA842" :autoplay="autoplay"
 			:circular="circular" :interval="interval" :duration="duration" @change="change">
-			
+
 			<swiper-item v-if="videoline">
 				<view class="item">
 					<view v-show="!controls" style="width:100%;height:100% ">
@@ -11,17 +11,17 @@
 							:enable-progress-gesture="false" :poster="imgUrls[0]" @pause="videoPause"></video>
 					</view>
 					<view class="poster" v-show="controls">
-						<image class="image" :src="imgUrls[0]"></image>
+						<image class="image" :src="imgUrls[0]"  mode="aspectFill"></image>
 					</view>
 					<view class="stop" v-show="controls" @tap="bindPause">
 						<!-- <image class="image" src="../../static/images/stop.png"></image> -->
 					</view>
 				</view>
 			</swiper-item>
-			
+
 			<block v-for="(item,index) in imgUrls" :key='index'>
 				<swiper-item>
-					<image :src="item.interRqUrl" class="slide-image" />
+					<image :src="item.interRqUrl" @click="imgsee(imgUrls)" mode="aspectFill" class="slide-image" />
 				</swiper-item>
 			</block>
 		</swiper>
@@ -51,18 +51,35 @@
 				duration: 500,
 				currents: "1",
 				controls: true,
-				isPlay:true,
-				videoContext:''
+				isPlay: true,
+				videoContext: ''
 			};
 		},
 		mounted() {
-			if(this.videoline){
+			if (this.videoline) {
 				this.imgUrls.shift()
 			}
 		},
 		methods: {
-			videoPause(e){
+			imgsee(e) {
+				let imglist = []
+				e.forEach(row => {
+					imglist.push(row.interRqUrl)
+				})
+				uni.previewImage({
+					urls: imglist,
+					longPressActions: {
+						itemList: ['发送给朋友', '保存图片', '收藏'],
+						success: function(data) {
+							console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+						},
+						fail: function(err) {
+							console.log(err.errMsg);
+						}
+					}
+				});
 			},
+			videoPause(e) {},
 			bindPause: function() {
 				this.videoContext.play();
 				this.$set(this, 'controls', false)

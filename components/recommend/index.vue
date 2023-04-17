@@ -8,7 +8,7 @@
 		<view class='recommendList acea-row row-between-wrapper'>
 			<view class='item' v-for="(item,index) in hostProduct" :key="index" hover-class='none' @tap="goDetail(item)">
 				<view class='pictrue'>
-					<image :src='item.coverAttIds[0].interRqUrl'></image>
+					<image :src='item.coverAttIds[0].interRqUrl' mode="aspectFill"></image>
 					<span class="pictrue_log_big pictrue_log_class">NEW</span>
 					
 				</view>

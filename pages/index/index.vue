@@ -42,7 +42,7 @@
 						<view class="item" v-for="(item,index) in tempArr" :key="index" @click="goDetail(item)">
 							<view class="pictrue">
 								<span class="pictrue_log pictrue_log_class">NEW</span>
-								<image :src="item.coverAttIds[0].interRqUrl" mode=""></image>
+								<image :src="item.coverAttIds[0].interRqUrl" mode="aspectFill"></image>
 							</view>
 							<view class="text-info">
 								<view class="title line1">{{item.productName}}</view>

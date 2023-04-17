@@ -17,7 +17,7 @@
 						<navigator :url='"/pages/goods_details/index?id="+item.commodityId' hover-class='none'
 							class="acea-row">
 							<view class='pictrue'>
-								<image :src="item.coverAttUrl"></image>
+								<image :src="item.coverAttUrl" mode="aspectFill"></image>
 							</view>
 							<view>
 								<view class='name line1'>{{item.productName}}</view>
