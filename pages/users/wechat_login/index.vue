@@ -20,8 +20,8 @@
 					<image v-if="avatarUrl" class="avatar" :src="avatarUrl"></image>
 					<span v-else>授权头像</span>
 				</button> -->
-				<input type="nickname" @blur='nicknameValue' v-model="nickName" class="weui-input" placeholder="点击授权微信昵称"
-					placeholder-style="color:#00aaff" />
+				<input type="nickname" @blur='nicknameValue' v-model="nickName" class="weui-input"
+					placeholder="点击授权微信昵称" placeholder-style="color:#00aaff" />
 			</view>
 			<view class="btn-wrapper">
 				<view style="justify-content: center;align-items: center;display: flex;margin-bottom: 30rpx;">
@@ -76,7 +76,7 @@
 				isUp: false,
 				phone: '',
 				statusBarHeight: statusBarHeight,
-				isHome: false,
+				isHome: true,
 				isPhoneBox: false,
 				logoUrl: '',
 				code: '',
@@ -103,6 +103,8 @@
 				this.nickName = e.detail.value
 			},
 			back() {
+				// console.log(getCurrentPages(), "有几个页面");
+				// let page = getCurrentPages()
 				uni.navigateBack();
 			},
 			home() {
@@ -169,9 +171,12 @@
 											});
 											setTimeout(() => {
 												// 返回上一页 delta返回的页面数 如果delta大于现有页面数，则返回首页
-												uni.navigateBack({
-													delta: 1
-												});
+												// uni.navigateBack({
+												// 	delta: 1
+												// });
+												uni.switchTab({
+													url: '/pages/user/index'
+												})
 											}, 1000);
 											//隐藏加载框
 											uni.hideLoading();

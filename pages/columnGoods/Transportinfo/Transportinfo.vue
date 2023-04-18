@@ -124,13 +124,28 @@
 			})
 		},
 		onLoad(option) {
-			// const item = JSON.parse(decodeURIComponent(option.item));
-			// console.log(item);
-			const item = option.id
-			this.storageID = item
-			// this.codeList = item
-			// 调用查询运输票的详情
-			this.deit(item)
+			console.log(option);
+			if (option.q) {
+				console.log(decodeURIComponent(option.q), '我是普通二维码参数');
+				let val = decodeURIComponent(option.q)
+				// 去点字符串的引号
+				val=val.replace(/\"/g, "");
+				//截取参数
+				let index = val.split('=')
+				console.log(index,555555);
+				let item = index[1]
+				this.storageID = item
+				// 调用查询运输票的详情
+				this.deit(item)
+				console.log('普通二维码运行中');
+			} else {
+				const item = option.id
+				this.storageID = item
+				// 调用查询运输票的详情
+				this.deit(item)
+				console.log('小程序二维码运行中');
+			}
+
 			uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
 				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
 					this.isAdmin = true
@@ -161,9 +176,9 @@
 				}).then(res => {
 					if (res.data.code === 200) {
 						this.codeList = res.data.result.records[0]
+						// this.urls = `https://tsf.ccle.cn?id=${res.data.result.records[0].id}`
 						this.urls = `https://tsf.ccle.cn?id=${res.data.result.records[0].id}`
-						// this.urls = `https://tea.weiotchina.cn?id=${res.data.result.records[0].id}`
-						console.log('this.codeList', this.codeList, this.urls)
+						// console.log('this.codeList', this.codeList, this.urls)
 					} else {
 						this.codeList = {}
 					}

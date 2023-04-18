@@ -153,7 +153,7 @@
 				@close='inputclose' title="购买数量">
 				<template Slots="default">
 					<view>
-						<u--input :value="clickdata.cartNum" class="uni-input" border="surround" type="number"
+						<u--input :value="inpuTValue" class="uni-input" border="surround" type="number"
 							@input='popnum' />
 					</view>
 				</template>
@@ -200,6 +200,8 @@
 			return {
 				//当前点击数据
 				clickdata: null,
+				//输入框数字
+				inpuTValue: 0,
 				inputshow: false,
 				inputtitlt: '购买数量',
 				cartCount: 0,
@@ -288,6 +290,7 @@
 			inputvalue(e) {
 				this.inputshow = true
 				this.clickdata = this.cartList.valid[e]
+				this.inpuTValue = this.cartList.valid[e].cartNum
 			},
 			// 修改值
 			popnum(e) {
@@ -296,23 +299,56 @@
 						title: '购买数量不能小于1',
 						icon: 'none'
 					})
-					this.clickdata.cartNum = 1
+					this.inpuTValue = 1
+					// this.clickdata.cartNum = 1
 				} else {
-					this.clickdata.cartNum = e
+					// this.clickdata.cartNum = parseInt(e)
+					this.inpuTValue = parseInt(e)
 				}
 
 			},
 			inputclose() {
 				this.inputshow = false
+				this.inpuTValue = 0
+				// this.orderList()
+				// this.selectValue = []
+				// this.selectCountPrice = 0.00
 			},
 			confirminput() {
-				if (this.clickdata.cartNum > this.clickdata.residueNum) {
+				if (this.inpuTValue > this.clickdata.residueNum) {
 					uni.showToast({
 						title: '购买数量大于库存，请重新填写',
 						icon: 'none'
 					})
 				} else {
 					this.inputshow = false
+					let val = {
+						productId: this.clickdata.productId,
+						id: this.clickdata.id,
+						cartNum: this.inpuTValue
+					}
+					this.$myRequest({
+						url: `/tsf/tsfStoreCart/edit`,
+						method: "post",
+						data: val
+					}).then(res => {
+						let that = this
+						if (res.data.code === 200) {
+							that.switchSelect();
+							that.clickdata.cartNum = that.inpuTValue
+							that.inpuTValue = 0
+							console.log('修改成功');
+						} else {
+							that.switchSelect();
+							that.inpuTValue = 0
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none'
+							})
+						}
+					})
+
+
 				}
 			},
 			// 获取数据
@@ -652,91 +688,106 @@
 					});
 				}
 			},
+
+			sum(arr) {
+				var s = 0;
+				for (var i = arr.length - 1; i >= 0; i--) {
+					s += arr[i].cartNum;
+				}
+				return s;
+			},
 			// 立即下单
 			subOrder: function(event) {
-				var map = {},
-					dest = [];
-				for (var i = 0; i < this.cartList.valid.length; i++) {
-					var ai = this.cartList.valid[i];
-					if (!map[ai.productId]) {
-						dest.push({
-							productId: ai.productId,
-							productName: ai.productName,
-							data: [ai]
-						});
-						map[ai.productId] = ai;
-					} else {
-						for (var j = 0; j < dest.length; j++) {
-							var dj = dest[j];
-							if (dj.productId == ai.productId) {
-								dj.data.push(ai);
-								break;
+				// 一 判断是否勾选了购买的商品
+				if (this.selectValue.length > 0) {
+
+					// 二,得到勾选的商品新
+					let checkboxdata = []
+					//通过勾选的id匹配对应的商品信息
+					this.selectValue.forEach((key) => {
+						this.cartList.valid.forEach((obj) => {
+							if (key === obj.id) {
+								checkboxdata.push(obj)
+							}
+						})
+					})
+					//三，对勾选的数据进行相同商品id分组
+					var map = {},
+						dest = [];
+					for (var i = 0; i < checkboxdata.length; i++) {
+						var ai = checkboxdata[i];
+						if (!map[ai.productId]) {
+							dest.push({
+								productId: ai.productId,
+								productName: ai.productName,
+								data: [ai]
+							});
+							map[ai.productId] = ai;
+						} else {
+							for (var j = 0; j < dest.length; j++) {
+								var dj = dest[j];
+								if (dj.productId == ai.productId) {
+									dj.data.push(ai);
+									break;
+								}
 							}
 						}
 					}
-				}
-				console.log(dest, 3333);
-
-				//计算商品库存
-				
-				dest.forEach((obj) => {
-					let numberMAX = 0
-					obj.data.forEach((data) => {
-						numberMAX += data.cartNum
-						if (numberMAX > data.residueNum) {
-							uni.$u.toast(data.productName + ':库存不足')
+					let buyroot = true
+					//四 计算勾选商品的库存是否超标
+					dest.forEach((obj) => {
+						obj.numberMax = this.sum(obj.data)
+						if (obj.numberMax > obj.data[0].residueNum) {
+							uni.$u.toast(`${obj.productName},库存不足`)
+							buyroot = false
 						}
 					})
-
-				})
-				console.log(numberMAX);
-
-
-
-
-				// // 下单商品ID
-				// let wsxd = []
-				// // 删除商品ID
-				// let deldetID = []
-				// let that = this,
-				// 	selectValue = that.selectValue;
-				// console.log(selectValue);
-				// selectValue.forEach((key) => {
-				// 	that.cartList.valid.forEach((obj) => {
-				// 		if (key === obj.id) {
-				// 			wsxd.push({
-				// 				commodityId: obj.productId,
-				// 				buyNum: obj.cartNum,
-				// 				projectId: obj.projectVo === null ? '' : obj.projectVo.id
-				// 			})
-				// 			deldetID.push(obj.id)
-				// 		}
-				// 	})
-				// })
-
-				// if (selectValue.length > 0) {
-				// 	that.$myRequest({
-				// 		url: "/tsf/tsfSystemOrder/add",
-				// 		method: "post",
-				// 		data: wsxd
-				// 	}).then(res => {
-				// 		if (res.data.code === 200) {
-				// 			uni.$u.toast(res.data.message)
-				// 			// 删除商品
-				// 			that.deleteshopne(deldetID)
-				// 			uni.switchTab({
-				// 				//关闭当前页面，跳转到应用内的某个页面。
-				// 				url: '/pages/user/index'
-				// 			});
-				// 		} else {
-				// 			uni.$u.toast(res.data.message)
-				// 		}
-				// 	})
-				// } else {
-				// 	return that.$util.Tips({
-				// 		title: '请选择商品'
-				// 	});
-				// }
+					//五，当buyroot 为true 可以购买
+					if (buyroot) {
+						// 下单商品ID
+						let wsxd = []
+						// 删除商品ID
+						let deldetID = []
+						let that = this,
+							selectValue = that.selectValue;
+						console.log(selectValue);
+						selectValue.forEach((key) => {
+							that.cartList.valid.forEach((obj) => {
+								if (key === obj.id) {
+									wsxd.push({
+										commodityId: obj.productId,
+										buyNum: obj.cartNum,
+										projectId: obj.projectVo === null ? '' : obj.projectVo
+											.id
+									})
+									deldetID.push(obj.id)
+								}
+							})
+						})
+						that.$myRequest({
+							url: "/tsf/tsfSystemOrder/add",
+							method: "post",
+							data: wsxd
+						}).then(res => {
+							if (res.data.code === 200) {
+								uni.$u.toast(res.data.message)
+								// 删除商品
+								that.deleteshopne(deldetID)
+								uni.switchTab({
+									//关闭当前页面，跳转到应用内的某个页面。
+									url: '/pages/user/index'
+								});
+							} else {
+								uni.$u.toast(res.data.message)
+							}
+						})
+					}
+					console.log(dest);
+				} else {
+					return this.$util.Tips({
+						title: '请选择商品'
+					});
+				}
 			},
 			// 删除商品
 			deleteshopne(e) {
@@ -888,13 +939,14 @@
 				}
 			},
 			subCart: function(index) {
+				let number = 0
 				let that = this;
 				let status = false;
 				let item = that.cartList.valid[index];
-				item.cartNum = Number(item.cartNum) - 1;
-				if (item.cartNum < 1) status = true;
-				if (item.cartNum <= 1) {
-					item.cartNum = 1;
+				number = Number(item.cartNum) - 1;
+				if (number < 1) status = true;
+				if (number <= 1) {
+					number = 1;
 					item.numSub = true;
 				} else {
 					item.numSub = false;
@@ -910,7 +962,7 @@
 					let val = {
 						productId: item.productId,
 						id: item.id,
-						cartNum: item.cartNum
+						cartNum: number
 					}
 					that.$myRequest({
 						url: `/tsf/tsfStoreCart/edit`,
@@ -918,18 +970,23 @@
 						data: val
 					}).then(res => {
 						if (res.data.code === 200) {
+							item.cartNum = number
 							that.switchSelect();
+						} else {
+							uni.$u.toast(res.data.message)
 						}
 					})
 				}
 			},
 			addCart: function(index) {
+				let number = 0
 				let that = this;
 				let item = that.cartList.valid[index];
-				item.cartNum = Number(item.cartNum) + 1;
+				// item.cartNum = Number(item.cartNum) + 1;
+				number = Number(item.cartNum) + 1;
 				let productInfo = item;
-				if (item.cartNum >= item.residueNum) {
-					item.cartNum = item.residueNum;
+				if (number >= item.residueNum) {
+					number = item.residueNum;
 					item.numAdd = true;
 					item.numSub = false;
 				} else {
@@ -946,7 +1003,7 @@
 				let val = {
 					productId: item.productId,
 					id: item.id,
-					cartNum: item.cartNum
+					cartNum: number
 				}
 				that.$myRequest({
 					url: `/tsf/tsfStoreCart/edit`,
@@ -954,7 +1011,10 @@
 					data: val
 				}).then(res => {
 					if (res.data.code === 200) {
+						item.cartNum = number
 						that.switchSelect();
+					} else {
+						uni.$u.toast(res.data.message)
 					}
 				})
 			},

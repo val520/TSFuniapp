@@ -472,9 +472,22 @@
 						console.log(res);
 						if (res.errMsg == "scanCode:ok") {
 							console.log(res.path, '参数');
-							uni.navigateTo({
-								url: `${res.path}`
-							})
+							if (res.path) {
+								uni.navigateTo({
+									url: `${res.path}`
+								})
+								
+								console.log('打开小程序码');
+							} else {
+								console.log(res.result, '参数');
+								uni.navigateTo({
+									url: `/pages/columnGoods/Transportinfo/Transportinfo?q=${encodeURIComponent(JSON
+						.stringify(res.result)
+						.replace(/%/g, '%25'))}`
+								})
+								console.log('打开普通二维码');
+							}
+
 						}
 					},
 					fail: (res) => {
