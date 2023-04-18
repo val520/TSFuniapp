@@ -37,7 +37,7 @@
 											<view class='line1' :class="item.attrStatus?'':'reColor'">
 												{{item.productName}}
 											</view>
-											<view class='line1' style="color: #999;">
+											<view v-if="item.projectVo" class='line1' style="color: #999;">
 												项目：{{item.projectVo.projectName}}
 											</view>
 											<!-- <view class='infor line1' v-if="item.suk">属性：{{item.suk}}</view> -->
@@ -299,13 +299,18 @@
 						title: '购买数量不能小于1',
 						icon: 'none'
 					})
-					this.inpuTValue = 1
+					this.inpuTValue = 0
 					// this.clickdata.cartNum = 1
+				} else if (e === '') {
+                      console.log(9999999999);
+					this.inpuTValue = 0
+
 				} else {
+					console.log(5555);
 					// this.clickdata.cartNum = parseInt(e)
 					this.inpuTValue = parseInt(e)
 				}
-
+				console.log(e, this.inpuTValue);
 			},
 			inputclose() {
 				this.inputshow = false
@@ -315,7 +320,12 @@
 				// this.selectCountPrice = 0.00
 			},
 			confirminput() {
-				if (this.inpuTValue > this.clickdata.residueNum) {
+				if(this.inpuTValue === 0){
+					uni.showToast({
+						title: '购买数量不允许为0，请重新填写',
+						icon: 'none'
+					})
+				}else if (this.inpuTValue > this.clickdata.residueNum) {
 					uni.showToast({
 						title: '购买数量大于库存，请重新填写',
 						icon: 'none'

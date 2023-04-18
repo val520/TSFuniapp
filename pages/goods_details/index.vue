@@ -72,7 +72,7 @@
 				<view class='product-intro' id="past3">
 					<view class='title'>
 						<!-- <image src="../../static/images/xzuo.png"></image> -->
-						<span class="sp">产品详情</span>
+						<span class="sp">商品详情</span>
 						<!-- <image src="../../static/images/xyou.png"></image> -->
 					</view>
 					<view class='conter'>

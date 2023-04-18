@@ -157,7 +157,7 @@
 					url: '/pages/columnGoods/lookdemand/index?item=' + encodeURIComponent(JSON.stringify(item)
 						.replace(/%/g, '%25'))
 				})
-				this.show = false
+				// this.show = false
 			},
 			route(e) {
 				let that = this

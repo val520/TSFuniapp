@@ -162,6 +162,7 @@
 					// 	.stringify(item)
 					// 	.replace(/%/g, '%25'))
 					url: `/pages/columnGoods/Transportinfo/Transportinfo?id=${item.id}`
+					// url: `/pages/columnGoods/Transportlook/Transportlook?id=${item.id}`
 				})
 			},
 			//删除

@@ -104,7 +104,7 @@
 		{
 			"path": "pages/auth/index",
 			"style": {
-				"navigationBarTitleText": "CRMEB"
+				"navigationBarTitleText": ""
 			}
 		},
 		//#endif
@@ -282,6 +282,13 @@
 						"navigationBarBackgroundColor": "#DCA842",
 						"navigationBarTextStyle": "#fff"
 					}
+				}, {
+					"path": "Transportlook/Transportlook",
+					"style": {
+						"navigationBarTitleText": "运输码详情",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
 				},
 				{
 					"path": "ticket/index",
@@ -351,7 +358,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "crmeb",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#F8F8F8",
 		"titleNView": false,

@@ -3,19 +3,19 @@
 		<!-- 内部容器 -->
 		<view class="center">
 			<!-- 二维码区域 -->
-			<view class="codesm">
+			<!-- <view class="codesm">
 				<ayQrcode v-if="codeList.ticketStatus == '生效中'" ref="qrcode" :modal="modal_qr" qrcode_id="ewms"
 					:height="200" :width="200" :url="urls" @hideQrcode="hideQrcode" :is_themeImg="false" />
 				<u-empty v-else mode="data" icon="http://cdn.uviewui.com/uview/empty/data.png">
 				</u-empty>
-				<!-- <image style="width: 100%; height:100%;" mode="aspectFit" src="../../static/code.png"></image> -->
-			</view>
+				<image style="width: 100%; height:100%;" mode="aspectFit" src="../../static/code.png"></image>
+			</view> -->
 			<!-- 腰线 -->
-			<view class="riglt">
+			<!-- <view class="riglt">
 				<view class="leftroe"></view>
 				<view class="botderCenter"></view>
 				<view class="rightroe"></view>
-			</view>
+			</view> -->
 			<!-- 核销按钮 -->
 			<view class="cenbtn">
 				<view class="ctag">
@@ -29,9 +29,9 @@
 					<u-tag v-else :text='codeList.ticketStatus' type="error" plain>
 					</u-tag>
 				</view>
-				<view class="tfsBox" v-if="codeList.ticketStatus == '生效中' && isAdmin" @click="Write">
+				<!-- <view class="tfsBox" v-if="codeList.ticketStatus == '生效中' && isAdmin" @click="Write">
 					<view class="tsf_name">核销</view>
-				</view>
+				</view> -->
 				<!-- <view class="tfsBox" v-else>
 					<view class="tsf_name">待核销</view>
 				</view> -->
@@ -112,16 +112,16 @@
 		onShow() {
 			let that = this;
 			that.deit(that.storageID)
-			setTimeout(function() {
-				that.showQrcode(); //一加载生成二维码
-			}, 1000);
-			uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
-				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
-					that.isAdmin = true
-				} else {
-					that.isAdmin = false
-				}
-			})
+			// setTimeout(function() {
+			// 	that.showQrcode(); //一加载生成二维码
+			// }, 1000);
+			// uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
+			// 	if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+			// 		that.isAdmin = true
+			// 	} else {
+			// 		that.isAdmin = false
+			// 	}
+			// })
 		},
 		onLoad(option) {
 			console.log(option);
@@ -146,13 +146,13 @@
 				console.log('小程序二维码运行中');
 			}
 
-			uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
-				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
-					this.isAdmin = true
-				} else {
-					this.isAdmin = false
-				}
-			})
+			// uni.getStorageSync("userInfo").userRoleList.forEach((e) => {
+			// 	if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+			// 		this.isAdmin = true
+			// 	} else {
+			// 		this.isAdmin = false
+			// 	}
+			// })
 			// let val = {
 			// 	name: '2',
 			// 	id: item.id
@@ -287,7 +287,7 @@
 
 	.cenbtn {
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
 	}
 

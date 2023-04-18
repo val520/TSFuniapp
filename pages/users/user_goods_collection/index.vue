@@ -108,7 +108,10 @@
 			// if (this.isLogin) {
 			this.loadend = false;
 			this.page = 1;
+			this.selectValue = []
+			this.isAllSelect = false;
 			this.collectProductList = [];
+			this.footerswitch = true
 			// 	this.get_user_collect_product();
 			// } else {
 			// 	toLogin();
@@ -119,6 +122,9 @@
 			this.loadend = false;
 			this.page = 1;
 			this.collectProductList = [];
+			this.selectValue = []
+			this.isAllSelect = false;
+			this.footerswitch = true
 			this.getusercolectproduct()
 			// this.get_user_collect_product();
 		},
@@ -284,7 +290,10 @@
 							this.collectProductList = [];
 							this.loadend = false;
 							this.page = 1;
+							this.selectValue = []
+							this.isAllSelect = false;
 							this.getusercolectproduct()
+							this.footerswitch = true
 						} else {
 							uni.$u.toast(res.data.message)
 						}
@@ -329,13 +338,32 @@
 				});
 			}
 		},
-		/**
-		 * 页面上拉触底事件的处理函数
-		 */
-		onReachBottom() {
-			this.get_user_collect_product();
-			this.get_host_product();
-		}
+		// 触底事件
+		async onReachBottom() {
+			this.page = this.page + 1
+			let val = {
+				pageNo: this.page,
+				pageSize: 10
+			}
+			this.$myRequest({
+				url: "/tsf/tsfCommodityCollect/wxList",
+				method: "get",
+				data: val
+			}).then(res => {
+				if (res.data.code === 200) {
+					if (this.collectProductList.length === res.data.result.total) {
+						uni.showToast({
+							title: `没有更多了`,
+							icon: "none"
+						})
+					} else {
+						this.collectProductList = [...this.collectProductList, ...res.data.result.records]
+					}
+				} else {
+					uni.$u.toast(res.data.message)
+				}
+			})
+		},
 	}
 </script>
 
