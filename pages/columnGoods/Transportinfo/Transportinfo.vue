@@ -132,7 +132,6 @@
 				val=val.replace(/\"/g, "");
 				//截取参数
 				let index = val.split('=')
-				console.log(index,555555);
 				let item = index[1]
 				this.storageID = item
 				// 调用查询运输票的详情
