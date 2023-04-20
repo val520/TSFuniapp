@@ -2,9 +2,14 @@
 	<view>
 		<!-- 头部标签 -->
 		<view class="header">
-			<!-- <u-tabs @click="menuClick" :list="menuList" lineColor="#DFB76D">
-			</u-tabs> -->
+			<view style="width: 100%;">
+				<u--input placeholder="请输入司机名称" prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
+					border="surround" shape="circle" clearable>
+				</u--input>
+			</view>
 		</view>
+		<!-- 占位符 -->
+		<view style="margin-top:120rpx;"></view>
 		<!-- 列表区域 -->
 		<view>
 			<view v-if="projectList.length===0">
@@ -55,6 +60,8 @@
 	export default {
 		data() {
 			return {
+				// 输入框参数
+				value: "",
 				scrollTop: 0,
 				custom: {
 					background: '#DCA842'
@@ -64,32 +71,6 @@
 					color: '#FFF'
 				},
 				vHeight: 0,
-				menuList: [{
-						name: '全部',
-						key: '1',
-						checked: true,
-					},
-					{
-						name: '生效中',
-						key: '2',
-						checked: false,
-					},
-					{
-						name: '已销毁',
-						key: '3',
-						checked: false,
-					},
-					{
-						name: '已作废',
-						key: '4',
-						checked: false,
-					},
-					{
-						name: '待审核',
-						key: '5',
-						checked: false,
-					}
-				],
 				projectList: [],
 				size: 1,
 				valueItem: '',
@@ -109,6 +90,7 @@
 			let val = {
 				pageNo: this.size,
 				pageSize: 10,
+				driver:this.value,
 				adminCheckFlag: false
 			}
 			this.$myRequest({
@@ -135,11 +117,23 @@
 			this.screadd()
 		},
 		methods: {
+			//搜索
+			change() {
+				this.size = 1
+				this.screadd()
+			},
+			//清空搜索
+			closevalue() {
+				this.size = 1
+				this.value = ''
+				this.screadd()
+			},
 			// 查询分票
 			screadd() {
 				let val = {
 					pageNo: this.size,
 					pageSize: 10,
+					driver:this.value,
 					adminCheckFlag: false
 				}
 				this.$myRequest({
@@ -185,7 +179,16 @@
 </script>
 <style lang="scss" scoped>
 	.header {
+		width: 100%;
 		background-color: #FFF;
+		padding: 10rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		box-shadow: 0 0 12rpx #d7d7d7;
+		position: fixed;
+		top: 0px;
+		z-index: 99999;
 	}
 
 	.content {
