@@ -660,7 +660,7 @@
 					that.deleteshopne(deldetID)
 				else
 					return that.$util.Tips({
-						title: '请选择产品'
+						title: '请选择商品'
 					});
 			},
 			getSelectValueProductId: function() {

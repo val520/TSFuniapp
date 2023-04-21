@@ -2,7 +2,7 @@
 	<view>
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入商品名称" prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
+				<u--input placeholder="请输入内容" prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
 					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
@@ -17,7 +17,7 @@
 				</view>
 				<view class="content" v-else v-for="(item,index) in proList" :key="index" @click="clickProject(item)">
 					<view class="content_left">
-						<!-- <view class="status_box" v-if="item.ticketStatus==='生效中'" style="background:#18b566;">
+						<view class="status_box" v-if="item.ticketStatus==='生效中'" style="background:#18b566;">
 							{{item.ticketStatus}}
 						</view>
 						<view class="status_box" v-else-if="item.ticketStatus==='待审核'" style="background:#b5b5b5;">
@@ -34,24 +34,34 @@
 						</view>
 						<view class="status_box" v-else-if="item.ticketStatus==='已撤回'" style="background:#fab6b6;">
 							{{item.ticketStatus}}
-						</view> -->
-						<view class="status_box" style="background:green;">
+						</view>
+						<view class="status_box" v-else style="background:green;">
 							生效中
 						</view>
 					</view>
-					<view class="bottomClass">
-						<view style="color: #000;">
-							<span>{{item.projectName}}</span>
-						</view>
-						<view class="btnpop" v-if="item.residueAmount>0" @click.stop="clickFp(item)">
-							<span>详情</span>
-						</view>
-					</view>
 					<view class="content_center">
-						<!-- <view class="pro_name">{{item.projectName}}</view> -->
-						<view class="pro_num">总量:<span>{{item.totalEarth||''}}</span></view>
-						<view class="pro_num">余量:<span>{{item.residueAmount||''}}</span></view>
-						<view class="pro_msg">商品名称:{{item.productName||''}}</view>
+						<view class="pro_name">{{item.name}}</view>
+						<view class="pro_num">总量:<span>{{item.totalEarth}}</span></view>
+						<view class="pro_num">余量:<span>{{item.residueAmount}}</span></view>
+						<view class="pro_msg">{{item.address}}</view>
+					</view>
+					<!-- <view class="">
+						<u-collapse>
+							<u-collapse-item title="更多" name="Docs guide">
+								<text class="u-collapse-content">涵盖uniapp各个方面，给开发者方向指导和设计理念，让您茅塞顿开，一马平川</text>
+							</u-collapse-item>
+						</u-collapse>
+					</view> -->
+					<view class="bottomClass" v-if="item.ticketStatus==='生效中'">
+						<view style="color: #918c80;">
+							<span>{{item.createTime}}</span>
+						</view>
+						<!-- 	<view class="btnpop" @click.stop="clickCode(item)">
+							<span>运输码</span>
+						</view> -->
+						<view class="btnpop" v-if="item.residueAmount>0" @click.stop="clickFp(item)">
+							<span>分票码</span>
+						</view>
 					</view>
 				</view>
 				<!-- 占位 -->
@@ -122,8 +132,13 @@
 				imageurl: ""
 			}
 		},
-		onLoad() {
-			this.serch()
+		onLoad(option) {
+			if (option.item != undefined) {
+				const item = JSON.parse(decodeURIComponent(option.item));
+				console.log('票集合', item)
+				this.newData = item
+				this.serch()
+			}
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
@@ -133,11 +148,13 @@
 			this.size = this.size + 1
 			let val = {
 				pageNo: this.size,
+				projectId:this.newData.projectId,
+				productId:this.newData.productId,
 				pageSize: 10,
-				name: this.value
+				keyword:this.value
 			}
 			this.$myRequest({
-				url: '/tsf/tsfEarthTicket/groupSumList',
+				url: "/tsf/tsfEarthTicket/wxList",
 				method: "get",
 				data: val
 			}).then(res => {
@@ -189,11 +206,12 @@
 				let val = {
 					pageNo: this.size,
 					pageSize: 10,
-					name: this.value
+					projectId:this.newData.projectId,
+					productId:this.newData.productId,
+					keyword: this.value
 				}
 				this.$myRequest({
-					// url: '/tsf/tsfEarthTicket/wxList',
-					url: '/tsf/tsfEarthTicket/groupSumList',
+					url: '/tsf/tsfEarthTicket/wxList',
 					method: "get",
 					data: val
 				}).then(res => {
@@ -245,34 +263,34 @@
 			},
 			//分票申请
 			clickFp(item) {
-				// //打开分票弹窗
-				// let val = {
-				// 	name: '1',
-				// 	id: item.id
-				// }
-				// this.urls = JSON.stringify(val)
-				// // this.showpup = true
-				// this.$myRequest({
-				// 	url: "/tsf/tsfEarthTicket/getTicketWxCode",
-				// 	method: "get",
-				// 	data: {
-				// 		ticketId: item.id
-				// 	}
-				// }).then(res => {
-				// 	if (res.data.code === 200) {
-				// 		console.log(res);
-				// 		this.imageurl = res.data.message
-				// 		this.showpup = true
-				// 	} else {
-				// 		uni.showToast({
-				// 			title: res.data.message,
-				// 			icon: 'none'
-				// 		})
-				// 	}
-				// })
-				uni.navigateTo({
-					url: "/pages/columnGoods/ticketlist/index?item="+ encodeURIComponent(JSON.stringify(item).replace(/%/g, '%25'))
+				//打开分票弹窗
+				let val = {
+					name: '1',
+					id: item.id
+				}
+				this.urls = JSON.stringify(val)
+				// this.showpup = true
+				this.$myRequest({
+					url: "/tsf/tsfEarthTicket/getTicketWxCode",
+					method: "get",
+					data: {
+						ticketId: item.id
+					}
+				}).then(res => {
+					if (res.data.code === 200) {
+						console.log(res);
+						this.imageurl = res.data.message
+						this.showpup = true
+					} else {
+						uni.showToast({
+							title: res.data.message,
+							icon: 'none'
+						})
+					}
 				})
+				// uni.navigateTo({
+				// 	url: `/pages/columnGoods/application/application?fp=1&item=${item.id}`
+				// })
 			},
 			//退票
 			noticket(item) {
@@ -385,7 +403,7 @@
 			// height: 100%;
 			padding: 10rpx;
 			position: absolute;
-			bottom: 15rpx;
+			top: 10rpx;
 			right: 10rpx;
 
 			.status_box {

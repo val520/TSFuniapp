@@ -6,6 +6,10 @@
 					<u--input v-model="model1.userInfo.createBy" disabled disabledColor="#ffffff" border="none">
 					</u--input>
 				</u-form-item>
+				<u-form-item label="手机号" prop="userInfo.phone" borderBottom ref="item1">
+					<u--input v-model="model1.userInfo.phone" disabled disabledColor="#ffffff" border="none">
+					</u--input>
+				</u-form-item>
 				<u-form-item label="创建时间" prop="userInfo.createTime" borderBottom ref="item1">
 					<u--input v-model="model1.userInfo.createTime" disabled disabledColor="#ffffff" border="none">
 					</u--input>
@@ -210,6 +214,7 @@
 		justify-content: space-between;
 		align-items: center;
 	}
+
 	.btn {
 		box-shadow: 0 0 12rpx #d7d7d7;
 		background: #DCA842;
