@@ -246,6 +246,7 @@
 			},
 			// 通过
 			confirm() {
+				this.btn = false
 				let val = {
 					checkOpinion: this.yjvalue,
 					checkStatus: 0,
@@ -264,7 +265,9 @@
 							icon: "success"
 						})
 						this.showFalse = false;
+						this.btn = true
 					} else {
+						this.btn = true
 						uni.showToast({
 							title: res.data.message,
 							icon: "none"

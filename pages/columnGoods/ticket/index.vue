@@ -43,14 +43,14 @@
 						<view style="color: #000;">
 							<span>{{item.projectName}}</span>
 						</view>
-						<view class="btnpop" v-if="item.residueAmount>0" @click.stop="clickFp(item)">
+						<view class="btnpop" @click.stop="clickFp(item)">
 							<span>详情</span>
 						</view>
 					</view>
 					<view class="content_center">
 						<!-- <view class="pro_name">{{item.projectName}}</view> -->
-						<view class="pro_num">总量:<span>{{item.totalEarth||''}}</span></view>
-						<view class="pro_num">余量:<span>{{item.residueAmount||''}}</span></view>
+						<view class="pro_num">总量:<span>{{item.totalEarth}}</span></view>
+						<view class="pro_num">余量:<span>{{item.residueAmount}}</span></view>
 						<view class="pro_msg">商品名称:{{item.productName||''}}</view>
 					</view>
 				</view>

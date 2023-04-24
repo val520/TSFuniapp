@@ -20,7 +20,8 @@
 					<u--input v-model="userInfo.carLoad" border="none" placeholder="请输入车载重量"></u--input>
 				</u-form-item> -->
 				<u-form-item label="单次运量" required="true" prop="applyEarth" borderBottom ref="item1">
-					<u--input @change="alldata" type='number' v-model="userInfo.applyEarth" border="none" placeholder="请输入单次运量">
+					<u--input @change="alldata" type='number' v-model="userInfo.applyEarth" border="none"
+						placeholder="请输入单次运量">
 					</u--input>
 				</u-form-item>
 				<u-form-item label="申请总方量" borderBottom ref="item1">
@@ -72,7 +73,7 @@
 						validator: (rule, value, callback) => {
 							// 上面有说，返回true表示校验通过，返回false表示不通过
 							// uni.$u.test.mobile()就是返回true或者false的
-							if(value<=0){
+							if (value <= 0) {
 								callback('申请张数不允许小于0')
 								return
 							}
@@ -111,6 +112,8 @@
 					],
 
 				},
+				//重复点击
+				btn: true,
 			}
 		},
 		onLoad: function(option) {
@@ -159,26 +162,32 @@
 			},
 			// 确认方法
 			onsbment() {
-				console.log(333333);
 				this.$refs.form1.validate().then(res => {
-					console.log(444444444);
-					this.$myRequest({
-						url: "/src/tsfBusTransport/add",
-						method: "post",
-						data: this.userInfo
-					}).then(res => {
-						if (res.data.code === 200) {
-							uni.$u.toast(res.data.message)
-							// 新增成功返回上一级
-							setTimeout(() => {
-								uni.navigateBack({
-									delta: 1
-								});
-							}, 1000);
-						} else {
-							uni.$u.toast(res.data.message)
-						}
-					})
+					if (this.btn) {
+						this.btn = false
+						this.$myRequest({
+							url: "/src/tsfBusTransport/add",
+							method: "post",
+							data: this.userInfo
+						}).then(res => {
+							if (res.data.code === 200) {
+								uni.$u.toast(res.data.message)
+								// 新增成功返回上一级
+								setTimeout(() => {
+									uni.navigateBack({
+										delta: 1
+									});
+									this.btn = true
+								}, 1000);
+							} else {
+								this.btn = true
+								uni.$u.toast(res.data.message)
+							}
+						})
+					} else {
+						uni.$u.toast('加载中')
+					}
+
 				}).catch(errors => {
 					uni.$u.toast(errors[0].message)
 				})
