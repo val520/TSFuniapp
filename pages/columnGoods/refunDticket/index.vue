@@ -3,8 +3,8 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入单号查询" prefixIcon="search" v-model="value" @change="change" @clear="closevalue" border="surround"
-					shape="circle" clearable>
+				<u--input placeholder="请输入单号查询" prefixIcon="search" v-model="value" @change="change" @clear="closevalue"
+					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
 		</view>
@@ -43,7 +43,8 @@
 							<u--image :showLoading="true" radius="20rpx" :src="obj.productImageUrl" width="160rpx"
 								height="160rpx"></u--image>
 						</view>
-						<view style="margin-left: 50rpx; overflow:hidden; text-overflow:ellipsis;white-space: nowrap;-o-text-overflow: ellipsis;">
+						<view
+							style="margin-left: 50rpx; overflow:hidden; text-overflow:ellipsis;white-space: nowrap;-o-text-overflow: ellipsis;">
 							<view style="color: #999;">
 								名称：{{obj.productName}}
 							</view>
@@ -94,6 +95,8 @@
 	export default {
 		data() {
 			return {
+				//禁止重复点击
+				btn: 1,
 				value: '',
 				yjvalue: null,
 				showFalse: false,
@@ -210,6 +213,7 @@
 			clickProject(item) {
 				this.newValue = item
 				this.showFalse = true
+				this.btn = 1
 				// uni.navigateTo({
 				// 	url: "/pages/buAuditinfo/buAuditinfo?item=" + encodeURIComponent(JSON.stringify(item).replace(
 				// 		/%/g, '%25'))
@@ -217,6 +221,7 @@
 			},
 			// 不通过
 			noto() {
+				this.showFalse = false;
 				let val = {
 					checkOpinion: this.yjvalue,
 					checkStatus: 1,
@@ -245,31 +250,41 @@
 			},
 			// 通过
 			confirm() {
-				let val = {
-					checkOpinion: this.yjvalue,
-					checkStatus: 0,
-					orderId: this.newValue.id
-				}
-				this.$myRequest({
-					url: '/tsf/orderCheck/payCheck',
-					method: 'post',
-					data: val,
-				}).then(res => {
-					if (res.data.code === 200) {
-						this.size = 1
-						this.sceher()
-						uni.showToast({
-							title: res.data.message,
-							icon: "success"
-						})
-						this.showFalse = false;
-					} else {
-						uni.showToast({
-							title: res.data.message,
-							icon: "none"
-						})
+				if (this.btn ===1) {
+					this.btn = 2
+					let val = {
+						checkOpinion: this.yjvalue,
+						checkStatus: 0,
+						orderId: this.newValue.id
 					}
-				})
+					this.$myRequest({
+						url: '/tsf/orderCheck/payCheck',
+						method: 'post',
+						data: val,
+					}).then(res => {
+						if (res.data.code === 200) {
+							this.size = 1
+							this.sceher()
+							uni.showToast({
+								title: res.data.message,
+								icon: "success"
+							})
+							this.showFalse = false;
+						} else {
+							this.btn = 1
+							uni.showToast({
+								title: res.data.message,
+								icon: "none"
+							})
+						}
+					})
+				} else {
+					uni.showToast({
+						title: '禁止重复提交',
+						icon: "none"
+					})
+				}
+
 			},
 
 			menuClick(item) {

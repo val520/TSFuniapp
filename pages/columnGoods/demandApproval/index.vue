@@ -155,6 +155,7 @@
 				if (this.yjvalue === "") {
 					uni.$u.toast('请先输入意见')
 				} else {
+					this.show = false
 					let val = {
 						checkOpinion: this.yjvalue,
 						checkStatus: 1,
@@ -177,6 +178,7 @@
 			},
 			// 弹窗点击确认
 			addshow() {
+				this.show = false
 				let val = {
 					checkOpinion: this.yjvalue,
 					checkStatus: 0,

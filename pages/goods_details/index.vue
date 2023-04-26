@@ -77,7 +77,7 @@
 					</view>
 					<view class='conter'>
 						<!-- <jyf-parser :html="description" ref="article" :tag-style="tagStyle"></jyf-parser> -->
-						<image style="height: 250px;" mode="aspectFill"
+						<image style="height: 250px;margin-bottom: 10rpx;" mode="aspectFill"
 							v-for="(item, index) in productInfo.detailAttIds" v-bind:key="index" :id="index"
 							:src="item.interRqUrl" @click="imgsee(productInfo.detailAttIds)" hidden />
 					</view>

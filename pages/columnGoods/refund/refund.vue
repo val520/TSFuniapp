@@ -86,6 +86,8 @@
 	export default {
 		data() {
 			return {
+				//禁止重复点击
+				btn: 1,
 				value: '',
 				yjvalue: null,
 				showFalse: false,
@@ -198,6 +200,7 @@
 			clickProject(item) {
 				this.newValue = item
 				this.showFalse = true
+				this.btn = 1
 				// uni.navigateTo({
 				// 	url: "/pages/buAuditinfo/buAuditinfo?item=" + encodeURIComponent(JSON.stringify(item).replace(
 				// 		/%/g, '%25'))
@@ -205,6 +208,7 @@
 			},
 			// 不通过
 			noto() {
+				this.showFalse = false
 				let val = {
 					id: this.newValue.id,
 					appStatus: '不通过',
@@ -239,32 +243,42 @@
 			},
 			// 通过
 			confirm() {
-				let val = {
-					id: this.newValue.id,
-					appStatus: '通过',
-					// checkTime: getDateTime.dateTimeStr('y-m-d h:i:s')
-				}
-				this.$myRequest({
-					url: '/src/tsfBusTransport/transportCheck',
-					method: "post",
-					data: val,
-					// Type: "application/x-www-form-urlencoded",
-				}).then(res => {
-					if (res.data.code === 200) {
-						this.size = 1
-						uni.showToast({
-							title: res.data.message,
-							icon: "success"
-						})
-						this.showFalse = false
-						this.sceher()
-					} else {
-						uni.showToast({
-							title: res.data.message,
-							icon: "none"
-						})
+				if (this.btn === 1) {
+					this.btn = 2
+					let val = {
+						id: this.newValue.id,
+						appStatus: '通过',
+						// checkTime: getDateTime.dateTimeStr('y-m-d h:i:s')
 					}
-				})
+					this.$myRequest({
+						url: '/src/tsfBusTransport/transportCheck',
+						method: "post",
+						data: val,
+						// Type: "application/x-www-form-urlencoded",
+					}).then(res => {
+						if (res.data.code === 200) {
+							this.size = 1
+							uni.showToast({
+								title: res.data.message,
+								icon: "success"
+							})
+							this.showFalse = false
+							this.sceher()
+						} else {
+							this.btn = 1
+							uni.showToast({
+								title: res.data.message,
+								icon: "none"
+							})
+						}
+					})
+				} else {
+					uni.showToast({
+						title: '禁止重复提交',
+						icon: "none"
+					})
+				}
+
 			},
 
 			menuClick(item) {
