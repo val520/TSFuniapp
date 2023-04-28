@@ -160,7 +160,7 @@
 					})
 				else
 					return this.$util.Tips({
-						title: '请填写要搜索的产品信息'
+						title: '请填写要搜索的商品信息'
 					});
 			},
 		}

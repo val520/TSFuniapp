@@ -51,6 +51,17 @@
 						<!-- <view class="pro_name">{{item.projectName}}</view> -->
 						<view class="pro_num">总量:<span>{{item.totalEarth}}</span></view>
 						<view class="pro_num">余量:<span>{{item.residueAmount}}</span></view>
+						<view class="pro_numtxt">
+							<view style="width: 110rpx;">
+								商品坐标:
+							</view>
+							<span>{{item.address}}</span>
+						</view>
+						<view class="pro_numtxt">
+							<view style="width: 110rpx;">
+								项目坐标:
+							</view>
+							<span>{{item.projectAddress}}</span></view>
 						<view class="pro_msg">商品名称:{{item.productName||''}}</view>
 					</view>
 				</view>
@@ -134,6 +145,7 @@
 			let val = {
 				pageNo: this.size,
 				pageSize: 10,
+				adminFlag: false,
 				name: this.value
 			}
 			this.$myRequest({
@@ -189,7 +201,8 @@
 				let val = {
 					pageNo: this.size,
 					pageSize: 10,
-					name: this.value
+					name: this.value,
+					adminFlag: false,
 				}
 				this.$myRequest({
 					// url: '/tsf/tsfEarthTicket/wxList',
@@ -271,7 +284,8 @@
 				// 	}
 				// })
 				uni.navigateTo({
-					url: "/pages/columnGoods/ticketlist/index?item="+ encodeURIComponent(JSON.stringify(item).replace(/%/g, '%25'))
+					url: "/pages/columnGoods/ticketlist/index?item=" + encodeURIComponent(JSON.stringify(item)
+						.replace(/%/g, '%25'))
 				})
 			},
 			//退票
@@ -401,7 +415,7 @@
 
 		.content_center {
 			height: 100%;
-			width: 55%;
+			// width: 55%;
 			padding: 25rpx;
 			overflow: hidden;
 
@@ -444,6 +458,25 @@
 
 				span {
 					color: green;
+				}
+			}
+
+			.pro_numtxt {
+				width: 100%;
+				color: #666;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				font-size: 24rpx;
+				height: 40rpx;
+				// line-height: 40rpx;
+				margin-top: 10rpx;
+
+				span {
+					color: #999;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 				}
 			}
 		}

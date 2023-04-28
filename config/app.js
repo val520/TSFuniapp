@@ -17,13 +17,12 @@ module.exports = {
 	// #endif
 	BASE_URL:'https://tsf.ccle.cn/tsf', // 公网图片上传
 	// BASE_URL:'http://192.168.12.30:8080/jeecg-boot', // 本地图片上传
-	// BASE_URL:'http://172.20.10.10:8080/jeecg-boot', // 本地图片上传
 	HEADER:{
 		'content-type': 'application/json'
 	},
 	HEADERPARAMS:{
 		'content-type': 'application/x-www-form-urlencoded'
-	},
+	},	
 	// 回话密钥名称 请勿修改此配置
 	TOKENNAME: 'Authori-zation',
 	// 缓存时间 0 永久

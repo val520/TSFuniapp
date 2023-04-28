@@ -15,14 +15,11 @@
 				<image src="../static/wechat_login.png" mode="widthFix"></image>
 			</view>
 			<!-- 获取微信用户名 -->
-			<view class="userinfo">
-				<!-- <button class="avatar-wrapper" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
-					<image v-if="avatarUrl" class="avatar" :src="avatarUrl"></image>
-					<span v-else>授权头像</span>
-				</button> -->
+			<!-- <view class="userinfo">
+			
 				<input type="nickname" @blur='nicknameValue' v-model="nickName" class="weui-input"
 					placeholder="点击授权微信昵称" placeholder-style="color:#00aaff" />
-			</view>
+			</view> -->
 			<view class="btn-wrapper">
 				<view style="justify-content: center;align-items: center;display: flex;margin-bottom: 30rpx;">
 					<u-checkbox-group @change="agree">
@@ -131,9 +128,9 @@
 			},
 			// 微信登录
 			WXlogin(e) {
-				if (this.nickName === '') {
-					uni.$u.toast('请授权用户名')
-				} else {
+				// if (this.nickName === '') {
+				// 	uni.$u.toast('请授权用户名')
+				// } else {
 					if (this.checked) {
 						let that = this
 						// 获取code
@@ -196,7 +193,7 @@
 					} else {
 						uni.$u.toast('请勾选用户协议')
 					}
-				}
+				// }
 			},
 		}
 	}

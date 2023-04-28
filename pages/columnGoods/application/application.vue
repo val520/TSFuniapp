@@ -86,12 +86,25 @@
 						message: '请填车载重量',
 						trigger: ['blur', 'change']
 					},
-					'applyEarth': {
-						type: 'string',
-						required: true,
-						message: '请填土石方量',
-						trigger: ['blur', 'change']
-					},
+					'applyEarth': [{
+							type: 'string',
+							required: true,
+							message: '请输入单次运量',
+							trigger: ['blur', 'change']
+						},
+						{
+							validator: (rule, value, callback) => {
+								// 上面有说，返回true表示校验通过，返回false表示不通过
+								// uni.$u.test.mobile()就是返回true或者false的
+								if (value <= 0) {
+									callback('单次运量不允许小于0')
+									return
+								}
+								callback()
+							},
+						}
+					],
+
 					'telephone': [{
 							required: true,
 							message: '请输入联系电话',

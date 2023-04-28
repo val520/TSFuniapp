@@ -13,9 +13,11 @@
 				</u-form-item>
 				<!-- 项目名称 -->
 				<u-form-item label="项目名称" borderBottom ref="item1">
-					<hg-select v-model="projectInfo.projectId" disabled placeholder="请选择" :localdata="requireSorts"
+					<!-- <hg-select v-model="projectInfo.projectId" disabled placeholder="请选择" :localdata="requireSorts"
 						@change="prjchange">
-					</hg-select>
+					</hg-select> -->
+					<u--input v-model="projectInfo.projectName" disabled disabledColor="#ffffff" border="none"
+						placeholder="请输入"></u--input>
 				</u-form-item>
 				<u-form-item label="商品品类" borderBottom ref="item1">
 					<data-picker placeholder="请选择类型" readonly='true' :map="{text:'name',value:'id'}"
@@ -251,7 +253,7 @@
 		},
 		methods: {
 			// 点击审核
-			onsbment(){
+			onsbment() {
 				this.show = true
 			},
 			// 弹窗点击确认
