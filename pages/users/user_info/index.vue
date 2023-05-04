@@ -3,17 +3,23 @@
 		<form @submit="formSubmit" report-submit='true'>
 			<view class='personal-data pad30'>
 				<view class='list borRadius14'>
-					<view class="item acea-row row-between-wrapper">
+					<view class="item acea-row row-between-wrapper" @click="useredit">
 						<view>用户头像</view>
-						<view class="pictrue">
-							<!-- <image src='http://tmp/Wc0zzIiIbxiKdc385b8f0dc193ac34e865519cc81538.png'></image> -->
-							<image :src='userInfo.avatar'></image>
+						<view class="leftClass">
+							<view class="pictrue">
+								<!-- <image src='http://tmp/Wc0zzIiIbxiKdc385b8f0dc193ac34e865519cc81538.png'></image> -->
+								<image :src='userInfo.avatar'></image>
+							</view>
+							<u-icon name="arrow-right"></u-icon>
 						</view>
 					</view>
-					<view class='item acea-row row-between-wrapper'>
+					<view class='item acea-row row-between-wrapper' @click="useredit">
 						<view>用户昵称</view>
-						<view class='input'><input type='text' disabled name='nickname'
-								:value='userInfo.realname'></input>
+						<view class="leftClass">
+							<view class='input'><input type='text' disabled name='nickname'
+									:value='userInfo.realname'></input>
+							</view>
+							<u-icon name="arrow-right"></u-icon>
 						</view>
 					</view>
 					<view class='item acea-row row-between-wrapper'>
@@ -93,12 +99,31 @@
 			};
 		},
 		onLoad() {
-
+			this.userdata()
 		},
 		onShow() {
-			this.userInfo = uni.getStorageSync("userInfo")
+			// this.userInfo = uni.getStorageSync("userInfo")
+			this.userdata()
 		},
 		methods: {
+			//获取当前用户信息
+			userdata() {
+				this.$myRequest({
+					url: "/sys/user/detailById",
+					method: "get",
+					data: {
+						id: uni.getStorageSync("userInfo").id
+					}
+				}).then(res => {
+					if (res.data.code === 0) {
+						console.log(res.data.result.records[0]);
+						this.userInfo = res.data.result.records[0]
+						this.userInfo.userRoleList = uni.getStorageSync("userInfo").userRoleList
+					} else {
+						uni.$u.toast(res.data.message)
+					}
+				})
+			},
 			// 授权关闭
 			authColse: function(e) {
 				this.isShowAuth = e
@@ -112,6 +137,12 @@
 						console.log(res.authSetting)
 					}
 				});
+			},
+			// 修改用户信息
+			useredit() {
+				uni.navigateTo({
+					url: '/pages/users/user_edit/index'
+				})
 			},
 			/**
 			 * 退出登录
@@ -364,5 +395,11 @@
 		height: 90rpx;
 		border-radius: 45rpx;
 		margin: 30rpx auto 0 auto;
+	}
+
+	.leftClass {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
 	}
 </style>

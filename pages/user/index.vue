@@ -258,25 +258,21 @@
 				// toLogin()
 				// #endif
 			}
-			this.userInfo = uni.getStorageSync("userInfo")
-			this.userInfo.userRoleList.forEach((e) => {
-				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
-					this.isAdmin = true
-				} else {
-					this.isAdmin = false
-				}
-			})
+			this.userdata()
+			// this.userInfo = uni.getStorageSync("userInfo")
+			// this.userInfo.userRoleList.forEach((e) => {
+			// 	if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+			// 		this.isAdmin = true
+			// 	} else {
+			// 		this.isAdmin = false
+			// 	}
+			// })
 			this.microlabel()
 		},
 		onShow: function() {
-			this.userInfo = uni.getStorageSync("userInfo")
-			this.userInfo.userRoleList.forEach((e) => {
-				if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
-					this.isAdmin = true
-				} else {
-					this.isAdmin = false
-				}
-			})
+			this.userdata()
+			// this.userInfo = uni.getStorageSync("userInfo")
+			
 			let that = this;
 			// #ifdef H5
 			uni.getSystemInfo({
@@ -296,6 +292,31 @@
 			this.microlabel()
 		},
 		methods: {
+			//获取用户信息
+			userdata() {
+				this.$myRequest({
+					url: "/sys/user/detailById",
+					method: "get",
+					data: {
+						id: uni.getStorageSync("userInfo").id
+					}
+				}).then(res => {
+					if (res.data.code === 0) {
+						console.log(res.data.result.records[0]);
+						this.userInfo = res.data.result.records[0]
+						this.userInfo.userRoleList = uni.getStorageSync("userInfo").userRoleList
+						this.userInfo.userRoleList.forEach((e) => {
+							if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+								this.isAdmin = true
+							} else {
+								this.isAdmin = false
+							}
+						})
+					} else {
+						uni.$u.toast(res.data.message)
+					}
+				})
+			},
 			//获取微标
 			microlabel() {
 				this.$myRequest({

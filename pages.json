@@ -148,6 +148,14 @@
 					}
 				},
 				{
+					"path": "user_edit/index",
+					"style": {
+						"navigationBarTitleText": "更改个人信息",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
 					"path": "user_goods_collection/index",
 					"style": {
 						"navigationBarTitleText": "收藏商品",

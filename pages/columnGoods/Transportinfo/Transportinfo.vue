@@ -61,8 +61,24 @@
 					<span>{{codeList.projectType}}</span>
 				</view> -->
 				<view class="status_box">
-					<span class="infoName">土石方量:</span>
+					<span class="infoName">数量:</span>
 					<span>{{codeList.applyEarth}}m³</span>
+				</view>
+				<view class="status_box">
+					<span class="infoName">所属机构:</span>
+					<span class="mintxt" style="display: block;">重庆农村土地交易所有限责任公司</span>
+				</view>
+				<view class="status_box">
+					<span class="infoName">起点项目:</span>
+					<span class="mintxt" style="display: block;">江北金融城工程（重庆市江北区金融城2号）</span>
+				</view>
+				<view class="status_box">
+					<span class="infoName">
+						终点项目:
+					</span>
+					<span class="mintxt" style="display: block;">
+						北碚静观土石方仓库（重庆市北碚区静观镇中华村）
+					</span>
 				</view>
 				<!-- <view class="status_box">
 					<span class="infoName">车辆载重:</span>
@@ -129,7 +145,7 @@
 				console.log(decodeURIComponent(option.q), '我是普通二维码参数');
 				let val = decodeURIComponent(option.q)
 				// 去点字符串的引号
-				val=val.replace(/\"/g, "");
+				val = val.replace(/\"/g, "");
 				//截取参数
 				let index = val.split('=')
 				let item = index[1]
@@ -334,5 +350,14 @@
 
 	.box {
 		margin: 10rpx 40rpx;
+	}
+
+	.mintxt {
+		width: 410rpx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+		white-space: nowrap;
 	}
 </style>
