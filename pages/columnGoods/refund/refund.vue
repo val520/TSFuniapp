@@ -45,7 +45,7 @@
 						申请人:{{item.createBy}}
 					</view> -->
 					<view class="ContenTwo">
-						总方量:<span class="pro_num">{{item.earthTotal}}</span>m³
+						数量:<span class="pro_num">{{item.earthTotal}}</span>{{item.productUnit||''}}
 					</view>
 					<view class="ContenTwo">
 						申请张数:{{item.applyNumber}}

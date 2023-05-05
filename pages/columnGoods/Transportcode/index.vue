@@ -39,7 +39,7 @@
 					</view>
 				</view>
 				<view class="contlin">
-					土石方量: <span>{{item.applyEarth}}</span> m³
+					数量: <span>{{item.applyEarth}}</span>{{item.productUnit}}
 				</view>
 				<view class="contbottom">
 					<p>{{item.createTime}}</p>

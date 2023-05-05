@@ -106,7 +106,7 @@
 			},
 			//修改用户确认
 			okedit() {
-				if (this.userInfo.name === '') {
+				if (this.userInfo.realname === '') {
 					uni.$u.toast('请填写用户名')
 				} else if (this.userInfo.avatar === '') {
 					uni.$u.toast('请上传头像')

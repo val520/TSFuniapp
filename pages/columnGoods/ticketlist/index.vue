@@ -41,8 +41,8 @@
 					</view>
 					<view class="content_center">
 						<view class="pro_name">{{item.name}}</view>
-						<view class="pro_num">总量:<span>{{item.totalEarth}}</span></view>
-						<view class="pro_num">余量:<span>{{item.residueAmount}}</span></view>
+						<view class="pro_num">总量:<span>{{item.totalEarth}}</span>{{item.productUnit}}</view>
+						<view class="pro_num">余量:<span>{{item.residueAmount}}</span>{{item.productUnit}}</view>
 						<view class="pro_msg">{{item.address}}</view>
 					</view>
 					<!-- <view class="">

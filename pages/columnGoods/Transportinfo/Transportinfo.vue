@@ -62,22 +62,22 @@
 				</view> -->
 				<view class="status_box">
 					<span class="infoName">数量:</span>
-					<span>{{codeList.applyEarth}}m³</span>
+					<span>{{codeList.applyEarth}}{{codeList.productUnit}}</span>
 				</view>
 				<view class="status_box">
 					<span class="infoName">所属机构:</span>
-					<span class="mintxt" style="display: block;">重庆农村土地交易所有限责任公司</span>
+					<span class="mintxt" style="display: block;">{{codeList.orgName}}</span>
 				</view>
 				<view class="status_box">
 					<span class="infoName">起点项目:</span>
-					<span class="mintxt" style="display: block;">江北金融城工程（重庆市江北区金融城2号）</span>
+					<span class="mintxt" style="display: block;">{{codeList.addressStart}}</span>
 				</view>
 				<view class="status_box">
 					<span class="infoName">
 						终点项目:
 					</span>
 					<span class="mintxt" style="display: block;">
-						北碚静观土石方仓库（重庆市北碚区静观镇中华村）
+						{{codeList.addressEnd}}
 					</span>
 				</view>
 				<!-- <view class="status_box">
