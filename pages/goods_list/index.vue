@@ -33,7 +33,8 @@
 					<view class='item' :class='is_switch==true?"":"on"' hover-class='none'
 						v-for="(item,index) in productList" :key="index" @click="godDetail(item)">
 						<view class='pictrue' :class='is_switch==true?"":"on"'>
-							<image :src='item.coverAttIds[0].interRqUrl' mode="aspectFill" :class='is_switch==true?"":"on"'></image>
+							<image :src='item.coverAttIds[0].interRqUrl' mode="aspectFill"
+								:class='is_switch==true?"":"on"'></image>
 							<span class="pictrue_log_class"
 								:class="is_switch === true ? 'pictrue_log_big' : 'pictrue_log'"
 								v-if="item.activityH5 && item.activityH5.type === '1'">秒杀</span>
@@ -115,7 +116,8 @@
 				hotLimit: 10,
 				hotScroll: false,
 				// 分类id
-				typeID: ""
+				typeID: "",
+				page:1,
 			};
 		},
 		onLoad: function(options) {
@@ -131,7 +133,7 @@
 			// 查询商品
 			query() {
 				let val = {
-					pageNo: 1,
+					pageNo: this.page,
 					pageSize: 20,
 					productName: this.where.keyword,
 					status: 1,
@@ -183,7 +185,9 @@
 					pageNo: 1,
 					pageSize: 20,
 					productName: this.where.keyword,
-					status: 1
+					status: 1,
+					wxHomeFlag: true,
+					categoryTypeId: this.typeID
 				}
 				this.$myRequest({
 					url: "/tsf/tsfBusCommodity/list",
@@ -281,12 +285,30 @@
 
 		},
 		onReachBottom() {
-			// if (this.productList.length > 0) {
-			// 	this.get_product_list();
-			// } else {
-			// 	this.get_host_product();
-			// }
-
+			this.page = this.page + 1
+			let val = {
+				pageNo: this.page,
+				pageSize: 20,
+				productName: this.where.keyword,
+				status: 1,
+				wxHomeFlag: true,
+				categoryTypeId: this.typeID
+			}
+			this.$myRequest({
+				url: "/tsf/tsfBusCommodity/list",
+				method: "get",
+				data: val
+			}).then(res => {
+				if (res.data.code === 200) {
+					if (this.productList.length === res.data.result.total) {
+						uni.$u.toast('没有更多了')
+					} else {
+						this.productList = [...this.productList, ...res.data.result.records]
+					}
+				} else {
+					uni.$u.toast(res.data.message)
+				}
+			})
 		}
 	}
 </script>

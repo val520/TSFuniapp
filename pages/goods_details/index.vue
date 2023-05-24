@@ -29,7 +29,7 @@
 									<text class='num'>{{productInfo.sellPrice}}</text>
 								</view>
 							</view>
-							<view class='introduce line1'>{{productInfo.remark}}</view>
+							<view class='introduce line1'>{{productInfo.productName}}</view>
 							<view class='label acea-row row-between-wrapper line1'>
 								<!-- <view>原价:￥{{productInfo.otPrice || 0}}</view> -->
 								<view>库存:{{productInfo.forSellAmount || 0}}/{{productInfo.unitDictItem.itemValue||''}}
