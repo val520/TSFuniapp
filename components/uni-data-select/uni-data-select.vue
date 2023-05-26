@@ -490,7 +490,7 @@
 	.uni-select__input-placeholder {
 		// color: $uni-base-color;
 		// font-size: 12px;
-		color: #D2CFCC;
+		color: #c0c4cc;
 		font-size: 15px;
 	}
 

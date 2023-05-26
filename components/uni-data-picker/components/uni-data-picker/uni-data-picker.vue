@@ -16,8 +16,7 @@
 						</view>
 					</scroll-view>
 					<text v-else class="selected-area placeholder">{{placeholder}}</text>
-					<view v-if="clearIcon && !readonly && inputSelected.length" class="icon-clear"
-						@click.stop="clear">
+					<view v-if="clearIcon && !readonly && inputSelected.length" class="icon-clear" @click.stop="clear">
 						<uni-icons type="clear" color="#c0c4cc" size="24"></uni-icons>
 					</view>
 					<view class="arrow-area" v-if="(!clearIcon || !inputSelected.length) && !readonly ">
@@ -294,7 +293,7 @@
 	}
 </script>
 
-<style >
+<style>
 	.uni-data-tree {
 		flex: 1;
 		position: relative;
@@ -314,7 +313,7 @@
 		flex-wrap: nowrap;
 		font-size: 14px;
 		/* line-height: 35px; */
-		padding: 0 10px;
+		padding: 0 0px;
 		padding-right: 5px;
 		overflow: hidden;
 		height: 35px;
@@ -362,14 +361,14 @@
 		white-space: nowrap;
 		/* #endif */
 	}
-	
+
 	.text-color {
 		color: #333;
 	}
 
 	.placeholder {
-		color: grey;
-		font-size: 12px;
+		color: #c0c4cc;
+		font-size: 15px;
 	}
 
 	.input-split-line {
@@ -485,7 +484,7 @@
 		flex: 1;
 		overflow: hidden;
 	}
-	
+
 	.icon-clear {
 		display: flex;
 		align-items: center;
@@ -550,5 +549,6 @@
 		border-top-width: 0;
 		border-bottom-color: #fff;
 	}
+
 	/* #endif */
-	</style>
+</style>

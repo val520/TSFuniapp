@@ -10,7 +10,7 @@
 					</hg-select>
 				</u-form-item>
 				<u-form-item label="商品品类" required="true" prop="categoryTypeId" borderBottom ref="item1">
-					<data-picker placeholder="请选择商品品类" :map="{text:'name',value:'id'}" popup-title="请选择商品品类"
+					<data-picker placeholder="请选择商品品类" placeholder-style="color:#00aaff" :map="{text:'name',value:'id'}" popup-title="请选择商品品类"
 						clear-icon='false' :localdata="dataTree" v-model="projectInfo.categoryTypeId"
 						@change="shopechange">
 					</data-picker>
@@ -124,7 +124,7 @@
 		},
 		data: function() {
 			return {
-				isnum:true,
+				isnum: true,
 				//商品单位弹窗
 				unitshow: false,
 				//发布商品信息数据
@@ -660,7 +660,7 @@
 	.box {
 		background-color: #FFF;
 		margin: 20rpx;
-		padding: 20rpx;
+		padding: 20rpx 30rpx 20rpx 35rpx;
 		overflow: hidden;
 		box-shadow: 0 0 12rpx #d7d7d7;
 		border-radius: 10rpx;
@@ -671,6 +671,8 @@
 		justify-content: space-between;
 		align-items: center;
 	}
+
+	
 
 	.btn {
 		box-shadow: 0 0 12rpx #d7d7d7;

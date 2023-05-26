@@ -12,12 +12,12 @@
 					<view v-else class="uni-date-x uni-date-range">
 						<uni-icons type="calendar" color="#c0c4cc" size="22"></uni-icons>
 						<input class="uni-date__x-input t-c" type="text" v-model="range.startDate"
-							:placeholder="startPlaceholderText" :disabled="true" />
+							:placeholder="startPlaceholderText" placeholder-style="color:#c0c4cc;" :disabled="true" />
 						<slot>
 							<view class="">{{rangeSeparator}}</view>
 						</slot>
 						<input class="uni-date__x-input t-c" type="text" v-model="range.endDate"
-							:placeholder="endPlaceholderText" :disabled="true" />
+							:placeholder="endPlaceholderText" placeholder-style="color:#c0c4cc;" :disabled="true" />
 					</view>
 					<view v-if="showClearIcon" class="uni-date__icon-clear" @click.stop="clear">
 						<uni-icons type="clear" color="#c0c4cc" size="24"></uni-icons>
