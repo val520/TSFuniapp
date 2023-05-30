@@ -50,7 +50,7 @@
 			this.userdata()
 		},
 		onShow() {
-			this.userdata()
+			// this.userdata()
 		},
 		methods: {
 			//获取用户信息
@@ -63,7 +63,7 @@
 					}
 				}).then(res => {
 					if (res.data.code === 0) {
-						console.log(res.data.result.records[0]);
+						console.log(res.data.result.records[0],3333);
 						this.userInfo = res.data.result.records[0]
 					} else {
 						uni.$u.toast(res.data.message)
@@ -72,11 +72,11 @@
 			},
 			//获取用户名赋值
 			nicknameValue(e) {
-				console.log(e.detail);
+				console.log(e.detail,1);
 				this.userInfo.realname = e.detail.value
 			},
 			bindinput(e) {
-				console.log(e.detail);
+				console.log(e.detail,2);
 				this.userInfo.realname = e.detail.value
 			},
 			//获取用户头像

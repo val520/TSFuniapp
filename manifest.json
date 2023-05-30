@@ -68,9 +68,10 @@
         },
         "permission" : {
             "scope.userLocation" : {
-                "desc" : "你的位置信息将用于和门店的距离长度"
+                "desc" : "获取用户当前位置，便于查询周边就近项目"
             }
         },
+		"requiredPrivateInfos" : [ "getLocation" ],
         // "plugins" : {
         //     "chat" : {
         //         "version" : "1.0.8",

@@ -1,3 +1,4 @@
+// const BASE_URL = 'http://192.168.137.1:8080/jeecg-boot'// 何渝都
 const BASE_URL = 'http://192.168.12.30:8080/jeecg-boot'// 何渝都
 // const BASE_URL = 'https://tsf.ccle.cn/tsf' // 公网地址
 export const myRequest = (options) => {

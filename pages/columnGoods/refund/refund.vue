@@ -58,7 +58,7 @@
 					</view>
 					<view class="bom">
 						<view class="time">
-							有效日期:{{item.createTime}}
+							申请日期:{{item.createTime}}
 						</view>
 						<view v-if="item.appStatus =='待审核'" class="bombtn" @click.stop="clickProject(item)">
 							审核

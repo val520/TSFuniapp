@@ -10,9 +10,9 @@
 					</hg-select>
 				</u-form-item>
 				<u-form-item label="商品品类" required="true" prop="categoryTypeId" borderBottom ref="item1">
-					<data-picker placeholder="请选择商品品类" placeholder-style="color:#00aaff" :map="{text:'name',value:'id'}" popup-title="请选择商品品类"
-						clear-icon='false' :localdata="dataTree" v-model="projectInfo.categoryTypeId"
-						@change="shopechange">
+					<data-picker placeholder="请选择商品品类" placeholder-style="color:#00aaff" :map="{text:'name',value:'id'}"
+						popup-title="请选择商品品类" clear-icon='false' :localdata="dataTree"
+						v-model="projectInfo.categoryTypeId" @change="shopechange">
 					</data-picker>
 				</u-form-item>
 				<u-form-item label="商品类型" required="true" prop="productTypeId" borderBottom ref="item1">
@@ -29,7 +29,7 @@
 				</u-form-item> -->
 				<u-form-item label="购买审核" required="true" prop="isBuyCheck" borderBottom ref="item1">
 					<u-radio-group v-model="projectInfo.isBuyCheck" iconPlacement="right" placement="row">
-						<u-radio activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
+						<u-radio  activeColor="#DCA842" :customStyle="{marginLeft: '8px'}"
 							v-for="(item, index) in radiolist1" :key="index" :label="item.name" :name="item.label"
 							@change="radioChange">
 						</u-radio>
@@ -672,7 +672,6 @@
 		align-items: center;
 	}
 
-	
 
 	.btn {
 		box-shadow: 0 0 12rpx #d7d7d7;

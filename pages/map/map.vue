@@ -112,13 +112,29 @@
 				keyword: '', //搜索参数
 			}
 		},
-		mounted() {
-
-		},
 		onShow() {
 			this.markerlist()
+
 		},
-		onLoad() {},
+		onLoad() {
+			let that = this
+			uni.getLocation({
+				type: 'wgs84',
+				geocode: true, //设置该参数为true可直接获取经纬度及城市信息
+				success: function(res) {
+					console.log('获取定位信息', res);
+					that.latitude = res.latitude;
+					that.longitude = res.longitude;
+				},
+				fail: function(err) {
+					console.log("获取定位失败", err);
+					uni.showToast({
+						title: '获取地址失败，将导致部分功能不可用',
+						icon: 'none'
+					});
+				}
+			});
+		},
 		onHide: function() {},
 		methods: {
 			// 跳转商品购买界面

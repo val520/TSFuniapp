@@ -22,7 +22,7 @@
 						<block v-for="(item,index) in imgUrls" :key="index">
 							<swiper-item>
 								<navigator class='slide-navigator acea-row row-between-wrapper' hover-class='none'>
-									<image :src="item.pic" class="slide-image" lazy-load></image>
+									<image :src="item.attUrl" mode="aspectFill" class="slide-image" lazy-load></image>
 								</navigator>
 							</swiper-item>
 						</block>
@@ -145,8 +145,29 @@
 		},
 		onShow() {
 			this.hall()
+			
 		},
 		methods: {
+			//获取首页轮播
+			bannnerlist() {
+				let that = this
+				let val = {
+					pageNo: 1,
+					pageSize: 10,
+					isShow:0
+				}
+				that.$myRequest({
+					url: "/homePage/tsfHomePage/list",
+					method: "get",
+					data: val
+				}).then(res => {
+					if (res.data.code === 200) {
+						that.imgUrls = res.data.result.records
+					} else {
+						uni.$u.toast(res.data.message)
+					}
+				})
+			},
 			onShareAppMessage(res) {
 				if (res.from === 'button') { // 来自页面内分享按钮
 					console.log(res.target)
@@ -175,9 +196,9 @@
 								val = [...val, ...obj.children]
 							}
 						})
-						let obj =[]
+						let obj = []
 						val.forEach((item) => {
-							if(item.status === 1){
+							if (item.status === 1) {
 								obj.push(item)
 							}
 						})
@@ -259,6 +280,7 @@
 					if (res.data.code === 200) {
 						this.tempArr = res.data.result.records
 						this.typeList()
+						this.bannnerlist()
 					} else {
 						this.tempArr = []
 						uni.$u.toast(res.data.message)

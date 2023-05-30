@@ -355,6 +355,7 @@
 	.mintxt {
 		width: 410rpx;
 		overflow: hidden;
+		text-align: left;
 		text-overflow: ellipsis;
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
