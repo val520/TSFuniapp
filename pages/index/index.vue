@@ -190,14 +190,14 @@
 					data: val
 				}).then(res => {
 					if (res.data.code === 200) {
-						let val = []
+						let vals = []
 						res.data.result.records.forEach((obj) => {
-							if (obj.children.length > 0) {
-								val = [...val, ...obj.children]
+							if (obj.children.length > 0 && obj.name !='工程运输') {
+								vals = [...vals, ...obj.children]
 							}
 						})
 						let obj = []
-						val.forEach((item) => {
+						vals.forEach((item) => {
 							if (item.status === 1) {
 								obj.push(item)
 							}

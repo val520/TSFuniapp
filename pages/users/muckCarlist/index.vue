@@ -3,7 +3,7 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入内容" prefixIcon="search" v-model="queryValue" @change="query" @clear="queryValue = ''"
+				<u--input placeholder="请输入机械名称" prefixIcon="search" v-model="queryValue" @change="query" @clear="queryValue = ''"
 					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
@@ -17,13 +17,17 @@
 		</u-empty>
 		<!-- 项目列表区域 -->
 		<view class="boxlist" v-else v-for="(item,index) in datalist" :key="index" @click="projectDate(item)">
-			<view class="">
-				<!-- 项目名称 -->
+			<view style="margin-right: 10rpx;">
+				<u--image :showLoading="true" radius="20rpx" :src="item.attUrl" width="160rpx"
+					height="160rpx"></u--image>
+			</view>
+			<view class="centerbox">
+				<!-- 机械名称 -->
 				<view class="textName">
-					{{item.projectName}}
+					{{item.machineName}}
 				</view>
 				<view class="center">
-					<span style="color: #666;">项目位置：</span>{{item.remark}}
+					<span style="color: #666;">机械类型：</span>{{item.categoryTypeName}}
 				</view>
 				<view class="center">
 					<span style="color: #666;">所属机构：</span>{{item.orgName}}
@@ -32,22 +36,10 @@
 					<span style="color: #666;">创建时间：</span>{{item.createTime}}
 				</view>
 			</view>
-			<view class="mintxt" v-if="item.projectStatus === 0">
-				待审核
+			<view class="">
 				<view class="btn1" @click.stop="editProject(item)">
 					编辑
 				</view>
-			</view>
-			<view class="mintxtred" v-else-if="item.projectStatus === 2">
-				不通过
-				<view class="btn2" @click.stop="openshow(item)">
-					删除
-				</view>
-			</view>
-			<view class="" v-else>
-				<!-- <view class="btn1" @click.stop="editProject(item)">
-					编辑
-				</view> -->
 				<view class="btn2" @click.stop="openshow(item)">
 					删除
 				</view>
@@ -58,7 +50,7 @@
 		<u-modal :show="show" title="提示" confirmColor="#DCA842" @confirm="addshow" @close='showclose'
 			:closeOnClickOverlay="true">
 			<view class="slot-content" style="text-align: center;color: #666;">
-				点击 "确认" 删除项目后,不可恢复,请谨慎操作!
+				点击 "确认" 删除后,不可恢复,请谨慎操作!
 			</view>
 		</u-modal>
 		<!-- 返回TOP -->
@@ -110,11 +102,11 @@
 				let val = {
 					pageNo: this.size,
 					pageSize: 10,
-					projectName: this.queryValue
+					machineName: this.queryValue,
+					homePageFlag:false
 				}
 				this.$myRequest({
-					url: "/tsf/tsfBusProject/wxList",
-					// url: "/tsf/tsfBusProject/list",
+					url: "/machine/wxList",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -126,23 +118,23 @@
 					}
 				})
 			},
-			// 新建项目
+			// 新建机械
 			newproject() {
 				uni.navigateTo({
-					url: '/pages/columnGoods/NewProject/index'
+					url: '/pages/users/muckCar/index'
 				})
 			},
-			// 编辑项目
+			// 编辑机械
 			editProject(item) {
 				uni.navigateTo({
-					url: '/pages/columnGoods/EditProject/index?item=' + encodeURIComponent(JSON.stringify(item)
+					url: '/pages/users/muckCaredit/index?item=' + encodeURIComponent(JSON.stringify(item)
 						.replace(/%/g, '%25'))
 				})
 			},
-			// 跳转项目详情
+			// 跳转机械详情
 			projectDate(item) {
 				uni.navigateTo({
-					url: '/pages/columnGoods/Projectinfo/index?item=' + encodeURIComponent(JSON.stringify(item)
+					url: '/pages/users/muckCaredit/index?item=' + encodeURIComponent(JSON.stringify(item)
 						.replace(/%/g, '%25'))
 				})
 			},
@@ -162,7 +154,7 @@
 					id: this.deletedata.id
 				}
 				this.$myRequest({
-					url: "/tsf/tsfBusProject/delete",
+					url: "/machine/delete",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -183,10 +175,11 @@
 			let val = {
 				pageNo: this.size,
 				pageSize: 10,
-				projectName: this.queryValue
+				projectName: this.queryValue,
+				homePageFlag:false
 			}
 			this.$myRequest({
-				url: "/tsf/tsfBusProject/wxList",
+				url: "/machine/wxList",
 				// url: "/tsf/tsfBusProject/list",
 				method: "get",
 				data: val
@@ -225,7 +218,7 @@
 		border-radius: 10rpx;
 		box-shadow: 0 0 12rpx #d7d7d7;
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 		align-items: center;
 	}
 
@@ -245,7 +238,7 @@
 	}
 
 	.textName {
-		width: 500rpx;
+		width: 400rpx;
 		font-weight: bold;
 		font-size: 30rpx;
 		margin-bottom: 10rpx;
@@ -257,7 +250,7 @@
 
 	.center {
 		color: #999;
-		width: 500rpx;
+		width: 400rpx;
 		margin-bottom: 10rpx;
 		overflow: hidden;
 		white-space: nowrap;
@@ -286,5 +279,8 @@
 		bottom: 100rpx;
 		padding: 20rpx;
 		border-radius: 50%;
+	}
+	.centerbox{
+		// width: 100rpx;
 	}
 </style>

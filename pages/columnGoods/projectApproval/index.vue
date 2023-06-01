@@ -191,7 +191,7 @@
 				data: val
 			}).then(res => {
 				if (res.data.code === 200) {
-					if (this.datalist.length = res.data.result.total) {
+					if (this.datalist.length === res.data.result.total) {
 						uni.$u.toast('没有更多了')
 					} else {
 						this.datalist = [...this.datalist, ...res.data.result.records]

@@ -27,7 +27,21 @@
 							<view class='name'>{{item.name}}</view>
 							<view class='line'></view>
 						</view>
-						<view class='list acea-row'>
+						<!-- //区分工程运输和商品 -->
+						<view class='list acea-row' v-if="item.name === '工程运输'">
+							<block v-for="(itemn,indexn) in item.children" :key="indexn">
+								<navigator hover-class='none' v-if='itemn.status === 1'
+									:url='"/pages/users/muckCar/indexlook?data="+itemn'
+									class='item acea-row row-column row-middle'>
+									<view class='picture' :style="{'background-color':itemn.extra?'none':'#f7f7f7'}">
+										<image :src='itemn.imgInterUrl'></image>
+										<!-- <image src='../../static/images/plus.png'></image> -->
+									</view>
+									<view class='name line1'>{{itemn.name}}</view>
+								</navigator>
+							</block>
+						</view>
+						<view class='list acea-row' v-else>
 							<block v-for="(itemn,indexn) in item.children" :key="indexn">
 								<navigator hover-class='none' v-if='itemn.status === 1'
 									:url='"/pages/goods_list/index?cid="+itemn.id+"&title="+itemn.name'

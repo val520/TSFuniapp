@@ -191,7 +191,6 @@
 							res.text = res.typeName
 						})
 						this.requireSorts = res.data.result.records
-
 					} else {
 						uni.$u.toast(res.data.message)
 						this.requireSorts = []

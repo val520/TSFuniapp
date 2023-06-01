@@ -99,6 +99,11 @@
 								<image :src="servicePic8"></image>
 								<text>运输码</text>
 							</button>
+							<button v-if="isAdmin" class="item" @click="goto('/pages/users/muckCarlist/index')"
+								hover-class='none'>
+								<image :src="servicePic9"></image>
+								<text>运输发布</text>
+							</button>
 						</view>
 					</view>
 
@@ -232,6 +237,7 @@
 				servicePic6: '/static/images/myup.png',
 				servicePic7: '/static/images/mysc.png',
 				servicePic8: '/static/images/see.png',
+				servicePic9: '/static/images/zc.png',
 				sysHeight: sysHeight,
 				// #ifdef MP
 				pageHeight: '100%',

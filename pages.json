@@ -173,6 +173,46 @@
 					}
 				},
 				{
+					"path": "muckCar/index",
+					"style": {
+						"navigationBarTitleText": "运输发布",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
+					"path": "muckCar/indexinfo",
+					"style": {
+						"navigationBarTitleText": "详情",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
+					"path": "muckCar/indexlook",
+					"style": {
+						"navigationBarTitleText": "工程运输",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
+					"path": "muckCaredit/index",
+					"style": {
+						"navigationBarTitleText": "运输编辑",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
+					"path": "muckCarlist/index",
+					"style": {
+						"navigationBarTitleText": "运输管理",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
 					"path": "wechat_login/index",
 					"style": {
 						"navigationBarTitleText": "账户登录",
