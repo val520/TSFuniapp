@@ -2,35 +2,35 @@
 	<view>
 		<!-- 运输发布 -->
 		<view class="box">
-			<u--form labelPosition="left" :model="projectInfo" labelWidth="80" :rules="rules" ref="form1">
+			<u--form labelPosition="top" :model="projectInfo" labelWidth="auto" :rules="rules" ref="form1">
 				<u-form-item label="所属机构" required="true" prop="orgName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.orgName" disabled border="none" placeholder="请输入机构名称"></u--input>
 				</u-form-item>
-				<u-form-item label="机械类型" required="true" prop="categoryTypeId" borderBottom ref="item1">
-					<!-- <u--input v-model="projectInfo.categoryTypeId" border="none" placeholder="请选择机械类型"></u--input> -->
-					<hg-select v-model="projectInfo.categoryTypeId" :localdata="requireSorts" @change="change">
-					</hg-select>
-				</u-form-item>
-				<u-form-item label="机械名称" required="true" prop="machineName" borderBottom ref="item1">
-					<u--input v-model="projectInfo.machineName" border="none" placeholder="请输入机械名称"></u--input>
-				</u-form-item>
-				<u-form-item label="机械描述" required="true" prop="remark" borderBottom ref="item1">
-					<u--input v-model="projectInfo.remark" border="none" placeholder="请输入机械描述"></u--input>
-				</u-form-item>
-				<u-form-item label="机械数量" required="true" prop="totalAmount" borderBottom ref="item1">
-					<u--input v-model="projectInfo.totalAmount" type="number" border="none" placeholder="请输入机械数量">
-					</u--input>
-				</u-form-item>
-				<!-- <u-form-item label="是否认证" required="true" prop="authFlag" borderBottom ref="item1">
-					<hg-select v-model="projectInfo.authFlag" :localdata="looktype" @change="changelook">
-					</hg-select>
+
+				<u-form-item label="联系人" required="true" prop="contactUser" borderBottom ref="item1">
+					<u--input v-model="projectInfo.contactUser" border="none" placeholder="请输入联系人名称"></u--input>
 				</u-form-item>
 				<u-form-item label="联系方式" required="true" prop="contactPhone" borderBottom ref="item1">
-					<u--input v-model="projectInfo.contactPhone" maxlength="11" type="number" border="none" placeholder="请输入手机号码">
+					<u--input v-model="projectInfo.contactPhone" maxlength="11" type="number" border="none"
+						placeholder="请输入手机号码">
 					</u--input>
-				</u-form-item> -->
+				</u-form-item>
+				<u-form-item label="统一社会信用代码" required="true" prop="usccCode" borderBottom ref="item1">
+					<u--input v-model="projectInfo.usccCode" border="none" placeholder="请输入信用代码">
+					</u--input>
+				</u-form-item>
+				<u-form-item label="运输业务常驻地区" required="true" prop="businessAddress" borderBottom ref="item1">
+					<u--input v-model="projectInfo.businessAddress" border="none" placeholder="请输入运输业务常驻地区">
+					</u--input>
+				</u-form-item>
+				<u-form-item label="是否协会认证" required="true" prop="authFlag" borderBottom ref="item1">
+					<hg-select disabled="true" v-model="projectInfo.authFlag" :localdata="looktype"
+						@change="changelook">
+					</hg-select>
+				</u-form-item>
+
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="机械图片" required="true" prop="coverImg" borderBottom ref="item1">
+				<u-form-item label="道路运输经营许可证" required="true" prop="coverImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList2" @afterRead="afterRead" @delete="deletePic" name="2" multiple
 						:maxCount="1" :previewFullImage="true"></u-upload>
 				</u-form-item>
@@ -59,23 +59,23 @@
 				projectInfo: {
 					// 所属项目id
 					orgId: "",
-					//机械名称
-					machineName: "",
+					//统一社会信用代码
+					usccCode: "",
 					//是否认证
-					authFlag:'',
-					// 机械类型
-					categoryTypeId: "",
-					// 机械库存
-					totalAmount: "",
+					authFlag: 1,
 					//联系方式
 					contactPhone: "",
-					//  机械描述
-					remark: "",
+					//  联系人
+					contactUser: "",
+					//运输业务常驻地区
+					businessAddress: '',
 					// 封面图片
 					coverImg: "",
 				},
 				// 封面图
 				fileList2: [],
+				// 机械类型数据
+				requireSorts: [],
 				looktype: [{
 					value: 0,
 					text: "是"
@@ -83,8 +83,6 @@
 					value: 1,
 					text: "否"
 				}, ],
-				// 机械类型数据
-				requireSorts: [],
 				//判断图片是否上传完成
 				imgUp: false,
 				// 表单检验规则
@@ -95,16 +93,16 @@
 						message: '请填写公司名称',
 						trigger: ['blur', 'change']
 					},
-					'remark': {
+					'usccCode': {
 						type: 'string',
 						required: true,
-						message: '请填写机械描述',
+						message: '请输入统一社会信用代码',
 						trigger: ['blur', 'change']
 					},
-					'authFlag': {
-						type: 'number',
+					'businessAddress': {
+						type: 'string',
 						required: true,
-						message: '请选择',
+						message: '请输入运输业务常驻地区',
 						trigger: ['blur', 'change']
 					},
 					'contactPhone': [{
@@ -125,25 +123,18 @@
 							trigger: ['change', 'blur'],
 						}
 					],
-					'machineName': {
+					'contactUser': {
 						type: 'string',
 						required: true,
-						message: '请填写机械名称',
+						message: '请填写联系人名称',
 						trigger: ['blur', 'change']
 					},
-					'totalAmount': {
+					'authFlag': {
 						type: 'number',
 						required: true,
-						message: '请填写机械数量',
+						message: '请选择',
 						trigger: ['blur', 'change']
 					},
-					'categoryTypeId': {
-						type: 'string',
-						required: true,
-						message: '请选择机械类型',
-						trigger: ['blur', 'change']
-					},
-
 					'coverImg': {
 						type: 'string',
 						required: true,
@@ -153,26 +144,12 @@
 				}
 			}
 		},
-		onLoad: function(option) {
-			if (option.item != undefined) {
-				const item = JSON.parse(decodeURIComponent(option.item));
-				console.log('编辑信息', item)
-				this.projectInfo = item
-				this.projectInfo.coverImg = item.attUrl
-				this.fileList2 = [{
-					status: 'success',
-					message: '',
-					url: item.attUrl,
-					id: item.coverAttIds
-				}]
-				this.imgUp = true
-			}
-		},
+		onLoad: function(option) {},
 		onShow() {
 			this.unitlist()
 			//默认匹配当前用户的组织机构
-			// this.projectInfo.orgname = uni.getStorageSync("userInfo").orgCodeTxt
-			// this.projectInfo.orgId = uni.getStorageSync("userInfo").departIds
+			this.projectInfo.orgName = uni.getStorageSync("userInfo").orgCodeTxt
+			this.projectInfo.orgId = uni.getStorageSync("userInfo").departIds
 		},
 		onReady() {
 			//如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则。
@@ -226,9 +203,9 @@
 							this.fileList2.forEach((res) => {
 								val.push(res.id)
 							})
-							this.projectInfo.coverAttIds = val[0]
+							this.projectInfo.annexAttIds = val[0]
 							this.$myRequest({
-								url: "/machine/edit",
+								url: "/org/machine/add",
 								method: "post",
 								data: this.projectInfo
 							}).then(res => {

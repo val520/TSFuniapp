@@ -68,6 +68,9 @@
 		<!-- //类型弹窗 -->
 		<u-picker :show="typeshow" closeOnClickOverlay='true' keyName="name" :columns="typecolumns" @confirm="typefirm"
 			@cancel="typeclose" @close="typeclose" />
+		<!-- //距离弹窗 -->
+		<u-picker :show="distanceshow" closeOnClickOverlay='true' keyName="label" :columns="distancelist"
+			@confirm="distanceup" @cancel="distaclose" @close="distaclose" />
 	</view>
 </template>
 
@@ -77,15 +80,22 @@
 	export default {
 		data() {
 			return {
+				// 默认 经纬度
+				latitude: '29.563707',
+				longitude: '106.550483',
 				//价格显示隐藏弹窗
 				priceshow: false,
 				//时间排序弹窗
 				timeshow: false,
 				//类型弹窗
 				typeshow: false,
+				// 距离弹窗
+				distanceshow: false,
+				
 				priceValue: '',
 				timeValue: '',
 				typeValue: '',
+				distanvalue:'',
 				//价格数据
 				pricecolumns: [
 					[{
@@ -110,6 +120,21 @@
 				typecolumns: [
 					[]
 				],
+				//距离数据
+				distancelist: [
+					[{
+							label: '1公里',
+							id: 0
+						}, {
+							label: '5公里',
+							id: 1
+						},
+						{
+							label: '10公里',
+							id: 2
+						},
+					]
+				],
 				list1: [{
 					name: '推荐',
 				}, {
@@ -118,7 +143,11 @@
 					name: '时间'
 				}, {
 					name: '类型'
-				}, ],
+				}, 
+				// {
+				// 	name: '距离'
+				// },
+				],
 				statusBarHeight: statusBarHeight, //头部高度
 				imgUrls: [{
 					pic: "https://tsf.ccle.cn/earhtWorkAttachments/0/2023041059c0b7592e1d427f8a1109f9e62353b6804483b754ad9cc025684dbf190b0e1.png"
@@ -142,10 +171,45 @@
 				self.marTop = data.height
 			}).exec()
 			// #endif
+			let that = this
+			uni.getLocation({
+				type: 'wgs84',
+				geocode: true, //设置该参数为true可直接获取经纬度及城市信息
+				success: function(res) {
+					console.log('获取定位信息', res);
+					that.latitude = res.latitude;
+					that.longitude = res.longitude;
+				},
+				fail: function(err) {
+					console.log("获取定位失败", err);
+					uni.showToast({
+						title: '获取地址失败,请开启定位功能',
+						icon: 'none'
+					});
+					this.latitude = '29.563707'
+					this.longitude = '106.550483'
+				}
+			});
 		},
 		onShow() {
 			this.hall()
-			
+			let that = this
+			uni.getLocation({
+				type: 'wgs84',
+				geocode: true, //设置该参数为true可直接获取经纬度及城市信息
+				success: function(res) {
+					console.log('获取定位信息', res);
+					that.latitude = res.latitude;
+					that.longitude = res.longitude;
+				},
+				fail: function(err) {
+					console.log("获取定位失败", err);
+					uni.showToast({
+						title: '获取地址失败,请开启定位功能',
+						icon: 'none'
+					});
+				}
+			});
 		},
 		methods: {
 			//获取首页轮播
@@ -154,7 +218,7 @@
 				let val = {
 					pageNo: 1,
 					pageSize: 10,
-					isShow:0
+					isShow: 0
 				}
 				that.$myRequest({
 					url: "/homePage/tsfHomePage/list",
@@ -192,7 +256,7 @@
 					if (res.data.code === 200) {
 						let vals = []
 						res.data.result.records.forEach((obj) => {
-							if (obj.children.length > 0 && obj.name !='工程运输') {
+							if (obj.children.length > 0 && obj.name != '工程运输') {
 								vals = [...vals, ...obj.children]
 							}
 						})
@@ -226,6 +290,9 @@
 					this.timeshow = true
 				} else if (e.name === '类型') {
 					this.typeshow = true
+				} 
+				else if (e.name === '距离') {
+					this.distanceshow = true
 				}
 			},
 			//关闭价格弹窗
@@ -260,6 +327,17 @@
 				this.typeValue = e.value[0].id
 				this.hall()
 				this.typeshow = false
+			},
+			//点击距离确认
+			distanceup(e) {
+				console.log(e);
+				this.distanvalue = e.value[0].id
+				this.hall()
+				this.distanceshow = false
+			},
+			//关闭类型弹窗
+			distaclose() {
+				this.distanceshow = false
 			},
 			//获取大厅商品
 			hall() {

@@ -3,7 +3,7 @@
 		<!-- 搜索区域 -->
 		<view class="header">
 			<view style="width: 100%;">
-				<u--input placeholder="请输入机械名称" prefixIcon="search" v-model="queryValue" @change="query" @clear="queryValue = ''"
+				<u--input placeholder="请输入公司名称" prefixIcon="search" v-model="queryValue" @change="query" @clear="queryValue = ''"
 					border="surround" shape="circle" clearable>
 				</u--input>
 			</view>
@@ -18,19 +18,19 @@
 		<!-- 项目列表区域 -->
 		<view class="boxlist" v-else v-for="(item,index) in datalist" :key="index" @click="projectDate(item)">
 			<view style="margin-right: 10rpx;">
-				<u--image :showLoading="true" radius="20rpx" :src="item.attUrl" width="160rpx"
+				<u--image :showLoading="true" radius="20rpx" :src="item.annexAttInterUrl" width="160rpx"
 					height="160rpx"></u--image>
 			</view>
 			<view class="centerbox">
 				<!-- 机械名称 -->
 				<view class="textName">
-					{{item.machineName}}
+					{{item.orgName}}
 				</view>
 				<view class="center">
-					<span style="color: #666;">机械类型：</span>{{item.categoryTypeName}}
+					<span style="color: #666;">常驻区域：</span>{{item.businessAddress}}
 				</view>
 				<view class="center">
-					<span style="color: #666;">所属机构：</span>{{item.orgName}}
+					<span style="color: #666;">联系人：</span>{{item.contactUser}}
 				</view>
 				<view class="center">
 					<span style="color: #666;">创建时间：</span>{{item.createTime}}
@@ -106,7 +106,7 @@
 					homePageFlag:false
 				}
 				this.$myRequest({
-					url: "/machine/wxList",
+					url: "/org/machine/list",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -121,20 +121,20 @@
 			// 新建机械
 			newproject() {
 				uni.navigateTo({
-					url: '/pages/users/muckCar/index'
+					url: '/pages/activity/companyadd/index'
 				})
 			},
 			// 编辑机械
 			editProject(item) {
 				uni.navigateTo({
-					url: '/pages/users/muckCaredit/index?item=' + encodeURIComponent(JSON.stringify(item)
+					url: '/pages/activity/companyedit/index?item=' + encodeURIComponent(JSON.stringify(item)
 						.replace(/%/g, '%25'))
 				})
 			},
 			// 跳转机械详情
 			projectDate(item) {
 				uni.navigateTo({
-					url: '/pages/users/muckCaredit/index?item=' + encodeURIComponent(JSON.stringify(item)
+					url: '/pages/activity/companyedit/index?item=' + encodeURIComponent(JSON.stringify(item)
 						.replace(/%/g, '%25'))
 				})
 			},
@@ -154,7 +154,7 @@
 					id: this.deletedata.id
 				}
 				this.$myRequest({
-					url: "/machine/delete",
+					url: "/org/machine/delete",
 					method: "get",
 					data: val
 				}).then(res => {
@@ -179,7 +179,7 @@
 				homePageFlag:false
 			}
 			this.$myRequest({
-				url: "/machine/wxList",
+				url: "/org/machine/list",
 				// url: "/tsf/tsfBusProject/list",
 				method: "get",
 				data: val

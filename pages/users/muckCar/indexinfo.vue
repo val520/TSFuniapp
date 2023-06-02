@@ -327,7 +327,7 @@
 
 	.footclass {
 		color: #999;
-		font-size: 16rpx;
+		font-size: 20rpx;
 		text-align: center;
 	}
 </style>

@@ -283,7 +283,7 @@
 		position: fixed;
 		z-index: 99999;
 		right: 10rpx;
-		bottom: 100rpx;
+		bottom: 300rpx;
 		padding: 20rpx;
 		border-radius: 50%;
 	}

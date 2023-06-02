@@ -3,8 +3,8 @@
 		<!-- 运输发布 -->
 		<view class="box">
 			<u--form labelPosition="left" :model="projectInfo" labelWidth="80" :rules="rules" ref="form1">
-				<u-form-item label="所属机构" required="true" prop="orgname" borderBottom ref="item1">
-					<u--input v-model="projectInfo.orgname" disabled border="none" placeholder="请输入机构名称"></u--input>
+				<u-form-item label="所属机构" required="true" prop="orgName" borderBottom ref="item1">
+					<u--input v-model="projectInfo.orgName" disabled border="none" placeholder="请输入机构名称"></u--input>
 				</u-form-item>
 				<u-form-item label="机械类型" required="true" prop="categoryTypeId" borderBottom ref="item1">
 					<!-- <u--input v-model="projectInfo.categoryTypeId" border="none" placeholder="请选择机械类型"></u--input> -->
@@ -21,7 +21,7 @@
 					<u--input v-model="projectInfo.totalAmount" type="number" border="none" placeholder="请输入机械数量">
 					</u--input>
 				</u-form-item>
-				<u-form-item label="是否认证" required="true" prop="authFlag" borderBottom ref="item1">
+				<!-- <u-form-item label="是否认证" required="true" prop="authFlag" borderBottom ref="item1">
 					<hg-select v-model="projectInfo.authFlag" :localdata="looktype" @change="changelook">
 					</hg-select>
 				</u-form-item>
@@ -29,7 +29,7 @@
 					<u--input v-model="projectInfo.contactPhone" maxlength="11" type="number" border="none"
 						placeholder="请输入手机号码">
 					</u--input>
-				</u-form-item>
+				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
 				<u-form-item label="机械图片" required="true" prop="coverImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList2" @afterRead="afterRead" @delete="deletePic" name="2" multiple
@@ -158,7 +158,7 @@
 		onShow() {
 			this.unitlist()
 			//默认匹配当前用户的组织机构
-			this.projectInfo.orgname = uni.getStorageSync("userInfo").orgCodeTxt
+			this.projectInfo.orgName = uni.getStorageSync("userInfo").orgCodeTxt
 			this.projectInfo.orgId = uni.getStorageSync("userInfo").departIds
 		},
 		onReady() {
@@ -172,7 +172,7 @@
 			// 选择机械类型
 			change(e) {
 				console.log(e);
-				this.$refs.form1.validateField('projectInfo.categoryTypeId')
+				this.$refs.form1.validateField('categoryTypeId')
 			},
 			changelook(e) {
 				console.log(e);

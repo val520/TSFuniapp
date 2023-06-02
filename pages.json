@@ -224,8 +224,30 @@
 		{
 			"root": "pages/activity",
 			"name": "activity",
-			"pages": [
-
+			"pages": [{
+					"path": "companylist/index",
+					"style": {
+						"navigationBarTitleText": "公司管理",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
+					"path": "companyadd/index",
+					"style": {
+						"navigationBarTitleText": "公司信息",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},
+				{
+					"path": "companyedit/index",
+					"style": {
+						"navigationBarTitleText": "信息编辑",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				}
 			]
 		},
 		{
@@ -345,7 +367,7 @@
 						"navigationBarBackgroundColor": "#DCA842",
 						"navigationBarTextStyle": "#fff"
 					}
-				}, 
+				},
 				{
 					"path": "ticketlist/index",
 					"style": {

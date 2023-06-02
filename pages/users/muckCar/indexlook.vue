@@ -35,12 +35,22 @@
 				</view>
 			</view>
 		</view>
+		<!-- 返回TOP -->
+		<u-back-top :scroll-top="scrollTop" icon="arrow-up" :customStyle="custom" :iconStyle="iconStyle"></u-back-top>
 	</view>
 </template>
 <script>
 	export default {
 		data: function() {
 			return {
+				scrollTop:0,
+				custom: {
+					background: '#DCA842'
+				},
+				iconStyle: {
+					fontSize: '32rpx',
+					color: '#FFF'
+				},
 				//机械类型数据
 				requireSorts: [],
 				//机械数据
@@ -149,8 +159,6 @@
 				data: val
 			}).then(res => {
 				if (res.data.code === 200) {
-					console.log(this.tempArr.length,"当前数据长度");
-					console.log(res.data.result.total,"当前总数");
 					if (this.tempArr.length === res.data.result.total) {
 						uni.$u.toast('没有更多了')
 					} else {

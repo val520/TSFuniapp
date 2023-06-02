@@ -63,6 +63,11 @@
 					<view class="user-menus" style="margin-top: 20rpx;box-shadow: 0 0 12rpx #d7d7d7;">
 						<view class="menu-title">我的管理</view>
 						<view class="list-box">
+							<button class="item" v-if="isAdmin" @click="goto('/pages/activity/companylist/index')"
+								hover-class='none'>
+								<image :src="servicePic10"></image>
+								<text>公司管理</text>
+							</button>
 							<button class="item" @click="goto('/pages/columnGoods/projectConten/index')"
 								hover-class='none'>
 								<image :src="servicePic4"></image>
@@ -238,6 +243,7 @@
 				servicePic7: '/static/images/mysc.png',
 				servicePic8: '/static/images/see.png',
 				servicePic9: '/static/images/zc.png',
+				servicePic10: '/static/images/company.png',
 				sysHeight: sysHeight,
 				// #ifdef MP
 				pageHeight: '100%',
