@@ -2,22 +2,22 @@
 	<view>
 		<!-- 运输发布 -->
 		<view class="box">
-			<u--form labelPosition="left" :model="projectInfo" labelWidth="80" :rules="rules" ref="form1">
-				<u-form-item label="所属机构" required="true" prop="orgName" borderBottom ref="item1">
+			<u--form labelPosition="left" :model="projectInfo" labelWidth="50" :rules="rules" ref="form1">
+				<u-form-item label="机构" required="true" prop="orgName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.orgName" disabled border="none" placeholder="请输入机构名称"></u--input>
 				</u-form-item>
-				<u-form-item label="机械类型" required="true" prop="categoryTypeId" borderBottom ref="item1">
+				<u-form-item label="类型" required="true" prop="categoryTypeId" borderBottom ref="item1">
 					<!-- <u--input v-model="projectInfo.categoryTypeId" border="none" placeholder="请选择机械类型"></u--input> -->
 					<hg-select v-model="projectInfo.categoryTypeId" :localdata="requireSorts" @change="change">
 					</hg-select>
 				</u-form-item>
-				<u-form-item label="机械名称" required="true" prop="machineName" borderBottom ref="item1">
+				<u-form-item label="名称" required="true" prop="machineName" borderBottom ref="item1">
 					<u--input v-model="projectInfo.machineName" border="none" placeholder="请输入机械名称"></u--input>
 				</u-form-item>
-				<u-form-item label="机械描述" required="true" prop="remark" borderBottom ref="item1">
+				<u-form-item label="描述" required="true" prop="remark" borderBottom ref="item1">
 					<u--input v-model="projectInfo.remark" border="none" placeholder="请输入机械描述"></u--input>
 				</u-form-item>
-				<u-form-item label="机械数量" required="true" prop="totalAmount" borderBottom ref="item1">
+				<u-form-item label="数量" required="true" prop="totalAmount" borderBottom ref="item1">
 					<u--input v-model="projectInfo.totalAmount" type="number" border="none" placeholder="请输入机械数量">
 					</u--input>
 				</u-form-item>
@@ -30,7 +30,7 @@
 					</u--input>
 				</u-form-item> -->
 				<u-gap height="1" bgColor="#DCA842"></u-gap>
-				<u-form-item label="机械图片" required="true" prop="coverImg" borderBottom ref="item1">
+				<u-form-item label="图片" required="true" prop="coverImg" borderBottom ref="item1">
 					<u-upload :fileList="fileList2" @afterRead="afterRead" @delete="deletePic" name="2" multiple
 						:maxCount="1" :previewFullImage="true"></u-upload>
 				</u-form-item>
@@ -98,7 +98,7 @@
 					'remark': {
 						type: 'string',
 						required: true,
-						message: '请填写机械描述',
+						message: '请填写描述',
 						trigger: ['blur', 'change']
 					},
 					'authFlag': {
@@ -128,26 +128,26 @@
 					'machineName': {
 						type: 'string',
 						required: true,
-						message: '请填写机械名称',
+						message: '请填写名称',
 						trigger: ['blur', 'change']
 					},
 					'totalAmount': {
 						type: 'number',
 						required: true,
-						message: '请填写机械数量',
+						message: '请填写数量',
 						trigger: ['blur', 'change']
 					},
 					'categoryTypeId': {
 						type: 'string',
 						required: true,
-						message: '请选择机械类型',
+						message: '请选择类型',
 						trigger: ['blur', 'change']
 					},
 
 					'coverImg': {
 						type: 'string',
 						required: true,
-						message: '请上传封面图片',
+						message: '请上传图片',
 						trigger: ['blur', 'change']
 					}
 				}

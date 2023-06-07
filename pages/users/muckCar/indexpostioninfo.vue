@@ -30,15 +30,9 @@
 						</view>
 						<view class='item acea-row row-between-wrapper'>
 							<view><u-icon label="公司" color="#DCA842" size="20" name="home-fill"></u-icon></view>
-							<!-- <view class='input'>
+							<view class='input'>
 								<input type='text' disabled name='nickname'
 									:value='datalist.orgName'></input>
-							</view> -->
-							<view class="leftClass" @click="gotoinfo(datalist)">
-								<view class='input'>
-									{{datalist.orgName}}
-								</view>
-								<u-icon name="arrow-right"></u-icon>
 							</view>
 						</view>
 						<view class='item acea-row row-between-wrapper'>
@@ -72,8 +66,7 @@
 							</view>
 						</view>
 						<view class='item acea-row row-between-wrapper'>
-							<view style=""><u-icon label="姓名" color="#DCA842" size="20" name="account-fill"></u-icon>
-							</view>
+							<view style=""><u-icon label="姓名" color="#DCA842" size="20" name="account-fill"></u-icon></view>
 							<view class='input'>
 								{{datalist.contactUser}}
 							</view>
@@ -88,8 +81,7 @@
 							</view>
 						</view>
 						<view class='item acea-row row-between-wrapper'>
-							<view><u-icon label="时间" color="#DCA842" size="20" name="hourglass-half-fill"></u-icon>
-							</view>
+							<view><u-icon label="时间" color="#DCA842" size="20" name="hourglass-half-fill"></u-icon></view>
 							<view class='input'><input type='text' disabled name='nickname'
 									:value='datalist.createTime'></input>
 							</view>
@@ -132,9 +124,9 @@
 		},
 		methods: {
 			//跳转公司详情
-			gotoinfo(e) {
+			gotoinfo(e){
 				uni.navigateTo({
-					url: '/pages/users/muckCar/indexpostion?item=' + encodeURIComponent(JSON.stringify(e)
+					url: '/pages/users/muckCar/indexpostion?item='+ encodeURIComponent(JSON.stringify(e)
 						.replace(/%/g, '%25'))
 				})
 			},

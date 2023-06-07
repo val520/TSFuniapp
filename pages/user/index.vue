@@ -22,6 +22,9 @@
 								</view>
 							</view>
 						</view>
+						<view class="antclass" @click="applet">
+							<u-icon name="integral-fill" color="#FFF" size="20"></u-icon>未认证
+						</view>
 					</view>
 					<view class="order-wrapper">
 						<view class="order-hd flex">
@@ -63,21 +66,23 @@
 					<view class="user-menus" style="margin-top: 20rpx;box-shadow: 0 0 12rpx #d7d7d7;">
 						<view class="menu-title">我的管理</view>
 						<view class="list-box">
-							<button class="item" v-if="isAdmin" @click="goto('/pages/activity/companylist/index')"
+							<button class="item" v-if="newisadmin" @click="goto('/pages/activity/companylist/index')"
 								hover-class='none'>
 								<image :src="servicePic10"></image>
 								<text>公司管理</text>
 							</button>
-							<button class="item" @click="goto('/pages/columnGoods/projectConten/index')"
+							<button class="item" v-if="pagshow" @click="goto('/pages/columnGoods/projectConten/index')"
 								hover-class='none'>
 								<image :src="servicePic4"></image>
 								<text>项目管理</text>
 							</button>
-							<button class="item" @click="goto('/pages/columnGoods/release/index')" hover-class='none'>
+							<button class="item" v-if="pagshow" @click="goto('/pages/columnGoods/release/index')"
+								hover-class='none'>
 								<image :src="servicePic1"></image>
 								<text>发布商品</text>
 							</button>
-							<button class="item" @click="goto('/pages/columnGoods/myrelease/index')" hover-class='none'>
+							<button class="item" v-if="pagshow" @click="goto('/pages/columnGoods/myrelease/index')"
+								hover-class='none'>
 								<image :src="servicePic6"></image>
 								<text>我的发布</text>
 							</button>
@@ -104,7 +109,7 @@
 								<image :src="servicePic8"></image>
 								<text>运输码</text>
 							</button>
-							<button v-if="isAdmin" class="item" @click="goto('/pages/users/muckCarlist/index')"
+							<button v-if="newisadmin" class="item" @click="goto('/pages/users/muckCarlist/index')"
 								hover-class='none'>
 								<image :src="servicePic9"></image>
 								<text>运输发布</text>
@@ -255,7 +260,11 @@
 				isWeixin: Auth.isWeixin(),
 				//#endif
 				// 是否展示管理员审核界面
-				isAdmin: false
+				isAdmin: false,
+				//是否是工程机械管理员
+				newisadmin: false,
+				//机械管理员不允许发布
+				pagshow: true
 			}
 		},
 		onLoad() {
@@ -284,7 +293,7 @@
 		onShow: function() {
 			this.userdata()
 			// this.userInfo = uni.getStorageSync("userInfo")
-			
+
 			let that = this;
 			// #ifdef H5
 			uni.getSystemInfo({
@@ -304,6 +313,19 @@
 			this.microlabel()
 		},
 		methods: {
+			//跳转小程序
+			applet() {
+				uni.openEmbeddedMiniProgram({
+					appId: 'wx8fac5d1f9ab1bd51',
+					path: 'pages/tabBar/user/user.html',
+					extraData: {
+						'data1': 'test'
+					},
+					success(res) {
+						// 打开成功
+					}
+				})
+			},
 			//获取用户信息
 			userdata() {
 				this.$myRequest({
@@ -322,6 +344,13 @@
 								this.isAdmin = true
 							} else {
 								this.isAdmin = false
+							}
+							if (e.roleCode === 'machinery_admin') {
+								this.newisadmin = true
+								this.pagshow = false
+							} else {
+								this.newisadmin = false
+								this.pagshow = true
 							}
 						})
 					} else {
@@ -509,7 +538,7 @@
 								uni.navigateTo({
 									url: `${res.path}`
 								})
-								
+
 								console.log('打开小程序码');
 							} else {
 								console.log(res.result, '参数');
@@ -540,6 +569,18 @@
 	page,
 	body {
 		height: 100%;
+	}
+
+	.antclass {
+		padding: 0rpx 10rpx 0rpx 10rpx;
+		color: #FFF;
+		border: 1px solid #e1ac41;
+		border-radius: 20rpx;
+		box-shadow: 0 0 12rpx #FFF;
+		text-align: center;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	.bg {
@@ -594,6 +635,9 @@
 				width: 100%;
 				margin: 0 auto;
 				padding: 35rpx 0 30rpx 0;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
 
 				.user-info {
 					z-index: 20;

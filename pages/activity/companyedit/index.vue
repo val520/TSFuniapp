@@ -138,7 +138,7 @@
 					'coverImg': {
 						type: 'string',
 						required: true,
-						message: '请上传封面图片',
+						message: '请上传许可证图片',
 						trigger: ['blur', 'change']
 					}
 				}

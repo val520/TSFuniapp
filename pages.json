@@ -187,11 +187,27 @@
 						"navigationBarBackgroundColor": "#DCA842",
 						"navigationBarTextStyle": "#fff"
 					}
+				},	
+				{
+					"path": "muckCar/indexpostioninfo",
+					"style": {
+						"navigationBarTitleText": "详情",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
 				},
 				{
 					"path": "muckCar/indexlook",
 					"style": {
-						"navigationBarTitleText": "工程运输",
+						"navigationBarTitleText": "工程服务",
+						"navigationBarBackgroundColor": "#DCA842",
+						"navigationBarTextStyle": "#fff"
+					}
+				},	
+				{
+					"path": "muckCar/indexpostion",
+					"style": {
+						"navigationBarTitleText": "工程服务",
 						"navigationBarBackgroundColor": "#DCA842",
 						"navigationBarTextStyle": "#fff"
 					}

@@ -131,68 +131,68 @@
 				// if (this.nickName === '') {
 				// 	uni.$u.toast('请授权用户名')
 				// } else {
-					if (this.checked) {
-						let that = this
-						// 获取code
-						let code = e.detail.code
-						// 获取微信ID
-						let wxid = e.detail.cloudID
-						// 获取用户头像
-						uni.getUserInfo({
-							provider: 'weixin',
-							success: function(res) {
-								console.log('用户信息111', res);
-								if (e.detail.errMsg === 'getPhoneNumber:ok') {
-									uni.showLoading({
-										title: '登录中',
-									});
-									let params = {
-										code: code,
-										wxId: wxid,
-										avatar: res.userInfo.avatarUrl,
-										wxNickName: that.nickName
-									}
-									that.$myRequest({
-										url: "/thirdWxLogin/weixinLogin",
-										method: "post",
-										data: params
-									}).then(res => {
-										if (res.data.code === 200) {
-											//存取个人token
-											uni.setStorageSync("X-Access-Token", res
-												.data.result.token)
-											// 存取用户信息
-											uni.setStorageSync("userInfo", res.data.result.userInfo)
-											uni.showLoading({
-												title: '登录成功',
-											});
-											setTimeout(() => {
-												// 返回上一页 delta返回的页面数 如果delta大于现有页面数，则返回首页
-												// uni.navigateBack({
-												// 	delta: 1
-												// });
-												uni.switchTab({
-													url: '/pages/user/index'
-												})
-											}, 1000);
-											//隐藏加载框
-											uni.hideLoading();
-										} else {
-											uni.showToast({
-												title: res.data.message,
-												icon: "none"
-											})
-											//隐藏加载框
-											uni.hideLoading();
-										}
-									})
+				if (this.checked) {
+					let that = this
+					// 获取code
+					let code = e.detail.code
+					// 获取微信ID
+					let wxid = e.detail.cloudID
+					// 获取用户头像
+					uni.getUserInfo({
+						provider: 'weixin',
+						success: function(res) {
+							console.log('用户信息111', res);
+							if (e.detail.errMsg === 'getPhoneNumber:ok') {
+								uni.showLoading({
+									title: '登录中',
+								});
+								let params = {
+									code: code,
+									wxId: wxid,
+									avatar: res.userInfo.avatarUrl,
+									wxNickName: that.nickName
 								}
+								that.$myRequest({
+									url: "/thirdWxLogin/weixinLogin",
+									method: "post",
+									data: params
+								}).then(res => {
+									if (res.data.code === 200) {
+										//存取个人token
+										uni.setStorageSync("X-Access-Token", res
+											.data.result.token)
+										// 存取用户信息
+										uni.setStorageSync("userInfo", res.data.result.userInfo)
+										uni.showLoading({
+											title: '登录成功',
+										});
+										setTimeout(() => {
+											// 返回上一页 delta返回的页面数 如果delta大于现有页面数，则返回首页
+											// uni.navigateBack({
+											// 	delta: 1
+											// });
+											uni.switchTab({
+												url: '/pages/user/index'
+											})
+										}, 1000);
+										//隐藏加载框
+										uni.hideLoading();
+									} else {
+										uni.showToast({
+											title: res.data.message,
+											icon: "none"
+										})
+										//隐藏加载框
+										uni.hideLoading();
+									}
+								})
 							}
-						});
+						}
+					});
 
-					} else {
-						uni.$u.toast('请勾选用户协议')
-					}
+				} else {
+					uni.$u.toast('请勾选用户协议')
+				}
 				// }
 			},
 		}

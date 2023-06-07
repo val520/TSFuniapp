@@ -60,6 +60,7 @@
     /* 小程序特有相关 */
     "mp-weixin" : {
         "appid" : "wxb72a2a26ea0c3f55",
+		"embeddedAppIdList": ["wx8fac5d1f9ab1bd51"],//需要半屏跳转的小程序appid
         "setting" : {
             "urlCheck" : true,
             "minified" : true,

@@ -22,7 +22,7 @@
 						<block v-for="(item,index) in imgUrls" :key="index">
 							<swiper-item>
 								<navigator class='slide-navigator acea-row row-between-wrapper' hover-class='none'>
-									<image :src="item.attUrl" mode="aspectFill" class="slide-image" lazy-load></image>
+									<image :src="item.attUrl" @click="goto(item.pageRouterUrl)"  mode="aspectFill" class="slide-image" lazy-load></image>
 								</navigator>
 							</swiper-item>
 						</block>
@@ -232,6 +232,12 @@
 					}
 				})
 			},
+			//跳转路由
+			goto(e){
+				uni.navigateTo({
+					url: e
+				})
+			},
 			onShareAppMessage(res) {
 				if (res.from === 'button') { // 来自页面内分享按钮
 					console.log(res.target)
@@ -256,7 +262,7 @@
 					if (res.data.code === 200) {
 						let vals = []
 						res.data.result.records.forEach((obj) => {
-							if (obj.children.length > 0 && obj.name != '工程运输') {
+							if (obj.children.length > 0 && obj.name != '工程服务') {
 								vals = [...vals, ...obj.children]
 							}
 						})
