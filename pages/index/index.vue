@@ -204,10 +204,10 @@
 				},
 				fail: function(err) {
 					console.log("获取定位失败", err);
-					uni.showToast({
-						title: '获取地址失败,请开启定位功能',
-						icon: 'none'
-					});
+					// uni.showToast({
+					// 	title: '获取地址失败,请开启定位功能',
+					// 	icon: 'none'
+					// });
 				}
 			});
 		},

@@ -22,8 +22,11 @@
 								</view>
 							</view>
 						</view>
-						<view class="antclass" @click="applet">
-							<u-icon name="integral-fill" color="#FFF" size="20"></u-icon>未认证
+						<view class="antclass" v-if='userInfo.realNameAuthFlag === 0' @click="applet">
+							<u-icon name="integral-fill" color="#FFF" size="20"></u-icon>去认证
+						</view>
+						<view class="antclass" v-else>
+							<u-icon name="integral-fill" color="#FFF" size="20"></u-icon>已认证
 						</view>
 					</view>
 					<view class="order-wrapper">
@@ -317,7 +320,7 @@
 			applet() {
 				uni.openEmbeddedMiniProgram({
 					appId: 'wx8fac5d1f9ab1bd51',
-					path: 'pages/tabBar/user/user.html',
+					path: 'pages/tabBar/user/user',
 					extraData: {
 						'data1': 'test'
 					},
@@ -339,20 +342,23 @@
 						console.log(res.data.result.records[0]);
 						this.userInfo = res.data.result.records[0]
 						this.userInfo.userRoleList = uni.getStorageSync("userInfo").userRoleList
-						this.userInfo.userRoleList.forEach((e) => {
-							if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
-								this.isAdmin = true
-							} else {
-								this.isAdmin = false
-							}
-							if (e.roleCode === 'machinery_admin') {
-								this.newisadmin = true
-								this.pagshow = false
-							} else {
-								this.newisadmin = false
-								this.pagshow = true
-							}
-						})
+						if(this.userInfo.userRoleList.length !== 0){
+							this.userInfo.userRoleList.forEach((e) => {
+								if (e.roleCode === 'admin' || e.roleCode === 'orgAdmin') {
+									this.isAdmin = true
+								} else {
+									this.isAdmin = false
+								}
+								if (e.roleCode === 'machinery_admin') {
+									this.newisadmin = true
+									this.pagshow = false
+								} else {
+									this.newisadmin = false
+									this.pagshow = true
+								}
+							})
+						}
+						
 					} else {
 						uni.$u.toast(res.data.message)
 					}

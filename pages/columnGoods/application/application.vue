@@ -215,7 +215,7 @@
 	.box {
 		background-color: #FFF;
 		margin: 20rpx;
-		padding: 20rpx 30rpx 20rpx 35rpx;
+		padding: 20rpx 30rpx 20rpx 45rpx;
 		box-shadow: 0 0 12rpx #d7d7d7;
 		border-radius: 10rpx;
 	}
