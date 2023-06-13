@@ -16,8 +16,8 @@ module.exports = {
 		HTTP_REQUEST_URL:domain,
 	// #endif
 	// BASE_URL:'https://tsf.ccle.cn/tsf', // 公网图片上传
-	// BASE_URL:'http://192.168.12.30:8080/jeecg-boot', // 本地图片上传
-	BASE_URL:'https://tsf.ccle.cn/testTsf', // 测试环境图片上传
+	BASE_URL:'http://192.168.12.30:8080/jeecg-boot', // 本地图片上传
+	// BASE_URL:'https://tsf.ccle.cn/testTsf', // 测试环境图片上传
 	HEADER:{
 		'content-type': 'application/json'
 	},

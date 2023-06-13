@@ -22,7 +22,8 @@
 						<block v-for="(item,index) in imgUrls" :key="index">
 							<swiper-item>
 								<navigator class='slide-navigator acea-row row-between-wrapper' hover-class='none'>
-									<image :src="item.attUrl" @click="goto(item.pageRouterUrl)"  mode="aspectFill" class="slide-image" lazy-load></image>
+									<image :src="item.attUrl" @click="goto(item.pageRouterUrl)" mode="aspectFill"
+										class="slide-image" lazy-load></image>
 								</navigator>
 							</swiper-item>
 						</block>
@@ -91,11 +92,11 @@
 				typeshow: false,
 				// 距离弹窗
 				distanceshow: false,
-				
+
 				priceValue: '',
 				timeValue: '',
 				typeValue: '',
-				distanvalue:'',
+				distanvalue: '',
 				//价格数据
 				pricecolumns: [
 					[{
@@ -136,17 +137,17 @@
 					]
 				],
 				list1: [{
-					name: '推荐',
-				}, {
-					name: '价格'
-				}, {
-					name: '时间'
-				}, {
-					name: '类型'
-				}, 
-				// {
-				// 	name: '距离'
-				// },
+						name: '推荐',
+					}, {
+						name: '价格'
+					}, {
+						name: '时间'
+					}, {
+						name: '类型'
+					},
+					// {
+					// 	name: '距离'
+					// },
 				],
 				statusBarHeight: statusBarHeight, //头部高度
 				imgUrls: [{
@@ -233,19 +234,28 @@
 				})
 			},
 			//跳转路由
-			goto(e){
+			goto(e) {
 				uni.navigateTo({
 					url: e
 				})
 			},
+			//转发
 			onShareAppMessage(res) {
-				if (res.from === 'button') { // 来自页面内分享按钮
-					console.log(res.target)
-				}
 				return {
 					title: '重庆土石方',
 					path: '/pages/index/index'
 				}
+			},
+			//分享到朋友圈
+			onShareTimeline(res) {
+				// return {
+				// 	title: '欢迎使用重庆渝土方',
+				// 	type: 0,
+				// 	query: '',
+				// 	summary: "",
+				// 	imageUrl: "https://58d.oss-cn-hangzhou.aliyuncs.com/goods/ttg_1596073788000.png"
+				// }
+
 			},
 			//获取类型数据
 			typeList() {
@@ -296,8 +306,7 @@
 					this.timeshow = true
 				} else if (e.name === '类型') {
 					this.typeshow = true
-				} 
-				else if (e.name === '距离') {
+				} else if (e.name === '距离') {
 					this.distanceshow = true
 				}
 			},
